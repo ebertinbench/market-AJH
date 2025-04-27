@@ -3,7 +3,7 @@ le market de la guilde Ah-Jin SAO France
 
 # Présentation
 **Bienvenue sur la page github du market de la guilde Ah-Jin.** \
- Ce dernier est complètement libre d'utilisation (dans le cadre le la licence mise en place). Vous trouverez dans ce readme des instructions pour son installation, son déploiement mais aussi son utilisation, en tant qu'utilisateur lambda ou bien en tant qu'adminitrateur de votre machine.
+ Ce dernier est complètement libre d'utilisation (dans le cadre le la license mise en place). Vous trouverez dans ce readme des instructions pour son installation, son déploiement mais aussi son utilisation, en tant qu'utilisateur lambda ou bien en tant qu'adminitrateur de votre machine.
 
 Bien sûr ! Voici comment je te propose de **compléter ton `README.md`** pour qu'il soit clair et utilisable par n'importe qui souhaitant lancer le projet Symfony + Docker en local :
 
@@ -32,6 +32,7 @@ sudo apt update
 sudo apt install php php-xml php-cli php-mbstring unzip curl
 sudo apt install composer
 curl -sS https://get.symfony.com/cli/installer | bash
+sudo apt install php-mysql
 ```
 
 Ajoutez Symfony CLI à votre PATH si nécessaire :
@@ -167,7 +168,7 @@ docker compose logs -f
 
 ---
 
-# Notes
+## Notes
 
 - En cas de problème de permissions sur Linux, vous pouvez devoir ajouter votre utilisateur au groupe `docker` :
 
@@ -179,5 +180,4 @@ newgrp docker
 - Pensez à vérifier que vos ports (ex: 8000 pour Symfony, 3306 pour MySQL) ne sont pas utilisés par d'autres services.
 
 ---
-
-Veux-tu aussi que je te propose un exemple minimal de `docker-compose.yaml` et de structure de projet associée pour que le README soit encore plus complet ? 🚀
+# Vérification des dépendances et mise en place de la base de données
