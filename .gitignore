@@ -1,52 +1,39 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
+# Symfony / PHP
+/market-ajh/vendor/
+/market-ajh/var/
+/market-ajh/.env.local
+/market-ajh/.env.*.local
+/market-ajh/.env.test
+/market-ajh/.phpunit.result.cache
+/market-ajh/node_modules/
+/market-ajh/public/bundles/
+/market-ajh/translations/*.bak
 
-# Email spool folder
-/app/spool/*
+# IDEs / Editors
+/market-ajh/.idea/
+/market-ajh/.vscode/
+/market-ajh/*.sublime-project
+/market-ajh/*.sublime-workspace
 
-# Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+# OS
+/market-ajh/.DS_Store
+/market-ajh/Thumbs.db
 
-# Logs (Symfony4)
-/var/log/*
-!var/log/.gitkeep
+# Log files
+/market-ajh/*.log
 
-# Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+# Cache / temp files
+/market-ajh/*.cache
+/market-ajh/*.tmp
 
-# Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
-/bin/*
-!bin/console
-!bin/symfony_requirements
-/vendor/
+# Coverage reports
+/market-ajh/coverage/
 
-# Assets and user uploads
-/web/bundles/
-/web/uploads/
+# Build artifacts
+/market-ajh/build/
+
+# Docker / Local configs (si utilisé)
+/market-ajh/docker-compose.override.yml
 
 # PHPUnit
-/app/phpunit.xml
-/phpunit.xml
-
-# Build data
-/build/
-
-# Composer PHAR
-/composer.phar
-
-# Backup entities generated with doctrine:generate:entities command
-**/Entity/*~
-
-# Embedded web-server pid file
-/.web-server-pid
+/market-ajh/.phpunit.cache/
