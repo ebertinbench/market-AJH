@@ -29,6 +29,12 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            // Check if this is the first user
+            $userCount = $entityManager->getRepository(User::class)->count([]);
+            if ($userCount === 0) {
+                $user->setRoles(['ROLE_ADMIN']);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 

@@ -1,20 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Profil utilisateur{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/ebertinbench/market-AJH/market-ajh/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/home/ebertinbench/market-AJH/market-ajh/templates/home/index.html.twig</code></li>
-    </ul>
+<div class="container mx-auto my-4 max-w-4xl p-4 text-lg leading-relaxed font-sans">
+    <div class="bg-gray-100 p-4 rounded shadow">
+        <h1 class="text-2xl font-bold mb-4">Bonjour {{ user.getUsername() }} !</h1>
+        <p>Votre rôle : {{ user.getRoles()|join(', ') }}</p>
+    </div>
 </div>
 {% endblock %}

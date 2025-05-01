@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
         {% endblock %}
@@ -10,7 +11,30 @@
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-cyan-500">
+        <nav class="bg-white shadow-md p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <a href="/home" class="flex-shrink-0">
+                    <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-full w-16">
+                </a>
+                <div class="flex space-x-4">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Admin Panel</button>
+                    {% endif %}
+                    {% if is_granted('ROLE_VENDEUR') %}
+                        <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Manage Sales</button>
+                    {% endif %}
+                    {% if is_granted('ROLE_CLIENT') %}
+                        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">View Products</button>
+                    {% endif %}
+                    {% if is_granted('ROLE_COMPTABLE') %}
+                        <button class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Accounting</button>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <div class="container mx-auto">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
