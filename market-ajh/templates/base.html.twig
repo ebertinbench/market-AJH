@@ -19,7 +19,7 @@
                 </a>
                 <div class="flex space-x-4">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Admin Panel</button>
+                        <a href="/user" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Admin Panel</a>
                     {% endif %}
                     {% if is_granted('ROLE_VENDEUR') %}
                         <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Manage Sales</button>

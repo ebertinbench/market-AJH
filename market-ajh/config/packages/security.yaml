@@ -48,6 +48,7 @@ security:
     access_control:
         # Admin role
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_ADMIN }
         # Vendeur role
         - { path: ^/vendeur, roles: ROLE_VENDEUR }
         # Client role

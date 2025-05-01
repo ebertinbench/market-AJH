@@ -73,6 +73,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Convert the roles array to a string.
+     */
+    public function getRolesAsString(): string
+    {
+        return implode(', ', $this->roles);
+    }
+    /**
      * @param list<string> $roles
      */
     public function setRoles(array $roles): static
