@@ -19,6 +19,7 @@ final class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'nomdepage' => 'Gestion des utilisateurs',
         ]);
     }
 
@@ -39,6 +40,7 @@ final class UserController extends AbstractController
         return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
+            'nomdepage' => 'Ajouter un utilisateur',
         ]);
     }
 
@@ -47,6 +49,7 @@ final class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'nomdepage' => 'Détails de l\'utilisateur',
         ]);
     }
 
@@ -65,6 +68,7 @@ final class UserController extends AbstractController
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+            'nomdepage' => 'Modifier un utilisateur',
         ]);
     }
 

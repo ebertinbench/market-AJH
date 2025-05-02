@@ -19,8 +19,22 @@ final class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
             'user' => $user,
+            "nomdepage" => "Page utilisateur",
+        ]);
+    }
+
+    #[Route('/', name: 'app_redirect_home')]
+    public function redirectToHome(): Response
+    {
+        return $this->redirectToRoute('app_welcome');
+    }
+
+    #[Route('/welcome', name: 'app_welcome')]
+    public function welcome(): Response
+    {
+        return $this->render('home/welcome.index.html.twig', [
+            "nomdepage" => "Accueil",
         ]);
     }
 }

@@ -1,40 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="icon" href="{{ asset('images/logo_guilde.jpg') }}">
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body class="bg-cyan-500">
-        <nav class="bg-white shadow-md p-4">
-            <div class="container mx-auto flex items-center justify-between">
-                <a href="/home" class="flex-shrink-0">
-                    <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-full w-16">
-                </a>
-                <div class="flex space-x-4">
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/user" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Admin Panel</a>
-                    {% endif %}
-                    {% if is_granted('ROLE_VENDEUR') %}
-                        <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Manage Sales</button>
-                    {% endif %}
-                    {% if is_granted('ROLE_CLIENT') %}
-                        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">View Products</button>
-                    {% endif %}
-                    {% if is_granted('ROLE_COMPTABLE') %}
-                        <button class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Accounting</button>
-                    {% endif %}
-                </div>
+    <body class="bg-GRAY flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-BLACK shadow-md p-4">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <!-- Logo à gauche -->
+            <a href="{{ path('app_welcome') }}" class="flex-shrink-0">
+                <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK">
+            </a>
+            
+            <!-- Titre centré -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+                <a href="{{ path('app_home') }}" class="text-PINK text-2xl font-bold">{{ nomdepage }}</a>
             </div>
-        </nav>
-        <div class="container mx-auto">
-            {% block body %}{% endblock %}
+            
+            <!-- Boutons à droite -->
+            <div class="flex gap-4">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="#" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Admin Panel</a>
+                {% endif %}
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Connecter</a>
+                    <a href="#" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
+                {% else %}
+                    <a href="{{ path('app_logout') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Déconnecter</a>
+                {% endif %}
+            </div>
         </div>
-    </body>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="flex flex-col flex-grow container mx-auto px-4 py-6">
+        {% block body %}{% endblock %}
+    </main>
+
+    <!-- Footer aligné avec la navigation -->
+    <footer class="bg-BLACK text-WHITE p-4 border-t-2 border-PINK">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-PINK font-bold">&copy; {{ 'now'|date('Y') }} Ma Boutique</p>
+            <p class="text-WHITE/80 mt-1">Tous droits réservés</p>
+        </div>
+    </footer>
+</body>
 </html>
