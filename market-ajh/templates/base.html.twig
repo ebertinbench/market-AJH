@@ -7,6 +7,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="icon" href="{{ asset('images/logo_guilde.jpg') }}">
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         {% endblock %}
 
         {% block javascripts %}
@@ -43,7 +44,7 @@
     </nav>
 
     <!-- Contenu principal -->
-    <main class="flex flex-col flex-grow container mx-auto px-4 py-6">
+    <main class="flex flex-col flex-grow container mx-auto ">
         {% block body %}{% endblock %}
     </main>
 

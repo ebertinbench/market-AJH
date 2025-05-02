@@ -11,7 +11,7 @@ module.exports = {
         VIOLET: "#291527",
         GRAY: "#393D3A",
         WHITE: "#EEECF2",
-        PINK: "#9D8099",
+        GREEN: "#585B4C",
       },
     },
   },
