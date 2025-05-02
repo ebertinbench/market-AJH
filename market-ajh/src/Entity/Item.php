@@ -25,6 +25,9 @@ class Item
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\Column(nullable: true, options: ["default" => 0])]
+    private ?float $prix = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,7 +40,7 @@ class Item
 
     public function setImage(?string $image): static
     {
-        $this->image = "images/items/" + $image ;
+        $this->image = "images/items/" . $image ;
 
         return $this;
     }
@@ -81,6 +84,18 @@ class Item
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(?float $prix): static
+    {
+        $this->prix = $prix;
 
         return $this;
     }

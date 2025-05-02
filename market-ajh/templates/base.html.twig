@@ -19,24 +19,26 @@
     <nav class="bg-BLACK shadow-md p-4">
         <div class="container mx-auto px-4 flex items-center justify-between">
             <!-- Logo à gauche -->
-            <a href="{{ path('app_welcome') }}" class="flex-shrink-0">
+            <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
                 <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK">
             </a>
             
             <!-- Titre centré -->
             <div class="absolute left-1/2 transform -translate-x-1/2">
-                <a href="{{ path('app_home') }}" class="text-PINK text-2xl font-bold">{{ nomdepage }}</a>
+                <a href="{{ path('app_home') }}" class="text-WHITE text-2xl font-bold">{{ nomdepage }}</a>
             </div>
             
             <!-- Boutons à droite -->
             <div class="flex gap-4">
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_user_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Admin Panel</a>
+                    <a href="{{ path('app_user_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Gestion Utilisateurs</a>
+                    <a href="{{ path('app_item_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Gestion Items</a>
                 {% endif %}
                 {% if not app.user %}
                     <a href="{{ path('app_login') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Connecter</a>
-                    <a href="#" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
+                    <a href="{{ path('app_shop_list') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
                 {% else %}
+                    <a href="{{ path('app_shop_list') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
                     <a href="{{ path('app_logout') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Déconnecter</a>
                 {% endif %}
             </div>

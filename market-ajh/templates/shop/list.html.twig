@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des items{% endblock %}
+
+{% block body %}
+<div class="flex justify-center pt-4">
+    {% for item in items %}
+        <div class="bg-GREEN flex flex-col items-center m-4 p-4">
+            <img src="{{ asset(item.image) }}" alt="{{ item.nom }}" style="max-width: 100px; max-height: 100px;">
+            <p>{{ item.nom }}</p>
+            <p>{{ item.description }}</p>
+            <p>{{ item.prix }} Cols</p>
+            <p>Palier: {{ item.palier }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

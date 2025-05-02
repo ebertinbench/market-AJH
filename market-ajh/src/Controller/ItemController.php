@@ -19,6 +19,7 @@ final class ItemController extends AbstractController
     {
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
+            'nomdepage' => 'Liste des items',
         ]);
     }
 
@@ -39,6 +40,7 @@ final class ItemController extends AbstractController
         return $this->render('item/new.html.twig', [
             'item' => $item,
             'form' => $form,
+            'nomdepage' => 'Ajouter un item',
         ]);
     }
 
@@ -47,6 +49,7 @@ final class ItemController extends AbstractController
     {
         return $this->render('item/show.html.twig', [
             'item' => $item,
+            'nomdepage' => 'Détails de l\'item',
         ]);
     }
 
@@ -65,6 +68,7 @@ final class ItemController extends AbstractController
         return $this->render('item/edit.html.twig', [
             'item' => $item,
             'form' => $form,
+            'nomdepage' => 'Modifier l\'item',
         ]);
     }
 
