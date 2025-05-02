@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des Utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-GREEN text-WHITE p-6 rounded-lg flex-col flex shadow-lg mb-8 justify-center items-center space-x-4">
+        <h1 class="text-3xl font-bold">Liste des Utilisateurs</h1>
+        <a href="{{ path('app_user_new') }}" class="inline-block bg-VIOLET text-WHITE py-2 px-4 rounded hover:bg-PINK transition-colors">
+            Créer un nouvel utilisateur
+        </a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.rolesAsString }}</td>
-                <td>{{ user.password }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <div class="overflow-x-auto bg-WHITE rounded-lg shadow">
+        <table class="min-w-full divide-y divide-GRAY">
+            <thead class="bg-VIOLET text-WHITE">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Nom d'utilisateur</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Rôles</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-BLACK divide-y divide-BLACK text-WHITE">
+                {% for user in users %}
+                    <tr class="hover:bg-PINK/10 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">{{ user.id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ user.username }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ user.rolesAsString }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="text-VIOLET hover:text-PINK transition-colors">Voir</a>
+                          2  <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="text-VIOLET hover:text-PINK transition-colors">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center">Aucun utilisateur trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

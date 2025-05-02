@@ -1,34 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Détails de l'utilisateur{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-GREEN text-WHITE p-6 rounded-lg shadow-lg mb-8">
+        <h1 class="text-3xl font-bold mb-4">Détails de l'utilisateur</h1>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.rolesAsString }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="bg-WHITE rounded-lg shadow overflow-hidden mb-8">
+        <table class="min-w-full divide-y divide-GRAY">
+            <tbody class="divide-y divide-GRAY">
+                <tr class="hover:bg-PINK/10 transition-colors">
+                    <td class="px-6 py-4 font-medium text-BLACK">ID</td>
+                    <td class="px-6 py-4">{{ user.id }}</td>
+                </tr>
+                <tr class="hover:bg-PINK/10 transition-colors">
+                    <td class="px-6 py-4 font-medium text-BLACK">Nom d'utilisateur</td>
+                    <td class="px-6 py-4">{{ user.username }}</td>
+                </tr>
+                <tr class="hover:bg-PINK/10 transition-colors">
+                    <td class="px-6 py-4 font-medium text-BLACK">Rôles</td>
+                    <td class="px-6 py-4">{{ user.rolesAsString }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
-
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    <div class="flex space-x-4">
+        <a href="{{ path('app_user_index') }}" class="bg-VIOLET text-WHITE py-2 px-4 rounded hover:bg-PINK transition-colors">
+            Retour à la liste
+        </a>
+        <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="bg-VIOLET text-WHITE py-2 px-4 rounded hover:bg-PINK transition-colors">
+            Modifier
+        </a>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

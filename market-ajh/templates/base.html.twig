@@ -31,7 +31,7 @@
             <!-- Boutons à droite -->
             <div class="flex gap-4">
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="#" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Admin Panel</a>
+                    <a href="{{ path('app_user_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Admin Panel</a>
                 {% endif %}
                 {% if not app.user %}
                     <a href="{{ path('app_login') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Connecter</a>
@@ -51,8 +51,8 @@
     <!-- Footer aligné avec la navigation -->
     <footer class="bg-BLACK text-WHITE p-4 border-t-2 border-PINK">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-PINK font-bold">&copy; {{ 'now'|date('Y') }} Market AJH</p>
-            <p class="text-WHITE/80 mt-1 font-bold">Tous droits réservés. Pour tout usage externe à la guilde, merci de contaxter omengaming.exe sur discord</p>
+            <p class="text-PINK font-bold">&copy; {{ 'now'|date('Y') }} Ma Boutique</p>
+            <p class="text-WHITE/80 mt-1">Tous droits réservés</p>
         </div>
     </footer>
 </body>
