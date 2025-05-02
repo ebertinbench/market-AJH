@@ -1,41 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Item index{% endblock %}
+{% block title %}Liste des Items{% endblock %}
 
 {% block body %}
-    <h1>Item index</h1>
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-GREEN text-WHITE p-6 rounded-lg flex flex-col md:flex-row shadow-lg mb-8 justify-between items-center">
+        <h1 class="text-3xl font-bold mb-4 md:mb-0">Liste des Items</h1>
+        <a href="{{ path('app_item_new') }}" class="inline-block bg-VIOLET text-WHITE py-2 px-4 rounded hover:bg-PINK transition-colors">
+            Créer un nouvel item
+        </a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Image</th>
-                <th>Palier</th>
-                <th>Description</th>
-                <th>Nom</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.image }}</td>
-                <td>{{ item.palier }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.nom }}</td>
-                <td>
-                    <a href="{{ path('app_item_show', {'id': item.id}) }}">show</a>
-                    <a href="{{ path('app_item_edit', {'id': item.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_item_new') }}">Create new</a>
+    <div class="overflow-x-auto bg-BLACK text-WHITE rounded-lg shadow">
+        <table class="min-w-full divide-y divide-GRAY">
+            <thead class="bg-VIOLET text-WHITE">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Image</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Nom</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Palier</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Prix</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-BLACK divide-y divide-GRAY text-WHITE">
+                {% for item in items %}
+                    <tr class="hover:bg-PINK/10 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">{{ item.id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if item.image %}
+                                <img src="{{ asset(item.image) }}" alt="{{ item.nom }}" class="h-16 w-16 object-cover rounded">
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">{{ item.nom }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ item.palier }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ item.prix }} Cols</td>
+                        <td class="px-6 py-4">{{ item.description|slice(0, 50) }}{% if item.description|length > 50 %}...{% endif %}</td>
+                        <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                            <a href="{{ path('app_item_show', {'id': item.id}) }}" class="text-WHITE transition-colors">Voir</a>
+                            <a href="{{ path('app_item_edit', {'id': item.id}) }}" class="text-WHITE transition-colors">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center">Aucun item trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

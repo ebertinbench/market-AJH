@@ -28,8 +28,8 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ user.username }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ user.rolesAsString }}</td>
                         <td class="px-6 py-4 whitespace-nowrap space-x-2">
-                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="text-VIOLET hover:text-PINK transition-colors">Voir</a>
-                          2  <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="text-VIOLET hover:text-PINK transition-colors">Modifier</a>
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="text-WHITE ">Voir</a>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="text-WHITE ">Modifier</a>
                         </td>
                     </tr>
                 {% else %}

@@ -1,38 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Item{% endblock %}
+{% block title %}Détails Item{% endblock %}
 
 {% block body %}
-    <h1>Item</h1>
+<div class="min-h-screen bg-GREEN p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-BLACK rounded-xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-VIOLET p-6 text-WHITE">
+                <h1 class="text-3xl font-bold">Détails de l'Item</h1>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ item.id }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ item.image }}</td>
-            </tr>
-            <tr>
-                <th>Palier</th>
-                <td>{{ item.palier }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ item.description }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ item.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <!-- Content -->
+            <div class="p-8 space-y-6 text-WHITE">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4 text-PINK">Informations</h2>
+                        <div class="space-y-4">
+                            <p><span class="font-medium">ID:</span> {{ item.id }}</p>
+                            <p><span class="font-medium">Nom:</span> {{ item.nom }}</p>
+                            <p><span class="font-medium">Palier:</span> {{ item.palier }}</p>
+                            <p><span class="font-medium">Prix:</span> {{ item.prix }} Cols</p>
+                        </div>
+                    </div>
 
-    <a href="{{ path('app_item_index') }}">back to list</a>
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4 text-PINK">Image</h2>
+                        {% if item.image %}
+                            <img src="{{ asset(item.image) }}" alt="{{ item.nom }}" class="w-full h-48 object-contain rounded-lg border-2 border-VIOLET">
+                        {% else %}
+                            <div class="bg-BLACK border-2 border-GRAY rounded-lg h-48 flex items-center justify-center">
+                                <span class="text-GRAY">Aucune image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
-    <a href="{{ path('app_item_edit', {'id': item.id}) }}">edit</a>
+                <div>
+                    <h2 class="text-xl font-semibold mb-4 text-PINK">Description</h2>
+                    <div class="bg-BLACK border border-GRAY rounded-lg p-4">
+                        {{ item.description }}
+                    </div>
+                </div>
+            </div>
 
-    {{ include('item/_delete_form.html.twig') }}
+            <!-- Actions -->
+            <div class="bg-BLACK border-t border-GRAY p-6 flex flex-wrap justify-end gap-4">
+                <a href="{{ path('app_item_index') }}" class="bg-VIOLET text-WHITE px-6 py-2 rounded-lg hover:bg-PINK transition-colors">
+                    Retour
+                </a>
+                <a href="{{ path('app_item_edit', {'id': item.id}) }}" class="bg-VIOLET text-WHITE px-6 py-2 rounded-lg hover:bg-PINK transition-colors">
+                    Modifier
+                </a>
+                {{ include('item/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

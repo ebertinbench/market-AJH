@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Item{% endblock %}
+{% block title %}Nouvel Item{% endblock %}
 
 {% block body %}
-    <h1>Create new Item</h1>
+<div class="min-h-screen bg-GREEN p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-BLACK rounded-xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-VIOLET p-6 text-WHITE flex justify-between items-center">
+                <h1 class="text-3xl font-bold">Créer un nouvel Item</h1>
+                <a href="{{ path('app_item_index') }}" class="bg-BLACK text-WHITE px-4 py-2 rounded-lg hover:bg-PINK transition-colors">
+                    Annuler
+                </a>
+            </div>
 
-    {{ include('item/_form.html.twig') }}
-
-    <a href="{{ path('app_item_index') }}">back to list</a>
+            <!-- Form -->
+            <div class="p-6">
+                {{ include('item/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

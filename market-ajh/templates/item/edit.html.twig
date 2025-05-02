@@ -1,13 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Item{% endblock %}
+{% block title %}Modifier Item{% endblock %}
 
 {% block body %}
-    <h1>Edit Item</h1>
+<div class="min-h-screen bg-GREEN p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-BLACK rounded-xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-VIOLET p-6 text-WHITE">
+                <h1 class="text-3xl font-bold">Modifier l'Item</h1>
+            </div>
 
-    {{ include('item/_form.html.twig', {'button_label': 'Update'}) }}
+            <!-- Current Image -->
+            {% if item.image %}
+            <div class="p-6 border-b border-GRAY">
+                <h2 class="text-WHITE mb-4 font-medium">Image actuelle :</h2>
+                <img src="{{ asset(item.image) }}" alt="Current" class="w-48 h-48 object-contain rounded-lg border-2 border-VIOLET">
+            </div>
+            {% endif %}
 
-    <a href="{{ path('app_item_index') }}">back to list</a>
+            <!-- Form -->
+            <div class="p-6">
+                {{ include('item/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
 
-    {{ include('item/_delete_form.html.twig') }}
+            <!-- Delete -->
+            <div class="p-6 border-t border-GRAY">
+                <h2 class="text-WHITE mb-4 font-medium text-PINK">Zone dangereuse</h2>
+                {{ include('item/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

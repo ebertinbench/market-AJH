@@ -1,4 +1,31 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'space-y-6 p-6 bg-BLACK rounded-lg'}}) }}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            {{ form_label(form.nom, null, {'label_attr': {'class': 'block text-WHITE mb-2 font-medium'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'w-full bg-BLACK text-WHITE border border-GRAY rounded-lg p-3'}}) }}
+        </div>
+        <div>
+            {{ form_label(form.palier, null, {'label_attr': {'class': 'block text-WHITE mb-2 font-medium'}}) }}
+            {{ form_widget(form.palier, {'attr': {'class': 'w-full bg-BLACK text-WHITE border border-GRAY rounded-lg p-3'}}) }}
+        </div>
+    </div>
+
+    <div>
+        {{ form_label(form.prix, null, {'label_attr': {'class': 'block text-WHITE mb-2 font-medium'}}) }}
+        {{ form_widget(form.prix, {'attr': {'class': 'w-full bg-BLACK text-WHITE border border-GRAY rounded-lg p-3'}}) }}
+    </div>
+
+    <div>
+        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-WHITE mb-2 font-medium'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'w-full bg-BLACK text-WHITE border border-GRAY rounded-lg p-3 h-32'}}) }}
+    </div>
+
+    <div>
+        {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-WHITE mb-2 font-medium'}}) }}
+        {{ form_widget(form.imageFile, {'attr': {'class': 'w-full bg-BLACK text-WHITE border border-GRAY rounded-lg p-3 file:bg-VIOLET file:text-WHITE file:border-none file:rounded file:px-4 file:py-2 file:mr-4'}}) }}
+    </div>
+
+    <button type="submit" class="w-full bg-VIOLET text-WHITE py-3 px-6 rounded-lg hover:bg-PINK transition-colors font-bold">
+        {{ button_label|default('Sauvegarder') }}
+    </button>
 {{ form_end(form) }}
