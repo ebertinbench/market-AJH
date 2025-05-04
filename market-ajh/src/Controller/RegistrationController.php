@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
             if ($userCount === 0) {
                 $user->setRoles(['ROLE_ADMIN']);
             } else {
-                $user->setRoles(['ROLE_USER']);
+                $user->setRoles(['ROLE_CLIENT']);
             }
 
             $entityManager->persist($user);

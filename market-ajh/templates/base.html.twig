@@ -29,19 +29,48 @@
             </div>
             
             <!-- Boutons à droite -->
-            <div class="flex gap-4">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_user_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Gestion Utilisateurs</a>
-                    <a href="{{ path('app_item_index') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Gestion Items</a>
-                {% endif %}
-                {% if not app.user %}
-                    <a href="{{ path('app_login') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Connecter</a>
-                    <a href="{{ path('app_shop_list') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
-                {% else %}
-                    <a href="{{ path('app_shop_list') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Voir les Items</a>
-                    <a href="{{ path('app_logout') }}" class="px-4 py-2 bg-VIOLET text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium">Se Déconnecter</a>
-                {% endif %}
+            <div class="relative">
+                <button id="menu-toggle" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    
+                </button>
+                <div id="menu-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg">
+                    <ul class="flex flex-col gap-2 p-2">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('app_user_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Utilisateurs</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_item_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Items</a>
+                            </li>
+                        {% endif %}
+                        {% if not app.user %}
+                            <li>
+                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_shop_list') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('app_shop_list') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
+
+            <script>
+                document.getElementById('menu-toggle').addEventListener('click', function () {
+                    const dropdown = document.getElementById('menu-dropdown');
+                    dropdown.classList.toggle('hidden');
+                });
+            </script>
         </div>
     </nav>
 

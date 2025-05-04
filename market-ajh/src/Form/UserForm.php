@@ -18,7 +18,9 @@ class UserForm extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Admin' => 'ROLE_ADMIN',
-                    'User' => 'ROLE_USER',
+                    'Vendeur' => 'ROLE_VENDEUR',
+                    'Client' => 'ROLE_CLIENT',
+                    'Comptable' => 'ROLE_COMPTABLE',
                 ],
                 'multiple' => true, // Permet de sélectionner plusieurs rôles
                 'expanded' => true, // Affiche des checkboxes au lieu d'une liste
