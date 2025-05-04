@@ -7,6 +7,11 @@
     <div class="bg-gray-100 p-4 rounded shadow">
         <h1 class="text-2xl font-bold mb-4">Bonjour {{ user.getUsername() }} !</h1>
         <p>Votre rôle : {{ user.getRoles()|join(', ') }}</p>
+        {% if user.getPanier() %}
+            <p>id de panier: {{ user.getPanier().getId() }}</p>
+        {% else %}
+            <p>Vous n'avez pas encore de panier.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

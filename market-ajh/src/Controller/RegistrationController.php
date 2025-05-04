@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Panier;
+
 
 class RegistrationController extends AbstractController
 {
@@ -19,6 +21,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $panier = new Panier();
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->handleRequest($request);
 
@@ -36,8 +39,9 @@ class RegistrationController extends AbstractController
             } else {
                 $user->setRoles(['ROLE_CLIENT']);
             }
-
+            $panier->setUtilisateur($user);
             $entityManager->persist($user);
+            $entityManager->persist($panier);
             $entityManager->flush();
 
             // do anything else you need here, like send an email
