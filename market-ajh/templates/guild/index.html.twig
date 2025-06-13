@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello GuildController!{% endblock %}
+
+{% block body %}
+<h1>Gestion des Chefs de Guilde</h1>
+
+<form method="get">
+    <label for="user-search">Rechercher un utilisateur :</label>
+    <input type="text" id="user-search" name="user_search" value="{{ app.request.get('user_search') }}">
+    <button type="submit">Rechercher</button>
+</form>
+
+{% if app.request.get('user_search') is not empty %}
+    <h2>Résultats de la recherche :</h2>
+    <ul>
+        {% set found = false %}
+        {% for user in users %}
+            {% if user.username matches('/' ~ app.request.get('user_search')|e('js') ~ '/i') %}
+                {% set found = true %}
+                <li>
+                    <strong>Nom d'utilisateur :</strong> {{ user.username }}<br>
+                    <strong>Guilde :</strong> {{ user.guild ? user.guild.name : 'Aucune' }}<br>
+                    <strong>Chef de la guilde :</strong> {{ user.chiefOf ? user.chiefOf.name : 'Non' }}
+                    <form method="post" action="{{ path('assign_guild_leader') }}" style="display:inline;">
+                        <select name="guild_id">
+                            {% for guild in guilds %}
+                                <option value="{{ guild.id }}">{{ guild.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit">Assigner comme chef</button>
+                    </form>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if not found %}
+            <li>Aucun utilisateur trouvé.</li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+<h2>Liste des Guildes et leurs Chefs</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Guilde</th>
+            <th>Chef</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for guild in guilds %}
+            <tr>
+                <td>{{ guild.name }}</td>
+                <td>
+                    {% if guild.chef %}
+                        {{ guild.chef.username }}
+                    {% else %}
+                        <em>Pas de chef assigné</em>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

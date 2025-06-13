@@ -33,6 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Member')]
+    private ?Guild $guild = null;
+
+    #[ORM\OneToOne(mappedBy: 'chef', cascade: ['persist', 'remove'])]
+    private ?Guild $chiefOf = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,5 +117,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getGuild(): ?Guild
+    {
+        return $this->guild;
+    }
+
+    public function setGuild(?Guild $guild): static
+    {
+        $this->guild = $guild;
+
+        return $this;
+    }
+
+    public function getChiefOf(): ?Guild
+    {
+        return $this->chiefOf;
+    }
+
+    public function setChiefOf(?Guild $chiefOf): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($chiefOf === null && $this->chiefOf !== null) {
+            $this->chiefOf->setChef(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($chiefOf !== null && $chiefOf->getChef() !== $this) {
+            $chiefOf->setChef($this);
+        }
+
+        $this->chiefOf = $chiefOf;
+
+        return $this;
     }
 }

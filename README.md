@@ -181,3 +181,11 @@ newgrp docker
 
 ---
 # Vérification des dépendances et mise en place de la base de données
+```bash
+php bin/console doctrine:schema:update --force
+```
+
+# build tailwind
+```bash
+php bin/console tailwind:build
+```

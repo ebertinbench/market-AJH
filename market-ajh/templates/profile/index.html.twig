@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2>Mon profil</h2>
+
+    <form method="post" action="{{ path('profile_change_password') }}">
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
+    </form>
+
+    <hr>
+
+    <form method="post" action="{{ path('profile_change_guild') }}">
+        <div class="mb-3">
+            <label for="guild" class="form-label">Changer de guilde</label>
+            <select class="form-select" id="guild" name="guild">
+                {% for guild in guilds %}
+                    <option value="{{ guild.id }}" {% if app.user.guild and app.user.guild.id == guild.id %}selected{% endif %}>
+                        {{ guild.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-secondary">Changer de guilde</button>
+    </form>
+
+    <hr>
+
+    <form method="post" action="{{ path('profile_delete_account') }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
+        <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
+    </form>
+</div>
+{% endblock %}
