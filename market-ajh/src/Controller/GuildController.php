@@ -9,12 +9,13 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class GuildController extends AbstractController
 {
-    #[Route('', name: 'app_guild')]
+    #[Route('/guild', name: 'app_guild')]
     public function index(GuildRepository $guildRepository, UserRepository $userRepository): Response
     {
         $guilds = $guildRepository->findAll();
@@ -66,5 +67,20 @@ final class GuildController extends AbstractController
 
         $this->addFlash('success', 'Le chef de guilde a bien été assigné.');
         return $this->redirectToRoute('app_guild');
+    }
+    #[Route('/quit', name: 'guild_quit')]
+    public function quitGuild(EntityManagerInterface $em): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $user->quitGuild();
+
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash('success', 'Tu as quitté la guilde.');
+
+        return $this->redirectToRoute('app_home'); // ou vers une autre page
     }
 }

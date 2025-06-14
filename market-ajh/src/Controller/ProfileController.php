@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\GuildRepository;
+use App\Repository\UserRepository;
 use App\Entity\Guild;
 use Doctrine\ORM\EntityManagerInterface;
 #[Route('/profile')]
@@ -22,7 +23,6 @@ final class ProfileController extends AbstractController
         $guilds = $guildRepository->findAll();
 
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
             'nomdepage' => 'Profil Utilisateur',
             'user' => $this->getUser(),
             'guilds' => $guilds,
@@ -74,5 +74,41 @@ final class ProfileController extends AbstractController
         }
 
         return $this->redirectToRoute('app_logout'); // ou autre route de redirection
+    }
+    #[Route('/addmembers', name: 'profile_add_members')]
+    public function addMembers(UserRepository $userRepository, GuildRepository $guildRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user || !$user->getChiefOf()) {
+            return $this->redirectToRoute('app_profile');
+        }
+        return $this->render('profile/add_members.html.twig', [
+            'nomdepage' => 'Ajouter des membres',
+            'user' => $this->getUser(),
+            'users' => $userRepository->findAll(),
+            'guilds' => $guildRepository->findAll(),
+        ]);
+    }
+    #[Route('/add-member', name: 'profile_add_member', methods: ['POST'])]
+    public function addMember(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        if (!$user || !$user->getChiefOf()) {
+            return $this->redirectToRoute('app_profile');
+        }
+
+        $memberId = $request->request->get('member_id');
+        $member = $userRepository->find($memberId);
+        $guild = $user->getChiefOf();
+
+        if ($member && $guild) {
+            $member->setGuild($guild);
+            $em->flush();
+            $this->addFlash('success', 'Membre ajouté à la guilde.');
+        } else {
+            $this->addFlash('danger', 'Impossible d\'ajouter le membre.');
+        }
+
+        return $this->redirectToRoute('profile_add_members');
     }
 }

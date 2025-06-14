@@ -96,9 +96,15 @@ class Guild
     }
 
     public function setChef(?User $chef): static
-    {
-        $this->chef = $chef;
-
-        return $this;
+{
+    if ($chef !== null) {
+        // S'assurer que le chef est bien membre de la guilde
+        if (!$this->Member->contains($chef)) {
+            $this->addMember($chef); // Cela appellera setGuild() sur l'utilisateur aussi
+        }
     }
+
+    $this->chef = $chef;
+    return $this;
+}
 }

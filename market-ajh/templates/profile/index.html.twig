@@ -1,7 +1,4 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello ProfileController!{% endblock %}
-
 {% block body %}
     <div class="container mt-4">
         <h2>Mon profil</h2>
@@ -24,6 +21,9 @@
             {% else %}
                 <p><strong>Chef de la guilde :</strong> Aucun chef désigné</p>
             {% endif %}
+            <form action="{{ path('guild_quit') }}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir quitter la guilde ?');">
+                <button type="submit" class="btn btn-danger">Quitter la guilde</button>
+            </form>
         {% else %}
             <p>Vous n'appartenez à aucune guilde.</p>
         {% endif %}

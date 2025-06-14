@@ -152,4 +152,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function quitGuild():static
+    {
+        $this->guild = null;
+        if($this->getchiefOf() !== null && $this->chiefOf->getChef() === $this) {
+            this->chiefOf->setChef(null);
+        }
+        return $this;
+    }
 }
