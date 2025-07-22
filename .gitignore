@@ -37,3 +37,4 @@
 
 # PHPUnit
 /market-ajh/.phpunit.cache/
+/market-ajh/src/DataFixtures/*.json

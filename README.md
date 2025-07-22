@@ -31,7 +31,8 @@ Après l'installation, **suivez les instructions affichées** pour configurer vo
 sudo apt update
 sudo apt install php php-xml php-cli php-mbstring unzip curl
 sudo apt install composer
-curl -sS https://get.symfony.com/cli/installer | bash
+curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+sudo apt install symfony-cli
 sudo apt install php-mysql
 ```
 
@@ -50,18 +51,6 @@ sudo apt install docker-compose
 
 ---
 
-## Windows
-
-### Prérequis
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé et configuré.
-- [PHP pour Windows](https://windows.php.net/download/) (ou utiliser WSL2 avec Ubuntu conseillé).
-- [Composer](https://getcomposer.org/download/) installé.
-- [Symfony CLI](https://symfony.com/download) installé.
-
-> **Recommandé** : Utiliser WSL2 (Windows Subsystem for Linux) avec Ubuntu pour plus de compatibilité.
-
----
 
 ## Clonage du projet
 
@@ -189,3 +178,8 @@ php bin/console doctrine:schema:update --force
 ```bash
 php bin/console tailwind:build
 ```
+
+# Features 
+- Chaque guilde doit pouvoir vendre des items
+- historique de prix 
+- location d'étagère (le droit aux autres guildes d'utiliser le site pour vendre) en échange d'un pourcentage du chiffre d'affaires calculé par SAGE. Le pourcentage est entre 15% et 20% et sera décidé en fonction de l'importance de la guilde en question.

@@ -27,13 +27,19 @@ class Guild
     #[ORM\OneToOne(inversedBy: 'chiefOf', cascade: ['persist', 'remove'])]
     private ?User $chef = null;
 
-    public function __construct(?string $name = null)
-{
-    $this->Member = new ArrayCollection();
-    if ($name !== null) {
-        $this->Name = $name;
+    #[ORM\Column]
+    private ?bool $allowedToSell = null;
+
+    public function __construct(?string $name = null, ?bool $allowedToSell = null)
+    {
+        $this->Member = new ArrayCollection();
+        if ($name !== null) {
+            $this->Name = $name;
+        }
+        if ($allowedToSell !== null) {
+            $this->allowedToSell = $allowedToSell;
+        }
     }
-}
 
 
     public function getId(): ?int
@@ -107,4 +113,16 @@ class Guild
     $this->chef = $chef;
     return $this;
 }
+
+    public function isAllowedToSell(): ?bool
+    {
+        return $this->allowedToSell;
+    }
+
+    public function setAllowedToSell(bool $allowedToSell): static
+    {
+        $this->allowedToSell = $allowedToSell;
+
+        return $this;
+    }
 }

@@ -99,4 +99,17 @@ class Item
 
         return $this;
     }
+    public function __construct(
+    ?string $image = null,
+    ?int $palier = null,
+    ?string $description = null,
+    ?string $nom = null,
+    ?float $prix = 0
+) {
+    $this->image = $image ? "images/items/" . $image : null;
+    $this->palier = $palier;
+    $this->description = $description;
+    $this->nom = $nom;
+    $this->prix = $prix;
+}
 }
