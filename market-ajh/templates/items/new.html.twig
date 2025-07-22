@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un item{% endblock %}
+
+{% block body %}
+  <h1>Ajouter un item à la guilde</h1>
+
+  {{ form_start(form) }}
+    {{ form_row(form.item) }}
+    {{ form_row(form.price) }}
+
+    <button class="btn btn-primary">Ajouter</button>
+  {{ form_end(form) }}
+
+  {# Optionnel : liste des items déjà présents #}
+  {% if guildItems is not empty %}
+    <h2>Items déjà ajoutés</h2>
+    <ul class="list-group">
+      {% for gi in guildItems %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ gi.item.nom }} — {{ gi.price }} €
+          <span class="badge badge-secondary">{{ gi.id }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

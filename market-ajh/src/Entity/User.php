@@ -161,4 +161,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return $this;
     }
+    public function isChief(): bool
+    {
+        return $this->chiefOf !== null;
+    }
 }
