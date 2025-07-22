@@ -30,6 +30,12 @@ class Guild
     #[ORM\Column]
     private ?bool $allowedToSell = null;
 
+    /**
+     * @var Collection<int, GuildItems>
+     */
+    #[ORM\OneToMany(targetEntity: GuildItems::class, mappedBy: 'guild')]
+    private Collection $guildItems;
+
     public function __construct(?string $name = null, ?bool $allowedToSell = null)
     {
         $this->Member = new ArrayCollection();
@@ -39,6 +45,7 @@ class Guild
         if ($allowedToSell !== null) {
             $this->allowedToSell = $allowedToSell;
         }
+        $this->guildItems = new ArrayCollection();
     }
 
 
@@ -122,6 +129,36 @@ class Guild
     public function setAllowedToSell(bool $allowedToSell): static
     {
         $this->allowedToSell = $allowedToSell;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GuildItems>
+     */
+    public function getGuildItems(): Collection
+    {
+        return $this->guildItems;
+    }
+
+    public function addGuildItem(GuildItems $guildItem): static
+    {
+        if (!$this->guildItems->contains($guildItem)) {
+            $this->guildItems->add($guildItem);
+            $guildItem->setGuild($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGuildItem(GuildItems $guildItem): static
+    {
+        if ($this->guildItems->removeElement($guildItem)) {
+            // set the owning side to null (unless already changed)
+            if ($guildItem->getGuild() === $this) {
+                $guildItem->setGuild(null);
+            }
+        }
 
         return $this;
     }

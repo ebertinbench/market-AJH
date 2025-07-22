@@ -40,4 +40,18 @@ class GuildRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    /**
+ * Retourne les guildes dont allowedToSell = true
+ *
+ * @return Guild[]
+ */
+public function findAllowedToSell(): array
+{
+    return $this->createQueryBuilder('g')
+        ->andWhere('g.allowedToSell = :flag')
+        ->setParameter('flag', true)
+        ->orderBy('g.Name', 'ASC') // optionnel, tri par nom
+        ->getQuery()
+        ->getResult();
+}
 }

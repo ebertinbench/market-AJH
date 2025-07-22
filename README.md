@@ -182,4 +182,5 @@ php bin/console tailwind:build
 # Features 
 - Chaque guilde doit pouvoir vendre des items
 - historique de prix 
+- soit on fait un inventaire uqi se met à jour, soit on propose un delai si on a pas la commande
 - location d'étagère (le droit aux autres guildes d'utiliser le site pour vendre) en échange d'un pourcentage du chiffre d'affaires calculé par SAGE. Le pourcentage est entre 15% et 20% et sera décidé en fonction de l'importance de la guilde en question.

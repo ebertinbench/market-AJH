@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
@@ -27,6 +29,12 @@ class Item
 
     #[ORM\Column(nullable: true, options: ["default" => 0])]
     private ?float $prix = 0;
+
+    /**
+     * @var Collection<int, GuildItems>
+     */
+    #[ORM\OneToMany(targetEntity: GuildItems::class, mappedBy: 'item')]
+    private Collection $guildItems;
 
     public function getId(): ?int
     {
@@ -88,28 +96,47 @@ class Item
         return $this;
     }
 
-    public function getPrix(): ?float
-    {
-        return $this->prix;
-    }
 
-    public function setPrix(?float $prix): static
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
     public function __construct(
     ?string $image = null,
     ?int $palier = null,
     ?string $description = null,
     ?string $nom = null,
-    ?float $prix = 0
 ) {
     $this->image = $image ? "images/items/" . $image : null;
     $this->palier = $palier;
     $this->description = $description;
     $this->nom = $nom;
-    $this->prix = $prix;
+    $this->guildItems = new ArrayCollection();
 }
+
+    /**
+     * @return Collection<int, GuildItems>
+     */
+    public function getGuildItems(): Collection
+    {
+        return $this->guildItems;
+    }
+
+    public function addGuildItem(GuildItems $guildItem): static
+    {
+        if (!$this->guildItems->contains($guildItem)) {
+            $this->guildItems->add($guildItem);
+            $guildItem->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGuildItem(GuildItems $guildItem): static
+    {
+        if ($this->guildItems->removeElement($guildItem)) {
+            // set the owning side to null (unless already changed)
+            if ($guildItem->getItem() === $this) {
+                $guildItem->setItem(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -1,21 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des items{% endblock %}
+{% block title %}Boutique – {{ guild.Name }}{% endblock %}
 
 {% block body %}
-<div class="flex justify-center pt-4">
-    {% for item in items %}
-        <div class="bg-GREEN flex flex-col items-center m-4 p-4">
-            {% if item.image %}
-                <img src="{{ asset(item.image) }}" alt="{{ item.nom }}" style="max-width: 100px; max-height: 100px;">
-            {% else %}
-                <img src="{{ asset('default-image.jpg') }}" alt="Default image" style="max-width: 100px; max-height: 100px;">
-            {% endif %}
-            <p>{{ item.nom }}</p>
-            <p>{{ item.description }}</p>
-            <p>{{ item.prix }} Cols</p>
-            <p>Palier: {{ item.palier }}</p>
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Boutique de la guilde « {{ guild.Name }} »</h1>
+
+    <p class="mb-4">
+      <a href="{{ path('shop_index') }}" class="text-gray-600 hover:underline">
+        ← Retour à la sélection de guilde
+      </a>
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for guildItem in guildItems %}
+        <div class="border rounded p-4 flex flex-col items-center">
+          {% if guildItem.getItem().getImage() %}
+            <img src="{{ asset(guildItem.getItem().getImage()) }}"
+                 alt="{{ guildItem.getItem().getNom() }}"
+                 class="mb-2" style="max-width:100px; max-height:100px;">
+          {% endif %}
+          <h2 class="font-semibold">{{ guildItem.getItem().getNom() }}</h2>
+          <p class="text-sm mb-2">{{ guildItem.getItem().getDescription() }}</p>
+          <p class="mb-1">Palier : {{ guildItem.getItem().getPalier() }}</p>
+          <p class="text-lg font-bold">{{ guildItem.getPrice() }} Cols</p>
         </div>
-    {% endfor %}
-</div>
+      {% else %}
+        <p>Aucun item n’est défini pour cette guilde.</p>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}
