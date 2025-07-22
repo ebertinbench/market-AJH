@@ -83,4 +83,41 @@ final class GuildController extends AbstractController
 
         return $this->redirectToRoute('app_home'); // ou vers une autre page
     }
+    #[Route('/guild/create', name: 'guild_create', methods: ['GET', 'POST'])]
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if ($request->isMethod('POST')) {
+            $name = $request->request->get('name');
+            $allowedToSell = $request->request->get('allowedtosell', false);
+            if (!$name) {
+                $this->addFlash('error', 'Le nom de la guilde est requis.');
+                return $this->redirectToRoute('guild_create');
+            }
+
+            $guild = new Guild();
+            $guild->setName($name);
+            $guild->setAllowedToSell($allowedToSell);
+
+            $entityManager->persist($guild);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_guild');
+        }
+
+        return $this->render('guild/create.html.twig');
+    }
+    #[Route('/guild/delete/{id}', name: 'guild_delete', methods: ['POST'])]
+    public function delete(int $id, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        $guild = $entityManager->getRepository(Guild::class)->find($id);
+
+        if (!$guild) {
+            $this->addFlash('error', 'Guilde introuvable.');
+            return $this->redirectToRoute('app_guild');
+        }
+
+        $entityManager->remove($guild);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_guild');
+    }
 }

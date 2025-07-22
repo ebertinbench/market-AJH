@@ -19,7 +19,6 @@
                     <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Image</th>
                     <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Nom</th>
                     <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Palier</th>
-                    <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Prix</th>
                     <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Description</th>
                     <th class="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider">Actions</th>
                 </tr>
@@ -35,7 +34,6 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium">{{ item.nom }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ item.palier }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ item.prix }} Cols</td>
                         <td class="px-6 py-4">{{ item.description|slice(0, 50) }}{% if item.description|length > 50 %}...{% endif %}</td>
                         <td class="px-6 py-4 whitespace-nowrap space-x-2">
                             <a href="{{ path('app_item_show', {'id': item.id}) }}" class="text-WHITE transition-colors">Voir</a>

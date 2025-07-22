@@ -59,6 +59,11 @@
                             <em>Pas de chef assigné</em>
                         {% endif %}
                     </td>
+                    <td>
+                        <form method="post" action="{{ path('guild_delete', {'id': guild.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette guilde ?');">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -78,5 +83,20 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
     });
 });
 </script>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">{{ message }}</div>
+    {% endfor %}
+{% endfor %}
+<form method="post" action="{{ path('guild_create') }}">
+    <label for="guild-name">Nom de la guilde :</label>
+    <input type="text" id="guild-name" name="name" required>
+    <label for="allowedtosell">
+        <input type="checkbox" id="allowedtosell" name="allowedtosell" value="true">
+    </label>
+    <small>Cocher cette case pour indiquer que la guilde est commerçante.</small>
+    <br>
+    <button type="submit">Créer la guilde</button>
+</form>
 
 {% endblock %}
