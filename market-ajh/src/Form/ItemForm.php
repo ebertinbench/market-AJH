@@ -19,7 +19,6 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
         ->add('nom')
         ->add('description')
         ->add('palier')
-        ->add('prix')
         ->add('imageFile', FileType::class, [
             'label' => 'Image (JPEG/PNG)',
             'mapped' => false,

@@ -18,13 +18,15 @@ use Symfony\Component\Routing\Attribute\Route;
 final class GuildItemsController extends AbstractController
 {
     #[Route(name: 'app_guild_items_index', methods: ['GET'])]
-    public function index(GuildItemsRepository $guildItemsRepository): Response
+    public function index(GuildItemsRepository $repo): Response
     {
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        return $this->render('guild_items/index.html.twig', [
-            'guild_items' => $guildItemsRepository->findAll(),
+        $user  = $this->getUser();
+        $guild = $user->getGuild();
+        return $this->render('items/index.html.twig', [
+            'guildItems' => $repo->findBy(['guild' => $guild]),  // pour lister ceux déjà ajoutés
             'nomdepage' => 'Gestion des items de guilde',
         ]);
     }
@@ -107,5 +109,66 @@ final class GuildItemsController extends AbstractController
         ]);
     }
 
-    
+    #[Route('/delete/{id}', name: 'app_guild_items_delete', methods: ['POST'])]
+    public function delete(
+        int $id,
+        GuildItemsRepository $repo,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response {
+        if (!$this->getUser()->isChief()) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $guildItem = $repo->find($id);
+        if (!$guildItem) {
+            $this->addFlash('error', 'Item introuvable.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        // Vérifier que l'item appartient à la guilde de l'utilisateur
+        $userGuild = $this->getUser()->getGuild();
+        if ($guildItem->getGuild() !== $userGuild) {
+            $this->addFlash('error', 'Action non autorisée.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        $em->remove($guildItem);
+        $em->flush();
+
+        $this->addFlash('success', 'Item supprimé avec succès !');
+        return $this->redirectToRoute('app_guild_items_index');
+    }
+
+    #[Route('/search', name: 'app_items_search', methods: ['GET'])]
+    public function search(
+        Request $request,
+        GuildItemsRepository $repo
+    ): Response {
+        if (!$this->getUser()->isChief()) {
+            return $this->redirectToRoute('app_home');
+        }
+        $user  = $this->getUser();
+        $guild = $user->getGuild();
+        $query = $request->query->get('q', '');
+
+        if ($query) {
+            // Recherche par nom d'item (relation avec Item)
+            $guildItems = $repo->createQueryBuilder('gi')
+                ->join('gi.item', 'i')
+                ->where('gi.guild = :guild')
+                ->andWhere('i.nom LIKE :query')
+                ->setParameter('guild', $guild)
+                ->setParameter('query', '%' . $query . '%')
+                ->getQuery()
+                ->getResult();
+        } else {
+            $guildItems = $repo->findBy(['guild' => $guild]);
+        }
+
+        return $this->render('items/index.html.twig', [
+            'guildItems' => $guildItems,
+            'nomdepage'  => 'Gestion des items de guilde',
+        ]);
+    }
 }

@@ -18,6 +18,14 @@
 
             {% if user.guild.chef %}
                 <p><strong>Chef de la guilde :</strong> {{ user.guild.chef.username }}</p>
+                <form action="{{ path('profile_add_members') }}" method="get">
+                    <button type="submit" class="btn btn-success">Ajouter des membres</button>
+                </form>
+                {% if user.guild.allowedToSell %}
+                    <form action="{{ path('app_guild_items_index') }}" method="get">
+                        <button type="submit" class="btn btn-warning">Gérer les items vendus</button>
+                    </form>
+                {% endif %}
             {% else %}
                 <p><strong>Chef de la guilde :</strong> Aucun chef désigné</p>
             {% endif %}
