@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 final class GuildController extends AbstractController
 {
@@ -87,16 +90,37 @@ final class GuildController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('POST')) {
-            $name = $request->request->get('name');
-            $allowedToSell = $request->request->get('allowedtosell', false);
+            $name          = $request->request->get('name');
+            $allowedToSell = (bool) $request->request->get('allowedtosell', false);
+            /** @var UploadedFile|null $imageFile */
+            $imageFile     = $request->files->get('image');
+
             if (!$name) {
                 $this->addFlash('error', 'Le nom de la guilde est requis.');
-                return $this->redirectToRoute('guild_create');
+                return $this->redirectToRoute('app_guild');
             }
 
             $guild = new Guild();
-            $guild->setName($name);
-            $guild->setAllowedToSell($allowedToSell);
+            $guild->setName($name)
+                ->setAllowedToSell($allowedToSell);
+
+            if ($imageFile instanceof UploadedFile) {
+                // 1. Récupérer le nom original
+                $originalFilename = $imageFile->getClientOriginalName();
+
+                // 2. Déplacer dans public/images/guildes
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/images/guildes',
+                        $originalFilename
+                    );
+                } catch (FileException $e) {
+                    return $this->redirectToRoute('app_guild');
+                }
+
+                // 3. Enregistrer le chemin relatif dans l’entité
+                $guild->setImage('images/guildes/' . $originalFilename);
+            }
 
             $entityManager->persist($guild);
             $entityManager->flush();
@@ -106,6 +130,9 @@ final class GuildController extends AbstractController
 
         return $this->render('guild/create.html.twig');
     }
+
+
+    
     #[Route('/guild/delete/{id}', name: 'guild_delete', methods: ['POST'])]
     public function delete(int $id, EntityManagerInterface $entityManager): RedirectResponse
     {

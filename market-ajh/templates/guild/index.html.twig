@@ -95,13 +95,32 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
         {% endfor %}
     {% endfor %}
 
-    <form method="post" action="{{ path('guild_create') }}" class="bg-GREEN shadow rounded p-6 max-w-md mx-auto mt-8 flex flex-col gap-4">
-        <label for="guild-name" class="font-semibold text-violet">Nom de la guilde :</label>
-        <input type="text" id="guild-name" name="name" required class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet">
-        <label for="allowedtosell" class="flex items-center gap-2">
-            <input type="checkbox" id="allowedtosell" name="allowedtosell" value="true" class="accent-green">
-            <span>Cocher cette case pour indiquer que la guilde est commerçante.</span>
-        </label>
-        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-black transition">Créer la guilde</button>
-    </form>
+    <form
+    method="post"
+    action="{{ path('guild_create') }}"
+    enctype="multipart/form-data"           {# !! Ajouté !! #}
+    class="bg-GREEN shadow rounded p-6 max-w-md mx-auto mt-8 flex flex-col gap-4"
+>
+    <label for="guild-name" class="font-semibold text-violet">Nom de la guilde :</label>
+    <input type="text" id="guild-name" name="name" required class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet">
+
+    <label for="allowedtosell" class="flex items-center gap-2">
+        <input type="checkbox" id="allowedtosell" name="allowedtosell" value="true" class="accent-green">
+        <span>Cocher cette case pour indiquer que la guilde est commerçante.</span>
+    </label>
+
+    <label for="image" class="font-semibold text-violet">Image de la guilde :</label>
+    <input
+        type="file"
+        id="image"
+        name="image"
+        accept="image/*"
+        required
+        class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet"
+    >
+
+    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-black transition">
+        Créer la guilde
+    </button>
+</form>
 {% endblock %}

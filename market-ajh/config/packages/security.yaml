@@ -51,6 +51,7 @@ security:
         - { path: ^/user, roles: ROLE_ADMIN }
         - { path: ^/item, roles: ROLE_ADMIN }
         - { path: '^/guild', roles: ROLE_ADMIN }
+        - { path: '^/shop', roles: ROLE_CLIENT }
         # Vendeur role
         - { path: ^/vendeur, roles: ROLE_VENDEUR }
         # Client role

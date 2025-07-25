@@ -36,7 +36,10 @@ class Guild
     #[ORM\OneToMany(targetEntity: GuildItems::class, mappedBy: 'guild')]
     private Collection $guildItems;
 
-    public function __construct(?string $name = null, ?bool $allowedToSell = null)
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    public function __construct(?string $name = null, ?bool $allowedToSell = null, ?string $image = null)
     {
         $this->Member = new ArrayCollection();
         if ($name !== null) {
@@ -44,6 +47,9 @@ class Guild
         }
         if ($allowedToSell !== null) {
             $this->allowedToSell = $allowedToSell;
+        }
+        if ($image !== null) {
+            $this->image = $image;
         }
         $this->guildItems = new ArrayCollection();
     }
@@ -159,6 +165,18 @@ class Guild
                 $guildItem->setGuild(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
