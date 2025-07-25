@@ -1,73 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GuildController!{% endblock %}
+{% block title %}Chefs de guilde{% endblock %}
 
 {% block body %}
-    <h1>Gestion des Chefs de Guilde</h1>
-
-    <form method="get">
-        <label for="user-search">Rechercher un utilisateur :</label>
-        <input type="text" id="user-search" name="user_search" value="{{ app.request.get('user_search') }}">
-        <button type="submit">Rechercher</button>
+    <form method="get" class="mb-8 flex flex-col md:flex-column items-center gap-4">
+        <label for="user-search" class="font-semibold">Rechercher un utilisateur</label>
+        
+            <input type="text" id="user-search" name="user_search" value="{{ app.request.get('user_search') }}" class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet">
+            <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-BLACK transition">Rechercher</button>
+        
     </form>
 
     {% if app.request.get('user_search') is not empty %}
-        <h2>Résultats de la recherche :</h2>
-        <ul>
+        <h2 class="text-xl font-semibold mb-4">Résultats de la recherche :</h2>
+        <ul class="space-y-4 mb-8">
             {% set found = false %}
             {% for user in users %}
                 {% if user.username matches('/' ~ app.request.get('user_search')|e('js') ~ '/i') %}
                     {% set found = true %}
-                    <li>
-                        <strong>Nom d'utilisateur :</strong> {{ user.username }}<br>
-                        <strong>Guilde :</strong> {{ user.guild ? user.guild.name : 'Aucune' }}<br>
-                        <strong>Chef de la guilde :</strong> {{ user.chiefOf ? user.chiefOf.name : 'Non' }}
-                        <form method="post" class="assign-chief-form" data-user-id="{{ user.id }}" action="#">
-                        
-                            <select name="guild_id" class="guild-selector">
+                    <li class="bg-white shadow rounded p-4 flex flex-col gap-2">
+                        <div><strong>Nom d'utilisateur :</strong> <span class="text-violet">{{ user.username }}</span></div>
+                        <div><strong>Guilde :</strong> {{ user.guild ? user.guild.name : 'Aucune' }}</div>
+                        <div><strong>Chef de la guilde :</strong> {{ user.chiefOf ? user.chiefOf.name : 'Non' }}</div>
+                        <form method="post" class="assign-chief-form flex items-center gap-2 mt-2" data-user-id="{{ user.id }}" action="#">
+                            <select name="guild_id" class="guild-selector border border-gray rounded px-2 py-1">
                                 {% for guild in guilds %}
                                     <option value="{{ guild.id }}">{{ guild.name }}</option>
                                 {% endfor %}
                             </select>
-                            <button type="submit">Assigner comme chef</button>
+                            <button type="submit" class="bg-green text-white px-3 py-1 rounded hover:bg-BLACK transition">Assigner comme chef</button>
                         </form>
                     </li>
                 {% endif %}
             {% endfor %}
             {% if not found %}
-                <li>Aucun utilisateur trouvé.</li>
+                <li class="text-gray-500 italic">Aucun utilisateur trouvé.</li>
             {% endif %}
         </ul>
     {% endif %}
 
-    <h2>Liste des Guildes et leurs Chefs</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Guilde</th>
-                <th>Chef</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for guild in guilds %}
+    <h2 class="text-xl font-semibold mb-4">Liste des Guildes et leurs Chefs</h2>
+    <div class="overflow-x-auto mb-8">
+        <table class="min-w-full bg-black text-white shadow rounded">
+            <thead>
                 <tr>
-                    <td>{{ guild.name }}</td>
-                    <td>
-                        {% if guild.chef %}
-                            {{ guild.chef.username }}
-                        {% else %}
-                            <em>Pas de chef assigné</em>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <form method="post" action="{{ path('guild_delete', {'id': guild.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette guilde ?');">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </form>
-                    </td>
+                    <th class="px-4 py-2 border-b font-semibold text-left">Guilde</th>
+                    <th class="px-4 py-2 border-b font-semibold text-left">Chef</th>
+                    <th class="px-4 py-2 border-b"></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for guild in guilds %}
+                    <tr class="hover:bg-gray-800">
+                        <td class="px-4 py-2 border-b border-gray-700">{{ guild.name }}</td>
+                        <td class="px-4 py-2 border-b border-gray-700">
+                            {% if guild.chef %}
+                                <span class="text-violet">{{ guild.chef.username }}</span>
+                            {% else %}
+                                <em class="text-gray-300">Pas de chef assigné</em>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2 border-b border-gray-700">
+                            <form method="post" action="{{ path('guild_delete', {'id': guild.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette guilde ?');">
+                                <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <script>
 document.querySelectorAll('.assign-chief-form').forEach(form => {
     const select = form.querySelector('.guild-selector');
@@ -83,20 +86,22 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
     });
 });
 </script>
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash-{{ label }}">{{ message }}</div>
-    {% endfor %}
-{% endfor %}
-<form method="post" action="{{ path('guild_create') }}">
-    <label for="guild-name">Nom de la guilde :</label>
-    <input type="text" id="guild-name" name="name" required>
-    <label for="allowedtosell">
-        <input type="checkbox" id="allowedtosell" name="allowedtosell" value="true">
-    </label>
-    <small>Cocher cette case pour indiquer que la guilde est commerçante.</small>
-    <br>
-    <button type="submit">Créer la guilde</button>
-</form>
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }} px-4 py-2 rounded mb-4 {{ label == 'success' ? 'bg-green text-white' : 'bg-black text-white' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <form method="post" action="{{ path('guild_create') }}" class="bg-GREEN shadow rounded p-6 max-w-md mx-auto mt-8 flex flex-col gap-4">
+        <label for="guild-name" class="font-semibold text-violet">Nom de la guilde :</label>
+        <input type="text" id="guild-name" name="name" required class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet">
+        <label for="allowedtosell" class="flex items-center gap-2">
+            <input type="checkbox" id="allowedtosell" name="allowedtosell" value="true" class="accent-green">
+            <span>Cocher cette case pour indiquer que la guilde est commerçante.</span>
+        </label>
+        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-black transition">Créer la guilde</button>
+    </form>
 {% endblock %}
