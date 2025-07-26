@@ -67,6 +67,14 @@
                                 <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
                             </li>
                         {% endif %}
+                        {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
+                            <li>
+                                <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion des Items</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

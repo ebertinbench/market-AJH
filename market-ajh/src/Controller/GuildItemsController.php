@@ -61,9 +61,8 @@ final class GuildItemsController extends AbstractController
             $em->persist($gi);
             $em->flush();
 
-            $this->addFlash('success', 'Item ajouté avec succès !');
 
-            return $this->redirectToRoute('items_new');
+            return $this->redirectToRoute('app_guild_items_index');
         }
 
         return $this->render('items/new.html.twig', [

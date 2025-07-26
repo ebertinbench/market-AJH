@@ -3,27 +3,64 @@
 {% block title %}Items de votre guilde{% endblock %}
 
 {% block body %}
-<form method="get" action="{{ path('app_items_search') }}" class="mb-3">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Rechercher un item..." value="{{ app.request.get('q') }}">
-        <button class="btn btn-primary" type="submit">Rechercher</button>
+  <form method="get" action="{{ path('app_items_search') }}" class="mb-6">
+    <div class="flex justify-center">
+      <input
+        type="text"
+        name="q"
+        class="form-input rounded-l-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-64"
+        placeholder="Rechercher un item..."
+        value="{{ app.request.get('q') }}"
+      >
+      <button class="bg-VIOLET text-WHITE px-3 py-2 rounded-r-md">
+        Rechercher
+      </button>
     </div>
-</form>
-{% if guildItems is not empty %}
-    <h2>Items déjà ajoutés</h2>
-    <ul class="list-group">
-      {% for gi in guildItems %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ gi.item.nom }} — {{ gi.price }} €
-          <span class="badge badge-secondary">{{ gi.id }}</span>
-          <form method="post" action="{{ path('app_guild_items_delete', {'id': gi.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer cet item ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gi.id) }}">
-            <button class="btn btn-danger btn-sm">Supprimer</button>
-          </form>
-        </li>
-      {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun item n'est présent.</p>
-{% endif %}
+  </form>
+
+  {% if guildItems is not empty %}
+    <div class="w-full max-w-7xl mx-auto">
+      <div class="flex flex-wrap justify-center gap-6">
+        {% for gi in guildItems %}
+          <div class="flex-0 w-60 bg-GREEN  rounded-lg shadow-lg flex flex-col items-center p-6 transition-transform ">
+            <div class="w-32 h-32 flex items-center justify-center mb-4 overflow-hidden rounded">
+              {% if gi.item.image %}
+                <img
+                  src="{{ gi.item.image }}"
+                  alt="{{ gi.item.nom }}"
+                  class="object-cover w-full h-full"
+                >
+              {% else %}
+                <span class="text-gray-400">Pas d'image</span>
+              {% endif %}
+            </div>
+            <span class="font-semibold text-lg mb-2 text-center">{{ gi.item.nom }}</span>
+            <span class="text-VIOLET font-bold mb-4">{{ gi.price }} €</span>
+            <form
+              method="post"
+              action="{{ path('app_guild_items_delete', {'id': gi.id}) }}"
+              onsubmit="return confirm('Supprimer cet item ?');"
+              class="w-full"
+            >
+              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gi.id) }}">
+              <button class="bg-VIOLET text-WHITE px-3 py-1 rounded w-full border-2 border-transparent hover:border-VIOLET">
+                Supprimer
+              </button>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p class="text-center text-gray-500">Aucun item n'est présent.</p>
+  {% endif %}
+
+  <div class="mt-6 flex justify-center">
+    <a
+      href="{{ path('app_guild_items_new') }}"
+      class="bg-VIOLET text-WHITE px-4 py-2 rounded shadow"
+    >
+      Ajouter un nouvel item
+    </a>
+  </div>
 {% endblock %}
