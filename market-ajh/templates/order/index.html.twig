@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les commandes{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 flex flex-col items-center">
+        <h1 class="text-3xl font-bold mb-6 text-center">Commandes</h1>
+
+        {# === Formulaire de filtres === #}
+        <form method="get" class="mb-8 flex flex-wrap gap-4 items-end justify-center">
+            <div class="w-60">
+                <label for="player" class="block text-sm font-medium text-WHITE">Joueur</label>
+                <select name="player" id="player"
+                        class="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring focus:border-blue-300">
+                    <option value="">Tous</option>
+                    {% for player in players %}
+                        <option value="{{ player.id }}"
+                            {{ player.id == currentPlayer ? 'selected' }}>
+                            {{ player.username }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="w-60">
+                <label for="status" class="block text-sm font-medium text-WHITE">Statut</label>
+                <select name="status" id="status"
+                        class="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring focus:border-blue-300">
+                    <option value="">Tous</option>
+                    {% for key, label in statuses %}
+                        <option value="{{ key }}"
+                            {{ key == currentStatus ? 'selected' }}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                Filtrer
+            </button>
+        </form>
+
+        {% if orders|length > 0 %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                {% for order in orders %}
+                    <div class="bg-GREEN shadow-lg rounded-lg p-5 mx-auto flex flex-col items-center">
+                        <p class="text-WHITE"><strong>Commande émise par :</strong> {{ order.idClient.username }}</p>
+                        <p class="text-WHITE text-sm mb-3">
+                            <em>Le {{ order.dateCommande|date('d/m/Y') }} </em>
+                        </p>
+                        <p class="text-gray-800 mb-2">
+                            <strong>Statut :</strong>
+                            {{ statuses[order.statut] ?? order.statut }}
+                        </p>
+                        <div class="flex flex-col gap-1 mb-2 items-center">
+                            {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' %}
+                                <div class="flex gap-2 justify-center">
+                                    {# Bouton reculer statut #}
+                                    <form method="post" action="{{ path('orders_recede_status', {'id': order.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('recede_status' ~ order.id) }}">
+                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
+                                            {% if order.statut == 'pending' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
+                                            ◀
+                                        </button>
+                                    </form>
+                                    {# Bouton avancer statut #}
+                                    <form method="post" action="{{ path('orders_advance_status', {'id': order.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('advance_status' ~ order.id) }}">
+                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
+                                            {% if order.statut == 'aborted' or order.statut == 'delivered' or order.statut == 'Avortée' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
+                                            ▶
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="text-gray-800 mb-2">
+                            <strong>Quantité:</strong> {{ order.quantite }} unité(s)
+                        </div>
+                        <img src="{{ asset(order.idItem.item.image) }}" alt="{{ order.idItem.item.nom }}" class="w-24 h-24 object-cover mt-3 mb-2 rounded">
+                        <div class="text-blue-900 font-semibold mb-2">
+                            <strong>Vendeur :</strong> {{ order.idVendeur.username | default('Aucun vendeur assigné') }}
+                        </div>
+                        {% if order.idVendeur %}
+                            <form method="post" action="{{ path('orders_remove_seller', {'id': order.id}) }}" class="mb-2">
+                                <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">Me retirer de cette commande</button>
+                            </form>
+                            {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' %}
+                                <div>
+                                    {# Bouton marquer comme avortée #}
+                                    <form method="post" action="{{ path('orders_abort', {'id': order.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('abort' ~ order.id) }}">
+                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
+                                            {% if order.statut == 'Avortée' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
+                                            Marquer comme avortée
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <form method="post" action="{{ path('orders_assign_seller', {'id': order.id}) }}" class="mb-2">
+                                <input type="hidden" name="seller_id" value="{{ app.user.id }}">
+                                <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">M'assigner cette commande</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500 text-center">Aucune commande trouvée pour ces critères.</p>
+        {% endif %}
+    </div>
+{% endblock %}

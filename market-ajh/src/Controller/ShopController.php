@@ -52,7 +52,7 @@ class ShopController extends AbstractController
         // Récupérer la quantité postée
         $quantity = $request->request->get('quantity');
         $itemId = $request->request->get('item_id');
-        $statut = "en attente"; 
+        $statut = "En attente"; 
         $idClient = $this->getUser(); 
         $idVendeur = null; 
         $dateCommande = new \DateTime();    

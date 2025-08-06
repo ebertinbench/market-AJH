@@ -72,6 +72,11 @@
                                 <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
                             </li>
                         {% endif %}
+                         {% if is_granted('ROLE_VENDEUR') %}
+                            <li>
+                                <a href="{{ path('orders_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les commandes</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -87,19 +92,41 @@
     <div id="flash-messages" class="fixed top-8 right-8 z-50 flex flex-col items-end space-y-4">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300">
+                <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300 translate-x-full">
                     <span class="text-xl font-semibold">{{ message }}</span>
                 </div>
             {% endfor %}
         {% endfor %}
     </div>
     <script>
-        setTimeout(function() {
-            document.querySelectorAll('.flash-message').forEach(function(el) {
+        document.querySelectorAll('.flash-message').forEach(function(el, idx) {
+            setTimeout(function() {
+                el.classList.remove('translate-x-full');
+                el.classList.add('translate-x-0');
+            }, 50 + idx * 100); // Stagger if multiple
+
+            setTimeout(function() {
+                el.classList.remove('translate-x-0');
+                el.classList.add('translate-x-full');
+            }, 2000);
+
+            setTimeout(function() {
                 el.style.display = 'none';
-            });
-        }, 2000);
+            }, 2300);
+        });
     </script>
+    <style>
+        .flash-message {
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+        }
+        .flash-message.translate-x-0 {
+            transform: translateX(0);
+        }
+        .flash-message.translate-x-full {
+            transform: translateX(100%);
+        }
+    </style>
     <!-- Contenu principal -->
     <main class="flex flex-col flex-grow container mx-auto ">
         {% block body %}{% endblock %}

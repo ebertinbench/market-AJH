@@ -1,14 +1,11 @@
 <?php
-
+// src/Repository/CommandeRepository.php
 namespace App\Repository;
 
 use App\Entity\Commande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Commande>
- */
 class CommandeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,35 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-//    /**
-//     * @return Commande[] Returns an array of Commande objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Retourne les commandes filtrées par joueur et/ou statut.
+     */
+    /**
+     * Retourne les commandes filtrées par joueur et/ou statut parmi les statuts autorisés.
+     * @param int|null $playerId
+     * @param string|null $status
+     * @return Commande[]
+     */
+    public function findByFilters(?int $playerId, ?string $status): array
+    {
+        $allowedStatuses = ['pending', 'pending_delivery', 'delivered', 'aborted'];
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.idClient', 'u')
+            ->addSelect('u');
 
-//    public function findOneBySomeField($value): ?Commande
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($playerId !== null && $playerId !== '') {
+            $qb->andWhere('u.id = :player')
+                ->setParameter('player', $playerId);
+        }
+
+        if ($status && in_array($status, $allowedStatuses, true)) {
+            $qb->andWhere('c.statut = :status')
+                ->setParameter('status', $status);
+        }
+
+        return $qb
+            ->orderBy('c.dateCommande', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
