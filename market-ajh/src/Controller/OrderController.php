@@ -29,12 +29,12 @@ final class OrderController extends AbstractController
         // Liste des joueurs pour le select
         $players = $userRepository->findAll();
 
-        // Mapping clef => label des statuts
+        // Mapping clef => label des statuts (en français uniquement)
         $statuses = [
-            'pending'            => 'En attente',
-            'pending_delivery'   => 'En attente de livraison',
-            'delivered'          => 'Livrée',
-            'aborted'            => 'Avortée',
+            'En attente'                => 'En attente',
+            'En attente de livraison'   => 'En attente de livraison',
+            'Livrée'                    => 'Livrée',
+            'Avortée'                   => 'Avortée',
         ];
 
         return $this->render('order/index.html.twig', [

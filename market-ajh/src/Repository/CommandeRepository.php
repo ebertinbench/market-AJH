@@ -22,11 +22,11 @@ class CommandeRepository extends ServiceEntityRepository
      * @param string|null $status
      * @return Commande[]
      */
-    public function findByFilters(?int $playerId, ?string $status): array
+    public function findByFilters(?int $playerId, ?string $status, ?int $sellerId = null): array
     {
-        $allowedStatuses = ['pending', 'pending_delivery', 'delivered', 'aborted'];
+        $allowedStatuses = ['En attente', 'En attente de livraison', 'Livrée', 'Avortée'];
         $qb = $this->createQueryBuilder('c')
-            ->leftJoin('c.idClient', 'u')
+            ->innerJoin('c.idClient', 'u')
             ->addSelect('u');
 
         if ($playerId !== null && $playerId !== '') {
@@ -37,6 +37,11 @@ class CommandeRepository extends ServiceEntityRepository
         if ($status && in_array($status, $allowedStatuses, true)) {
             $qb->andWhere('c.statut = :status')
                 ->setParameter('status', $status);
+        }
+
+        if ($sellerId !== null && $sellerId !== '') {
+            $qb->andWhere('c.idVendeur = :seller')
+                ->setParameter('seller', $sellerId);
         }
 
         return $qb
