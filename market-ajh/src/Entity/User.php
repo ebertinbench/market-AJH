@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'chef', cascade: ['persist', 'remove'])]
     private ?Guild $chiefOf = null;
+
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idClient')]
+    private Collection $commandesPassees;
+
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idVendeur')]
+    private Collection $commandesPrisesEnCharge;
+
+    public function __construct()
+    {
+        $this->commandesPassees = new ArrayCollection();
+        $this->commandesPrisesEnCharge = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,5 +184,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isChief(): bool
     {
         return $this->chiefOf !== null;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getcommandesPassees(): Collection
+    {
+        return $this->commandesPassees;
+    }
+
+    public function addCommandesPassEe(Commande $commandesPassEe): static
+    {
+        if (!$this->commandesPassees->contains($commandesPassEe)) {
+            $this->commandesPassees->add($commandesPassEe);
+            $commandesPassEe->setIdClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandesPassEe(Commande $commandesPassEe): static
+    {
+        if ($this->commandesPassees->removeElement($commandesPassEe)) {
+            // set the owning side to null (unless already changed)
+            if ($commandesPassEe->getIdClient() === $this) {
+                $commandesPassEe->setIdClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandesPrisesEnCharge(): Collection
+    {
+        return $this->commandesPrisesEnCharge;
+    }
+
+    public function addCommandesPrisesEnCharge(Commande $commandesPrisesEnCharge): static
+    {
+        if (!$this->commandesPrisesEnCharge->contains($commandesPrisesEnCharge)) {
+            $this->commandesPrisesEnCharge->add($commandesPrisesEnCharge);
+            $commandesPrisesEnCharge->setIdVendeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandesPrisesEnCharge(Commande $commandesPrisesEnCharge): static
+    {
+        if ($this->commandesPrisesEnCharge->removeElement($commandesPrisesEnCharge)) {
+            // set the owning side to null (unless already changed)
+            if ($commandesPrisesEnCharge->getIdVendeur() === $this) {
+                $commandesPrisesEnCharge->setIdVendeur(null);
+            }
+        }
+
+        return $this;
     }
 }

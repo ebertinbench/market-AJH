@@ -57,8 +57,7 @@ sudo apt install docker-compose
 Clonez ce dépôt sur votre machine :
 
 ```bash
-git clone https://github.com/votre-utilisateur/votre-repo.git
-cd votre-repo
+git clone https://github.com/ebertinbench/market-AJH.git
 ```
 
 ---

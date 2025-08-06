@@ -23,7 +23,7 @@ class GuildFixture extends Fixture implements FixtureGroupInterface
         }
 
         foreach ($guildData as $data) {
-            $guild = new Guild($data['name'], $data['active'], $data['image'] ?? null);
+            $guild = new Guild($data['name'], $data['active'], "images/guildes/".$data['image'] ?? null);
             $manager->persist($guild);
         }
 

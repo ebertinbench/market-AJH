@@ -53,9 +53,6 @@
                             <li>
                                 <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
                             </li>
-                            <li>
-                                <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
-                            </li>
                         {% else %}
                             <li>
                                 <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
@@ -69,7 +66,7 @@
                         {% endif %}
                         {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
                             <li>
-                                <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion des Items</a>
+                                <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Items de guilde</a>
                             </li>
                             <li>
                                 <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
@@ -87,7 +84,22 @@
             </script>
         </div>
     </nav>
-
+    <div id="flash-messages" class="fixed top-8 right-8 z-50 flex flex-col items-end space-y-4">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300">
+                    <span class="text-xl font-semibold">{{ message }}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(function() {
+            document.querySelectorAll('.flash-message').forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }, 2000);
+    </script>
     <!-- Contenu principal -->
     <main class="flex flex-col flex-grow container mx-auto ">
         {% block body %}{% endblock %}
