@@ -14,7 +14,6 @@ use App\Form\PasswordFormType;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 #[Route('/user')]
 final class UserController extends AbstractController
 {
@@ -22,14 +21,17 @@ final class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users'     => $userRepository->findAll(),
             'nomdepage' => 'Gestion des utilisateurs',
         ]);
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response {
         $user = new User();
         $form = $this->createForm(UserForm::class, $user);
         $form->handleRequest($request);
@@ -45,13 +47,12 @@ final class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
+            'user'      => $user,
+            'form'      => $form,
             'nomdepage' => 'Ajouter un utilisateur',
         ]);
     }
@@ -60,7 +61,7 @@ final class UserController extends AbstractController
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user'      => $user,
             'nomdepage' => 'Détails de l\'utilisateur',
         ]);
     }
@@ -72,19 +73,18 @@ final class UserController extends AbstractController
         EntityManagerInterface $em,
         UserPasswordHasherInterface $hasher
     ): Response {
-        // 1. Formulaire de gestion des rôles
         $roleForm = $this->createForm(RoleFormType::class, $user);
         $roleForm->handleRequest($request);
+
         if ($roleForm->isSubmitted() && $roleForm->isValid()) {
             $em->flush();
             $this->addFlash('success', 'Rôles mis à jour.');
             return $this->redirectToRoute('app_user_index', ['id' => $user->getId()]);
         }
 
-        // 2. Formulaire de changement de mot de passe
-        // Le champ plainPassword est unmapped, on instancie un DTO interne ou on passe juste null
         $passwordForm = $this->createForm(PasswordFormType::class);
         $passwordForm->handleRequest($request);
+
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
             $newPassword = $passwordForm->get('plainPassword')->getData();
             $hashed = $hasher->hashPassword($user, $newPassword);
@@ -93,7 +93,6 @@ final class UserController extends AbstractController
             return $this->redirectToRoute('app_user_index', ['id' => $user->getId()]);
         }
 
-        // 3. Rendu de la vue avec les deux formulaires
         return $this->render('user/edit.html.twig', [
             'roleForm'     => $roleForm->createView(),
             'passwordForm' => $passwordForm->createView(),
@@ -103,9 +102,12 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->getPayload()->getString('_token'))) {
+    public function delete(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
         }

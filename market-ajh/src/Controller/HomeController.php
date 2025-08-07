@@ -19,8 +19,8 @@ final class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', [
-            'user' => $user,
-            "nomdepage" => "Page utilisateur",
+            'user'      => $user,
+            'nomdepage' => 'Page utilisateur',
         ]);
     }
 
@@ -34,7 +34,7 @@ final class HomeController extends AbstractController
     public function welcome(): Response
     {
         return $this->render('home/welcome.index.html.twig', [
-            "nomdepage" => "Accueil",
+            'nomdepage' => 'Accueil',
         ]);
     }
 }

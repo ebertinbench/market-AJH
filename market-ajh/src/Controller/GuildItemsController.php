@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Item;
 use App\Entity\GuildItems;
 use App\Form\GuildItemsForm;
@@ -12,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
 
 #[Route('/items')]
 final class GuildItemsController extends AbstractController
@@ -26,8 +26,8 @@ final class GuildItemsController extends AbstractController
         $user  = $this->getUser();
         $guild = $user->getGuild();
         return $this->render('items/index.html.twig', [
-            'guildItems' => $repo->findBy(['guild' => $guild]),  // pour lister ceux déjà ajoutés
-            'nomdepage' => 'Gestion des items de guilde',
+            'guildItems' => $repo->findBy(['guild' => $guild]), 
+            'nomdepage'  => 'Gestion des items de guilde',
         ]);
     }
 
@@ -40,20 +40,14 @@ final class GuildItemsController extends AbstractController
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        // Récupérer la guilde courante
         $user  = $this->getUser();
         $guild = $user->getGuild();
-
-        // Construire le formulaire
-        $form = $this->createForm(ItemSelectType::class);
+        $form  = $this->createForm(ItemSelectType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer les données
-            $data = $form->getData();  // ['item'=>Item, 'price'=>float]
-
-            // Créer l'entité de jointure
-            $gi = new GuildItems();
+            $data = $form->getData();
+            $gi   = new GuildItems();
             $gi->setGuild($guild);
             $gi->setItem($data['item']);
             $gi->setPrice($data['price']);
@@ -61,16 +55,16 @@ final class GuildItemsController extends AbstractController
             $em->persist($gi);
             $em->flush();
 
-
             return $this->redirectToRoute('app_guild_items_index');
         }
 
         return $this->render('items/new.html.twig', [
             'form'       => $form->createView(),
-            'guildItems' => $repo->findBy(['guild' => $guild]),  // pour lister ceux déjà ajoutés
+            'guildItems' => $repo->findBy(['guild' => $guild]),
             'nomdepage'  => 'Ajouter un item de guilde',
         ]);
     }
+
     #[Route('/items/new', name: 'items_new', methods: ['GET', 'POST'])]
     public function itemsNew(
         Request $request,
@@ -96,7 +90,6 @@ final class GuildItemsController extends AbstractController
 
             $em->persist($gi);
             $em->flush();
-
 
             return $this->redirectToRoute('items_new');
         }
@@ -124,8 +117,6 @@ final class GuildItemsController extends AbstractController
             $this->addFlash('error', 'Item introuvable.');
             return $this->redirectToRoute('app_guild_items_index');
         }
-
-        // Vérifier que l'item appartient à la guilde de l'utilisateur
         $userGuild = $this->getUser()->getGuild();
         if ($guildItem->getGuild() !== $userGuild) {
             $this->addFlash('error', 'Action non autorisée.');
@@ -152,7 +143,6 @@ final class GuildItemsController extends AbstractController
         $query = $request->query->get('q', '');
 
         if ($query) {
-            // Recherche par nom d'item (relation avec Item)
             $guildItems = $repo->createQueryBuilder('gi')
                 ->join('gi.item', 'i')
                 ->where('gi.guild = :guild')

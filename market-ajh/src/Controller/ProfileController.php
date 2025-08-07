@@ -10,6 +10,7 @@ use App\Repository\GuildRepository;
 use App\Repository\UserRepository;
 use App\Entity\Guild;
 use Doctrine\ORM\EntityManagerInterface;
+
 #[Route('/profile')]
 final class ProfileController extends AbstractController
 {
@@ -28,8 +29,12 @@ final class ProfileController extends AbstractController
             'guilds' => $guilds,
         ]);
     }
+
     #[Route('/change-password', name: 'profile_change_password', methods: ['POST'])]
-    public function changePassword(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $em): Response
+    public function changePassword(Request $request, 
+        UserPasswordHasherInterface $hasher, 
+        EntityManagerInterface $em
+        ): Response
     {
         $user = $this->getUser();
         $newPassword = $request->request->get('newPassword');
@@ -45,7 +50,9 @@ final class ProfileController extends AbstractController
     }
 
     #[Route('/change-guild', name: 'profile_change_guild', methods: ['POST'])]
-    public function changeGuild(Request $request, EntityManagerInterface $em): Response
+    public function changeGuild(Request $request, 
+        EntityManagerInterface $em
+        ): Response
     {
         $user = $this->getUser();
         $guildId = $request->request->get('guild');
@@ -73,10 +80,13 @@ final class ProfileController extends AbstractController
             $this->addFlash('danger', 'Compte supprimé.');
         }
 
-        return $this->redirectToRoute('app_logout'); // ou autre route de redirection
+        return $this->redirectToRoute('app_logout');
     }
+
     #[Route('/addmembers', name: 'profile_add_members')]
-    public function addMembers(UserRepository $userRepository, GuildRepository $guildRepository): Response
+    public function addMembers(UserRepository $userRepository, 
+        GuildRepository $guildRepository
+        ): Response
     {
         $user = $this->getUser();
         if (!$user || !$user->getChiefOf()) {
@@ -89,8 +99,12 @@ final class ProfileController extends AbstractController
             'guilds' => $guildRepository->findAll(),
         ]);
     }
+
     #[Route('/add-member', name: 'profile_add_member', methods: ['POST'])]
-    public function addMember(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
+    public function addMember(Request $request, 
+        UserRepository $userRepository, 
+        EntityManagerInterface $em
+        ): Response
     {
         $user = $this->getUser();
         if (!$user || !$user->getChiefOf()) {

@@ -23,8 +23,7 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         #[\Symfony\Component\DependencyInjection\Attribute\Autowire(service: 'monolog.logger.utilisateurs')]
         \Psr\Log\LoggerInterface $utilisateursLogger
-    ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationForm::class, $user);
         $form->handleRequest($request);
@@ -32,23 +31,19 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
-
-            // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
-            // Check if this is the first user
             $userCount = $entityManager->getRepository(User::class)->count([]);
             if ($userCount === 0) {
                 $user->setRoles(['ROLE_ADMIN']);
             } else {
                 $user->setRoles(['ROLE_CLIENT']);
             }
-
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // do anything else you need here, like send an email
-            $utilisateursLogger->info('Nouvel utilisateur inscrit', ['username' => $user->getUsername(), 'mot de passe' => $user->getPassword()]);
+            $utilisateursLogger->info('Nouvel utilisateur inscrit', [
+                'username' => $user->getUsername(),
+                'mot de passe' => $user->getPassword()
+            ]);
             return $security->login($user, AppAuthenticator::class, 'main');
         }
 
