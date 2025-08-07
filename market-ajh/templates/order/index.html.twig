@@ -46,9 +46,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
                 {% for order in orders %}
                     <div class="bg-GREEN shadow-lg rounded-lg p-5 mx-auto flex flex-col items-center">
-                        <p class="text-WHITE"><strong>Commande émise par :</strong> {{ order.idClient.username }}</p>
+                        <p class="text-WHITE"><strong>Commande émise par :</strong> {{ order.idClient.username }} </p>
                         <p class="text-WHITE text-sm mb-3">
-                            <em>Le {{ order.dateCommande|date('d/m/Y') }} </em>
+                            <em>Le {{ order.dateCommande|date('d/m/Y') }} à {{ order.dateCommande|date('H:i') }}</em>
                         </p>
                         <p class="text-gray-800 mb-2">
                             <strong>Statut :</strong>

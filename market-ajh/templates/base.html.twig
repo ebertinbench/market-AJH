@@ -49,21 +49,7 @@
                                 <a href="{{ path('app_guild') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Guildes</a>
                             </li>
                         {% endif %}
-                        {% if not app.user %}
-                            <li>
-                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
-                            </li>
-                        {% endif %}
+                        
                         {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
                             <li>
                                 <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Items de guilde</a>
@@ -75,6 +61,23 @@
                          {% if is_granted('ROLE_VENDEUR') %}
                             <li>
                                 <a href="{{ path('orders_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les commandes</a>
+                            </li>
+                        {% endif %}
+                        {% if not app.user %}
+                            <li>
+                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
+                            </li>
+                            
+
+                            <li>
+                                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
                             </li>
                         {% endif %}
                     </ul>

@@ -21,23 +21,22 @@ class Commande
     #[ORM\ManyToOne(inversedBy: 'commandesPrisesEnCharge')]
     private ?User $idVendeur = null;
 
-
     #[ORM\Column]
     private ?int $quantite = null;
 
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTime $dateCommande = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $datePriseEnCharge = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $dateLivraison = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $dateAvortement = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
@@ -72,8 +71,6 @@ class Commande
 
         return $this;
     }
-
-
 
     public function getQuantite(): ?int
     {
@@ -160,24 +157,24 @@ class Commande
     }
 
     public function __construct(
-    ?User $idClient = null,
-    ?User $idVendeur = null,
-    ?int $quantite = null,
-    ?string $statut = null,
-    ?\DateTime $dateCommande = null,
-    ?\DateTime $datePriseEnCharge = null,
-    ?\DateTime $dateLivraison = null,
-    ?\DateTime $dateAvortement = null,
-    ?GuildItems $idItem = null
-) {
-    $this->idClient = $idClient;
-    $this->idVendeur = $idVendeur;
-    $this->quantite = $quantite;
-    $this->statut = $statut;
-    $this->dateCommande = $dateCommande;
-    $this->datePriseEnCharge = $datePriseEnCharge;
-    $this->dateLivraison = $dateLivraison;
-    $this->dateAvortement = $dateAvortement;
-    $this->idItem = $idItem;
-}
+        ?User $idClient = null,
+        ?User $idVendeur = null,
+        ?int $quantite = null,
+        ?string $statut = null,
+        ?\DateTime $dateCommande = null,
+        ?\DateTime $datePriseEnCharge = null,
+        ?\DateTime $dateLivraison = null,
+        ?\DateTime $dateAvortement = null,
+        ?GuildItems $idItem = null
+    ) {
+        $this->idClient = $idClient;
+        $this->idVendeur = $idVendeur;
+        $this->quantite = $quantite;
+        $this->statut = $statut;
+        $this->dateCommande = $dateCommande;
+        $this->datePriseEnCharge = $datePriseEnCharge;
+        $this->dateLivraison = $dateLivraison;
+        $this->dateAvortement = $dateAvortement;
+        $this->idItem = $idItem;
+    }
 }
