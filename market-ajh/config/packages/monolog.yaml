@@ -1,17 +1,14 @@
 monolog:
+    channels: ["commandes", "utilisateurs"]
     handlers:
-        channels: ["commandes", utilisateurs]
-
-        file_log:
+        order:
             type: stream
-            # log to var/log/(environment).log
-            path: "%kernel.logs_dir%/%kernel.environment%.log"
-            # log *all* messages (debug is lowest level)
+            path: "%kernel.logs_dir%/order.log"
             level: info
-            channels: ["app"]
+            channels: ["commandes"]
 
-        syslog_handler:
-            type: syslog
-            # log error-level messages and higher
+        user:
+            type: stream
+            path: "%kernel.logs_dir%/user.log"
             level: info
-            channels: ["app"]
+            channels: ["utilisateurs"]

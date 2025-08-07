@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 use Psr\Log\LoggerInterface;
-use App\Entity\Guild;
 use App\Repository\GuildRepository;
+use App\Repository\GuildItemsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Service\Attribute\Autowire;
 
 class ShopController extends AbstractController
 {
@@ -43,35 +46,35 @@ class ShopController extends AbstractController
 
     #[Route('/shop/order', name: 'shop_order', methods: ['POST'])]
     public function order(
-        LoggerInterface $logger,
-        \Symfony\Component\HttpFoundation\Request $request,
-        \App\Repository\GuildItemsRepository $guildItemsRepository,
-        \Doctrine\ORM\EntityManagerInterface $em
-    ): Response
-    {
+        #[Autowire(service: 'monolog.logger.commandes')]
+        LoggerInterface $commandesLogger,
+        Request $request,
+        GuildItemsRepository $guildItemsRepository,
+        EntityManagerInterface $em
+    ): Response {
         // Récupérer la quantité postée
-        $quantity = $request->request->get('quantity');
-        $itemId = $request->request->get('item_id');
-        $statut = "En attente"; 
-        $idClient = $this->getUser(); 
-        $idVendeur = null; 
-        $dateCommande = new \DateTime();    
+        $quantity    = $request->request->get('quantity');
+        $itemId      = $request->request->get('item_id');
+        $statut      = 'En attente';
+        $idClient    = $this->getUser();
+        $idVendeur   = null;
+        $dateCommande = new \DateTime();
 
         // Vérifier que l'itemId correspond à une entité GuildItems
         $guildItem = $guildItemsRepository->find($itemId);
         if ($guildItem) {
-            $logger->info('itemId correspond à une entité GuildItems', [
-                'item_id' => $itemId,
-                'guild_item_name' => $guildItem->getItem()->getNom(),
+            $commandesLogger->info('itemId correspond à une entité GuildItems', [
+                'item_id'          => $itemId,
+                'guild_item_name'  => $guildItem->getItem()->getNom(),
             ]);
         } else {
-            $logger->warning('itemId ne correspond à aucune entité GuildItems', [
+            $commandesLogger->warning('itemId ne correspond à aucune entité GuildItems', [
                 'item_id' => $itemId,
             ]);
         }
 
-        $logger->info('Nouvelle commande détectée', [
-            'quantité'      => $quantity,
+        $commandesLogger->info('Nouvelle commande détectée', [
+            'idClient'      => $idClient?->getId(),
             'item_id'       => $itemId,
             'statut'        => $statut,
             'idClient'      => $idClient ? $idClient->getId() : null,
@@ -93,8 +96,9 @@ class ShopController extends AbstractController
         );
         $em->persist($commande);
         $em->flush();
+
         $this->addFlash('success', 'Votre commande a bien été enregistrée.');
-        // Redirige vers la page précédente (celle du formulaire)
+
         return $this->redirect($request->headers->get('referer'));
     }
 
