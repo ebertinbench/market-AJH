@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ComptaController!{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    {% if is_granted('ROLE_COMPTABLE') %}
+        <h2 class="text-2xl font-bold text-center mb-6 text-WHITE">Section réservée aux comptables</h2>
+    {% endif %}
+    <hr class="my-8 border-t-4 border-gray-300">
+    {% if is_granted('ROLE_ADMIN') %}
+        <h2 class="text-2xl font-bold text-center mb-6 text-WHITE">Section réservée aux administrateurs</h2>
+        <div class="flex justify-center mb-8">
+            <form method="get" action="{{ path('app_compta_filter') }}" class="flex flex-col items-center gap-4 bg-GREEN p-4 rounded shadow w-full max-w-xl">
+            <div class="flex flex-wrap justify-center gap-4 w-full">
+                <div class="flex flex-col items-center w-48">
+                <label for="user" class="block text-sm font-medium text-WHITE mb-1 text-center">Utilisateur :</label>
+                <input type="text" name="user" id="user" placeholder="Nom ou ID utilisateur" value="{{ filter_user|default('') }}"
+                class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center">
+                </div>
+                <div class="flex flex-col items-center w-48">
+                <label for="guilde" class="block text-sm font-medium text-WHITE mb-1 text-center">Guilde :</label>
+                <input type="text" name="guilde" id="guilde" placeholder="Nom ou ID guilde" value="{{ filter_guilde|default('') }}"
+                class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full text-center">
+                </div>
+            </div>
+            <button type="submit" class="bg-VIOLET text-white px-6 py-2 rounded  transition w-40 mt-2">Filtrer</button>
+            </form>
+        </div>
+        <div class="overflow-x-auto w-full">
+            <table class="min-w-full rounded shadow bg-BLACK">
+                <thead>
+                    <tr class="bg-BLACK text-white">
+                        <th class="py-3 px-4 text-left">Item</th>
+                        <th class="py-3 px-4 text-left">Statut</th>
+                        <th class="py-3 px-4 text-left">Date de commande</th>
+                        <th class="py-3 px-4 text-left">Vendeur</th>
+                        <th class="py-3 px-4 text-left">Client</th>
+                        <th class="py-3 px-4 text-left">Prix unitaire</th>
+                        <th class="py-3 px-4 text-left">Quantité</th>
+                        <th class="py-3 px-4 text-left">Total</th>
+                        <th class="py-3 px-4 text-left">Guild</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr class="border-b last:border-b-0 bg-GREEN text-WHITE">
+                            <td class="py-2 px-4">{{ commande.idItem.item.nom }}</td>
+                            <td class="py-2 px-4">{{ commande.statut }}</td>
+                            <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
+                            <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
+                            <td class="py-2 px-4">{{ commande.idClient ? commande.idClient.username : 'Non assigné' }}</td>
+                            <td class="py-2 px-4">{{ commande.idItem.price }}</td>
+                            <td class="py-2 px-4">{{ commande.quantite }}</td>
+                            <td class="py-2 px-4">{{ commande.getTotal() }}</td>
+                            <td class="py-2 px-4">{{ commande.getGuild() ? commande.getGuild().name : 'Non assigné' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

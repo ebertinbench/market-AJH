@@ -27,6 +27,7 @@ final class ProfileController extends AbstractController
             'nomdepage' => 'Profil Utilisateur',
             'user' => $this->getUser(),
             'guilds' => $guilds,
+            'commandes' => $this->getUser()->getcommandesPassees()
         ]);
     }
 

@@ -42,4 +42,40 @@
             <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
         </form>
     </div>
+<h3 class="text-xl font-bold mt-8 mb-4">Mes commandes</h3>
+{% if commandes is not empty %}
+    <div class="overflow-x-auto w-full">
+        <table class="min-w-full rounded shadow">
+            <thead>
+                <tr class="bg-BLACK text-WHITE">
+                    <th class="py-2 px-4 text-left">Item</th>
+                    
+                    <th class="py-2 px-4 text-left">Statut</th>
+                    <th class="py-2 px-4 text-left">Date de commande</th>
+                    <th class="py-2 px-4 text-left">Vendeur</th>
+                    <th class="py-2 px-4 text-left">Prix unitaire</th>
+                    <th class="py-2 px-4 text-left">Quantité</th>
+                    <th class="py-2 px-4 text-left">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commande in commandes %}
+                    <tr class="border-b bg-GREEN text-BLACK">
+                        <td class="py-2 px-4">{{ commande.idItem.item.nom }}</td>
+                        
+                        <td class="py-2 px-4">{{ commande.statut }}</td>
+                        <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
+                        <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
+                        <td class="py-2 px-4">{{ commande.quantite }}</td>
+                        <td class="py-2 px-4">{{ commande.getTotal() }}</td>
+                        <td class="py-2 px-4">{{ commande.idItem.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p class="text-gray-500">Aucune commande passée.</p>
+{% endif %}
+
 {% endblock %}

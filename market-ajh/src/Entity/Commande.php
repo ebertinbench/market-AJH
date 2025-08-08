@@ -177,4 +177,17 @@ class Commande
         $this->dateAvortement = $dateAvortement;
         $this->idItem = $idItem;
     }
+
+    public function getTotal(): ?int
+    {
+        if ($this->idItem && $this->quantite) {
+            return $this->idItem->getPrice() * $this->quantite;
+        }
+        return null;
+    }
+
+    public function getGuild(): ?Guild
+    {
+        return $this->idItem ? $this->idItem->getGuild() : null;
+    }
 }
