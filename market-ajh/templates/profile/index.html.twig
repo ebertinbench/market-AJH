@@ -1,45 +1,43 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="container mt-4">
-        <h2>Mon profil</h2>
-
-        <form method="post" action="{{ path('profile_change_password') }}">
-            <div class="mb-3">
-                <label for="newPassword" class="form-label">Nouveau mot de passe</label>
-                <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+    <div class="container mx-auto mt-8 max-w-2xl bg-GREEN rounded shadow p-8">
+        <form method="post" action="{{ path('profile_change_password') }}" class="mb-8">
+            <div class="mb-4">
+                <label for="newPassword" class="block text-WHITE font-semibold mb-2">Nouveau mot de passe</label>
+                <input type="password" class="form-input w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-BLUE" id="newPassword" name="newPassword" required>
             </div>
-            <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
+            <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-blue-700 transition">Changer le mot de passe</button>
         </form>
 
-        <hr>
+        <hr class="my-6">
 
         {% if user.guild %}
-            <p><strong>Nom de la guilde :</strong> {{ user.guild.name }}</p>
+            <p class="mb-2"><strong>Nom de la guilde :</strong> <span class="text-BLUE">{{ user.guild.name }}</span></p>
 
             {% if user.guild.chef %}
-                <p><strong>Chef de la guilde :</strong> {{ user.guild.chef.username }}</p>
-                <form action="{{ path('profile_add_members') }}" method="get">
-                    <button type="submit" class="btn btn-success">Ajouter des membres</button>
+                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-GREEN">{{ user.guild.chef.username }}</span></p>
+                <form action="{{ path('profile_add_members') }}" method="get" class="mb-2">
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Ajouter des membres</button>
                 </form>
                 {% if user.guild.allowedToSell %}
-                    <form action="{{ path('app_guild_items_index') }}" method="get">
-                        <button type="submit" class="btn btn-warning">Gérer les items vendus</button>
+                    <form action="{{ path('app_guild_items_index') }}" method="get" class="mb-2">
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">Gérer les items vendus</button>
                     </form>
                 {% endif %}
             {% else %}
-                <p><strong>Chef de la guilde :</strong> Aucun chef désigné</p>
+                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-red-500">Aucun chef désigné</span></p>
             {% endif %}
-            <form action="{{ path('guild_quit') }}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir quitter la guilde ?');">
-                <button type="submit" class="btn btn-danger">Quitter la guilde</button>
+            <form action="{{ path('guild_quit') }}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir quitter la guilde ?');" class="mb-4">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Quitter la guilde</button>
             </form>
         {% else %}
-            <p>Vous n'appartenez à aucune guilde.</p>
+            <p class="mb-4 text-gray-600">Vous n'appartenez à aucune guilde.</p>
         {% endif %}
 
-        <hr>
+        <hr class="my-6">
 
         <form method="post" action="{{ path('profile_delete_account') }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
-            <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
+            <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800 transition w-full">Supprimer mon compte</button>
         </form>
     </div>
 <h3 class="text-xl font-bold mt-8 mb-4">Mes commandes</h3>

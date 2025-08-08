@@ -177,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->guild = null;
         if($this->getchiefOf() !== null && $this->chiefOf->getChef() === $this) {
-            this->chiefOf->setChef(null);
+            $this->chiefOf->setChef(null);
         }
         return $this;
     }

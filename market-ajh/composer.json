@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-pdo": "*",
         "doctrine/doctrine-bundle": "*",
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
         "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/orm": "^3.3",
         "symfony/asset": "7.2.*",
@@ -80,7 +81,6 @@
         }
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^4.1",
-        "symfony/maker-bundle": "^1.63"
+        "symfony/maker-bundle": "^1.64"
     }
 }
