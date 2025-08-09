@@ -7,11 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\CommandeRepository;
+use App\Services\Wallpaper;
 
 final class ComptaController extends AbstractController
 {
     #[Route('/compta', name: 'app_compta')]
-    public function index(CommandeRepository $commandeRepository): Response
+    public function index(CommandeRepository $commandeRepository, Wallpaper $wallpaperService): Response
     {
         $commandes = $commandeRepository->findAll();
 
@@ -20,11 +21,12 @@ final class ComptaController extends AbstractController
             'nomdepage' => 'Comptabilité générale ',
             'user' => $this->getUser(),
             'commandes' => $commandes,
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
         ]);
     }
     
     #[Route('/compta/filter', name: 'app_compta_filter', methods: ['GET', 'POST'])]
-    public function filter(Request $request, CommandeRepository $commandeRepository): Response
+    public function filter(Request $request, CommandeRepository $commandeRepository, Wallpaper $wallpaperService): Response
     {
         $userParam = $request->query->get('user', '');
         $guildeParam = $request->query->get('guilde', '');
@@ -35,6 +37,7 @@ final class ComptaController extends AbstractController
             'nomdepage' => 'Comptabilité générale ',
             'user' => $this->getUser(),
             'commandes' => $commandes,
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 }

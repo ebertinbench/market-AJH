@@ -11,24 +11,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Service\Attribute\Autowire;
+use App\Services\Wallpaper;
 
 class ShopController extends AbstractController
 {
     #[Route('/shop', name: 'shop_index')]
-    public function index(GuildRepository $guildRepository): Response
+    public function index(GuildRepository $guildRepository, Wallpaper $wallpaperService): Response
     {
         $guilds = $guildRepository->findAllowedToSell();
 
         return $this->render('shop/index.html.twig', [
             'guilds'     => $guilds,
             'nomdepage'  => 'Boutique',
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
     #[Route('/shop/{id}', name: 'shop_show', requirements: ['id' => '\d+'])]
-    public function show(int $id, 
-        GuildRepository $guildRepository
-        ): Response
+    public function show(
+        int $id, 
+        GuildRepository $guildRepository,
+        Wallpaper $wallpaperService
+    ): Response
     {
         // récupère la guilde
         $guild = $guildRepository->find($id);
@@ -41,6 +45,7 @@ class ShopController extends AbstractController
             'guild'      => $guild,
             'guildItems' => $guildItems,
             'nomdepage'  => 'Boutique de ' . $guild->getName(),
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 

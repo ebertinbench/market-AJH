@@ -13,12 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Services\Wallpaper;
 
 #[Route('/items')]
 final class GuildItemsController extends AbstractController
 {
     #[Route(name: 'app_guild_items_index', methods: ['GET'])]
-    public function index(GuildItemsRepository $repo): Response
+    public function index(GuildItemsRepository $repo, Wallpaper $wallpaperService): Response
     {
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
@@ -28,6 +29,7 @@ final class GuildItemsController extends AbstractController
         return $this->render('items/index.html.twig', [
             'guildItems' => $repo->findBy(['guild' => $guild]), 
             'nomdepage'  => 'Gestion des items de guilde',
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
@@ -35,7 +37,8 @@ final class GuildItemsController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $em,
-        GuildItemsRepository $repo
+        GuildItemsRepository $repo,
+        Wallpaper $wallpaperService
     ): Response {
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
@@ -62,6 +65,7 @@ final class GuildItemsController extends AbstractController
             'form'       => $form->createView(),
             'guildItems' => $repo->findBy(['guild' => $guild]),
             'nomdepage'  => 'Ajouter un item de guilde',
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
@@ -69,7 +73,8 @@ final class GuildItemsController extends AbstractController
     public function itemsNew(
         Request $request,
         EntityManagerInterface $em,
-        GuildItemsRepository $repo
+        GuildItemsRepository $repo,
+        Wallpaper $wallpaperService
     ): Response {
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
@@ -98,6 +103,7 @@ final class GuildItemsController extends AbstractController
             'form'       => $form->createView(),
             'guildItems' => $repo->findBy(['guild' => $guild]),
             'nomdepage'  => 'Ajouter un item de guilde',
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
@@ -133,7 +139,8 @@ final class GuildItemsController extends AbstractController
     #[Route('/search', name: 'app_items_search', methods: ['GET'])]
     public function search(
         Request $request,
-        GuildItemsRepository $repo
+        GuildItemsRepository $repo,
+        Wallpaper $wallpaperService
     ): Response {
         if (!$this->getUser()->isChief()) {
             return $this->redirectToRoute('app_home');
@@ -158,6 +165,7 @@ final class GuildItemsController extends AbstractController
         return $this->render('items/index.html.twig', [
             'guildItems' => $guildItems,
             'nomdepage'  => 'Gestion des items de guilde',
+            'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 }

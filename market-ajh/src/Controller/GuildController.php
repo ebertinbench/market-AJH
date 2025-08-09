@@ -14,13 +14,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Services\Wallpaper;
 
 final class GuildController extends AbstractController
 {
     #[Route('/guild', name: 'app_guild')]
-    public function index(GuildRepository $guildRepository, 
-        UserRepository $userRepository
-        ): Response
+    public function index(
+        GuildRepository $guildRepository, 
+        UserRepository $userRepository,
+        Wallpaper $wallpaperService
+    ): Response
     {
         $guilds = $guildRepository->findAll();
         $users = $userRepository->findAll();
@@ -29,13 +32,16 @@ final class GuildController extends AbstractController
             'nomdepage'       => 'Gestion des guildes',
             'guilds'          => $guilds,
             'users'           => $users,
+            'wallpaper'       => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
     #[Route('/assign-chief/{guildId}/{userId}', name: 'assign_guild_leader', methods: ['POST'])]
-    public function assignChief(int $guildId, int $userId, 
+    public function assignChief(
+        int $guildId, 
+        int $userId, 
         EntityManagerInterface $entityManager
-        ): Response
+    ): Response
     {
         $guild = $entityManager->getRepository(Guild::class)->find($guildId);
         $user  = $entityManager->getRepository(User::class)->find($userId);
@@ -89,9 +95,11 @@ final class GuildController extends AbstractController
     }
 
     #[Route('/guild/create', name: 'guild_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, 
-        EntityManagerInterface $entityManager
-        ): Response
+    public function create(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        Wallpaper $wallpaperService
+    ): Response
     {
         if ($request->isMethod('POST')) {
             $name          = $request->request->get('name');
@@ -128,13 +136,16 @@ final class GuildController extends AbstractController
             return $this->redirectToRoute('app_guild');
         }
 
-        return $this->render('guild/create.html.twig');
+        return $this->render('guild/create.html.twig', [
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+        ]);
     }
 
     #[Route('/guild/delete/{id}', name: 'guild_delete', methods: ['POST'])]
-    public function delete(int $id, 
+    public function delete(
+        int $id, 
         EntityManagerInterface $entityManager
-        ): RedirectResponse
+    ): RedirectResponse
     {
         $guild = $entityManager->getRepository(Guild::class)->find($id);
 
