@@ -18,7 +18,7 @@
             {% for user in users %}
                 {% if user.username matches('/' ~ app.request.get('user_search')|e('js') ~ '/i') %}
                     {% set found = true %}
-                    <li class="bg-white shadow rounded p-4 flex flex-col gap-2">
+                    <li class="bg-GREEN shadow rounded p-4 flex flex-col gap-2">
                         <div><strong>Nom d'utilisateur :</strong> <span class="text-violet">{{ user.username }}</span></div>
                         <div><strong>Guilde :</strong> {{ user.guild ? user.guild.name : 'Aucune' }}</div>
                         <div><strong>Chef de la guilde :</strong> {{ user.chiefOf ? user.chiefOf.name : 'Non' }}</div>
@@ -51,7 +51,7 @@
             </thead>
             <tbody>
                 {% for guild in guilds %}
-                    <tr class="hover:bg-gray-800">
+                    <tr class="bg-GREEN text-BLACK">
                         <td class="px-4 py-2 border-b border-gray-700">{{ guild.name }}</td>
                         <td class="px-4 py-2 border-b border-gray-700">
                             {% if guild.chef %}
@@ -77,12 +77,12 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
     const userId = form.dataset.userId;
 
     form.addEventListener('submit', function (e) {
-        e.preventDefault(); // empêcher l'envoi immédiat
+        e.preventDefault(); 
 
         const guildId = select.value;
         const newAction = `/assign-chief/${guildId}/${userId}`;
         form.action = newAction;
-        form.submit(); // soumettre avec la bonne URL
+        form.submit(); 
     });
 });
 </script>
@@ -98,7 +98,7 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
     <form
     method="post"
     action="{{ path('guild_create') }}"
-    enctype="multipart/form-data"           {# !! Ajouté !! #}
+    enctype="multipart/form-data"          
     class="bg-GREEN shadow rounded p-6 max-w-md mx-auto mt-8 flex flex-col gap-4"
 >
     <label for="guild-name" class="font-semibold text-violet">Nom de la guilde :</label>

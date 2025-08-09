@@ -54,7 +54,7 @@ final class GuildItemsController extends AbstractController
 
             $em->persist($gi);
             $em->flush();
-
+            $this->addFlash('success', 'L\'item a été ajouté avec succès !');
             return $this->redirectToRoute('app_guild_items_index');
         }
 
@@ -90,7 +90,7 @@ final class GuildItemsController extends AbstractController
 
             $em->persist($gi);
             $em->flush();
-
+            $this->addFlash('success', 'L\'item a été ajouté avec succès !');
             return $this->redirectToRoute('items_new');
         }
 

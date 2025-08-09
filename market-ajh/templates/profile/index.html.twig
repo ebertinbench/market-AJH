@@ -17,30 +17,30 @@
             {% if user.guild.chef %}
                 <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-GREEN">{{ user.guild.chef.username }}</span></p>
                 <form action="{{ path('profile_add_members') }}" method="get" class="mb-2">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Ajouter des membres</button>
+                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Ajouter des membres</button>
                 </form>
                 {% if user.guild.allowedToSell %}
                     <form action="{{ path('app_guild_items_index') }}" method="get" class="mb-2">
-                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">Gérer les items vendus</button>
+                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Gérer les items vendus</button>
                     </form>
                 {% endif %}
             {% else %}
                 <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-red-500">Aucun chef désigné</span></p>
             {% endif %}
             <form action="{{ path('guild_quit') }}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir quitter la guilde ?');" class="mb-4">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Quitter la guilde</button>
+                <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Quitter la guilde</button>
             </form>
         {% else %}
-            <p class="mb-4 text-gray-600">Vous n'appartenez à aucune guilde.</p>
+            <p class="mb-4 text-WHITE">Vous n'appartenez à aucune guilde.</p>
         {% endif %}
 
         <hr class="my-6">
 
         <form method="post" action="{{ path('profile_delete_account') }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
-            <button type="submit" class="bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800 transition w-full">Supprimer mon compte</button>
+            <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded ">Supprimer mon compte</button>
         </form>
     </div>
-<h3 class="text-xl font-bold mt-8 mb-4">Mes commandes</h3>
+<h3 class="text-xl font-bold mt-8 mb-4 text-center text-WHITE">Mes commandes</h3>
 {% if commandes is not empty %}
     <div class="overflow-x-auto w-full">
         <table class="min-w-full rounded shadow">
@@ -73,7 +73,7 @@
         </table>
     </div>
 {% else %}
-    <p class="text-gray-500">Aucune commande passée.</p>
+    <p class="text-WHITE text-center">Aucune commande passée.</p>
 {% endif %}
 
 {% endblock %}

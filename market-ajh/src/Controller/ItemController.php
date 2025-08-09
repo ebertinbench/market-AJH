@@ -49,7 +49,7 @@ final class ItemController extends AbstractController
 
             $entityManager->persist($item);
             $entityManager->flush();
-
+            $this->addFlash('success', 'L\'item a été créé avec succès !');
             return $this->redirectToRoute('app_item_index');
         }
 
@@ -102,7 +102,7 @@ final class ItemController extends AbstractController
             }
 
             $entityManager->flush();
-
+            $this->addFlash('success', 'L\'item a été modifié avec succès !');
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 

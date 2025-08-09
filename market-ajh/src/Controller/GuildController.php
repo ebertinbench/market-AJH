@@ -121,7 +121,7 @@ final class GuildController extends AbstractController
                 }
                 $guild->setImage('images/guildes/' . $originalFilename);
             }
-
+            $this->addFlash('success', 'La guilde a bien été créée.');
             $entityManager->persist($guild);
             $entityManager->flush();
 
@@ -142,7 +142,7 @@ final class GuildController extends AbstractController
             $this->addFlash('error', 'Guilde introuvable.');
             return $this->redirectToRoute('app_guild');
         }
-
+        $this->addFlash('success', 'La guilde a bien été supprimée.');
         $entityManager->remove($guild);
         $entityManager->flush();
         return $this->redirectToRoute('app_guild');
