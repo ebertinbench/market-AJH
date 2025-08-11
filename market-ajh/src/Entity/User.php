@@ -53,10 +53,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idVendeur')]
     private Collection $commandesPrisesEnCharge;
 
+    /**
+     * @var Collection<int, News>
+     */
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'Emetteur')]
+    private Collection $news;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
         $this->commandesPrisesEnCharge = new ArrayCollection();
+        $this->news = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +247,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commandesPrisesEnCharge->getIdVendeur() === $this) {
                 $commandesPrisesEnCharge->setIdVendeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): static
+    {
+        if (!$this->news->contains($news)) {
+            $this->news->add($news);
+            $news->setEmetteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): static
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getEmetteur() === $this) {
+                $news->setEmetteur(null);
             }
         }
 

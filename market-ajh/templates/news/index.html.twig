@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello NewsController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<form action="{{ path('app_news_create') }}" method="post">
+    <div>
+        <label for="contenu">Contenu :</label>
+        <textarea id="contenu" name="contenu" rows="4" cols="50"></textarea>
+    </div>
+    <button type="submit">Créer</button>
+</form>
+{% endblock %}

@@ -3,10 +3,24 @@
 {% block title %}Profil utilisateur{% endblock %}
 
 {% block body %}
-<div class="container mx-auto my-4 max-w-4xl p-4 text-lg leading-relaxed font-sans">
-    <div class="bg-gray-100 p-4 rounded shadow">
-        <h1 class="text-2xl font-bold mb-4">Bonjour {{ user.getUsername() }} !</h1>
-        <p>Votre rôle : {{ user.getRoles()|join(', ') }}</p>
+<div class="max-w-2xl mx-auto mt-8">
+    <h2 class="text-2xl font-bold mb-4">News du moment</h2>
+    <div class="space-y-4">
+        {% for news in news_list %}
+            <div class="bg-white shadow rounded p-4">
+                <div class="flex items-center mb-2">
+                    <span class="font-semibold text-gray-700 mr-2">
+                        {{ news.Emetteur ? news.Emetteur.username : 'Anonyme' }}
+                    </span>
+                    
+                </div>
+                <div class="text-gray-800">
+                    {{ news.content }}
+                </div>
+            </div>
+        {% else %}
+            <div class="text-gray-500">Aucune news pour le moment.</div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
