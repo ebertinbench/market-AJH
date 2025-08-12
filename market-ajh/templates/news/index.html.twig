@@ -10,9 +10,15 @@
 
 <form action="{{ path('app_news_create') }}" method="post">
     <div>
+        <label for="titre">Titre :</label>
+        <input type="text" id="titre" name="titre">
+    </div>
+    <div>
         <label for="contenu">Contenu :</label>
         <textarea id="contenu" name="contenu" rows="4" cols="50"></textarea>
     </div>
+    
+    
     <button type="submit">Créer</button>
 </form>
 {% endblock %}

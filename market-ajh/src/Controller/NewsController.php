@@ -28,11 +28,24 @@ final class NewsController extends AbstractController
     public function create(Request $request, Wallpaper $wallpaperService, EntityManagerInterface $entityManager): Response
     {
         $contenu = $request->request->get('contenu');
+        $titre = $request->request->get('titre');
         $user = $this->getUser();
-        $news = new News($user, $contenu);
+        $dateCreation = new \DateTime();
+        $news = new News($user, $contenu, $dateCreation, $titre);
         $entityManager->persist($news);
         $entityManager->flush();
         $this->addFlash('success', 'Nouvelle créée avec succès !');
         return $this->redirectToRoute('app_home');
+    }
+
+    public static function removeExpiredNews(EntityManagerInterface $entityManager): Response{
+        $sevenDaysAgo = (new \DateTime())->modify('-7 days');
+        $qb = $entityManager->createQueryBuilder();
+        $qb->delete(News::class, 'n')
+            ->where('n.dateCreation < :limit')
+            ->setParameter('limit', $sevenDaysAgo);
+        $qb->getQuery()->execute();
+
+        return new Response('Expired news removed.');
     }
 }

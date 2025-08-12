@@ -20,7 +20,7 @@ final class HomeController extends AbstractController
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('User not found or not logged in.');
         }
-
+        NewsController::removeExpiredNews($entityManager);
         return $this->render('home/index.html.twig', [
             'user'      => $user,
             'nomdepage' => 'Page utilisateur',
