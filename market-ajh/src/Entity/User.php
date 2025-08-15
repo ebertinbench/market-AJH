@@ -282,4 +282,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getBestRole(): ?string
+    {
+        $hierarchy = [
+            'ROLE_ADMIN' => ['ROLE_COMPTABLE', 'ROLE_VENDEUR', 'ROLE_CLIENT'],
+            'ROLE_COMPTABLE' => ['ROLE_VENDEUR', 'ROLE_CLIENT'],
+            'ROLE_VENDEUR' => ['ROLE_CLIENT'],
+            'ROLE_CLIENT' => []
+        ];
+
+        $roles = $this->getRoles();
+        $bestRole = null;
+
+        foreach (array_keys($hierarchy) as $role) {
+            if (in_array($role, $roles, true)) {
+            $bestRole = $role;
+            break;
+            }
+        }
+
+        return match ($bestRole) {
+            'ROLE_ADMIN' => 'Administrateur',
+            'ROLE_COMPTABLE' => 'Comptable',
+            'ROLE_VENDEUR' => 'Vendeur',
+            'ROLE_CLIENT' => 'Client',
+            default => null,
+        };
+    }
 }
