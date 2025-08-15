@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Ah-Jin",
+    "active": true,
+    "image": "ahjin.jpg"
+  },
+  {
+    "name": "Eximore",
+    "active": false,
+    "image": "eximore.png"
+  },
+  {
+    "name": "Haima",
+    "active": false,
+    "image": "haima.png"
+  },
+  {
+    "name": "Healer Of Life",
+    "active": true,
+    "image": "healeroflife.png"
+  },
+  {
+    "name": "Lames D'Or",
+    "active": true,
+    "image": "lamesdor.png"
+  },
+  {
+    "name": "Lost Souls",
+    "active": false,
+    "image": "lostsouls.png"
+  },
+  {
+    "name": "Odd-Eyes",
+    "active": false,
+    "image": "oddeyes.png"
+  },
+  {
+    "name": "Red Eclipse",
+    "active": false,
+    "image": "redeclipse.png"
+  }
+]

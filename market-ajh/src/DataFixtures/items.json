@@ -1,0 +1,460 @@
+{
+  "items": [
+    {
+      "nom": "Pomme de l'eveil celeste",
+      "image": "pommeeveilceleste.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Parchemin de Sceau",
+      "image": "parchemindesceau.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Sceau",
+      "image": "sceau.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Parchemin vierge",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Clé de la forêt",
+      "image": "cleforet.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Clé des déchus",
+      "image": "cledechus.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Clé de Xal'Zirith",
+      "image": "clexalzirith.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Emblême du conquérant",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Pousse de sylve",
+      "image": "poussesylve.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Poussière d'os",
+      "image": "poussiereos.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Eclat de bois magique",
+      "image": "eclatboismagique.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Racine ancestrale",
+      "image": "racineancestrale.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Essence de Gorbel/essence du roi des slimes",
+      "image": "essencegorbel.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Gelée de slime",
+      "image": "geleeslime.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Mycélium magique",
+      "image": "myceliummagique.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Noyau de slime",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Petite bourse",
+      "image": "petitebourse.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Cristal corrompu",
+      "image": "cristalcorrompu.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Ecorce sylvestre",
+      "image": "ecorcesylvestre.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Tissu spectral",
+      "image": "tissuspectrale.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Tissu Maudit",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Tissu d'araignée",
+      "image": "tissuaraignee.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Cuir usé",
+      "image": "cuiruse.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Carapace d'ika",
+      "image": "carapaceika.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Ecorce de titan",
+      "image": "ecorcetitan.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Coeur de bois",
+      "image": "coeurbois.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Brindille enchantée",
+      "image": "brindilleenchantee.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Corde d'arc sylvestre",
+      "image": "cordearcsylvestre.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Peau de sanglier",
+      "image": "peausanglier.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Peau d'aligator",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Peau de cerf des montagnes",
+      "image": "peaucerfmontagnes.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Peau dur glacial",
+      "image": "peaudurglacial.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "fourrure de loup",
+      "image": "fourrureloup.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Corcs de loup",
+      "image": "crocsloup.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Corcs de Albal",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fil d'araignée",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fragments de feuilles",
+      "image": "fragmentfeuille.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Spore corrompu",
+      "image": "sporecorrompu.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Os de squelette",
+      "image": "osquelette.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Os de squelette renforcé",
+      "image": "ossqueletterenforce.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Morceau de crinière spectrale",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Eclat magique glacial",
+      "image": "eclatmagiqueglacial.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Eclat du sabot maudit",
+      "image": "eclatsabotmaudit.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fragment cassé jaune",
+      "image": "fragmentcassejaune.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fragment cassé rouge",
+      "image": "fragmentcasserouge.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fragment cassé violet",
+      "image": "fragmentcasseviolet.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fragment des anciens",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Pièce d'âme de métal",
+      "image": "pieceamemetal.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Pièce de métal enchanté",
+      "image": "piecemetalenchanté.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Carapace de requin",
+      "image": "carapacerequin.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "artefact des Fallen",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "anneau du Reaper",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Poussière de givre",
+      "image": "poussieregivre.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Coeur putrefié",
+      "image": "coeurpurefie.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Rune étrange",
+      "image": "runeeetrange.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Âme des ruines",
+      "image": "ameruines.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Goutte de sève",
+      "image": "guitteseve.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Planche de chêne",
+      "image": "planchechene.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Planche de bouleau",
+      "image": "planchebouleau.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Poudre de bois",
+      "image": "poudrebois.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Lingot de cuivre",
+      "image": "lingotcuivre.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Lingot de fer",
+      "image": "lingotfer.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Lingot d'âme de métal",
+      "image": "lingotamemetal.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Lingot de métal enchanté",
+      "image": "lingotmetalenchante.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Âme du Reaper",
+      "image": "amereaper.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Âme de l'Herald",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Âme du Warden",
+      "image": "amewarden.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de vie mineure",
+      "image": "potionviemineur.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de mana mineure",
+      "image": "potionmanamineur.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de mana moyenne",
+      "image": "potionmanamoyenne.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de mana supérieure",
+      "image": "potionmanasuperieur.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de vie moyenne",
+      "image": "potionviemoyenne.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Potion de vie supérieure",
+      "image": "potionviesuperieur.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Cristal de potion",
+      "image": "cristalpotion.png",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Fil d'araignée renforcé",
+      "image": "image.avif",
+      "palier": 1,
+      "description": ""
+    },
+    {
+      "nom": "Eclat fusionné",
+      "image": "eclatfusionne.avif",
+      "palier": 1,
+      "description": ""
+    }
+  ]
+}
