@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Services\Wallpaper;
 
 class RegistrationController extends AbstractController
 {
@@ -22,7 +23,8 @@ class RegistrationController extends AbstractController
         Security $security,
         EntityManagerInterface $entityManager,
         #[\Symfony\Component\DependencyInjection\Attribute\Autowire(service: 'monolog.logger.utilisateurs')]
-        \Psr\Log\LoggerInterface $utilisateursLogger
+        \Psr\Log\LoggerInterface $utilisateursLogger,
+        Wallpaper $wallpaperService
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationForm::class, $user);
@@ -50,6 +52,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
             'nomdepage' => 'Inscription',
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\RoleFormType;
 use App\Form\PasswordFormType;
+use App\Services\Wallpaper;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -18,11 +19,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
     #[Route(name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Wallpaper $wallpaper): Response
     {
         return $this->render('user/index.html.twig', [
             'users'     => $userRepository->findAll(),
             'nomdepage' => 'Gestion des utilisateurs',
+            'wallpaper' => $wallpaper->getRandomWallpaperName(),
         ]);
     }
 
@@ -115,4 +117,7 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
 }

@@ -3,10 +3,57 @@
 {% block title %}Profil utilisateur{% endblock %}
 
 {% block body %}
-<div class="container mx-auto my-4 max-w-4xl p-4 text-lg leading-relaxed font-sans">
-    <div class="bg-gray-100 p-4 rounded shadow">
-        <h1 class="text-2xl font-bold mb-4">Bonjour {{ user.getUsername() }} !</h1>
-        <p>Votre rôle : {{ user.getRoles()|join(', ') }}</p>
+<div class="max-w-2xl mx-auto mt-8">
+    <h2 class="text-2xl  text-center font-bold mb-4">News du moment</h2>
+    <div class="space-y-4" x-data>
+        {% for news in news_list %}
+            <div
+                x-data="{ show: false, open: false }"
+                x-init="setTimeout(() => show = true, {{ loop.index0 * 500 }})"
+                x-show="show"
+                x-transition:enter="transition-transform transition-opacity duration-2000"
+                x-transition:enter-start="opacity-0 scale-90"
+                x-transition:enter-end="opacity-100 scale-100"
+                class="bg-GREEN text-WHITE shadow-lg rounded-lg p-6 flex flex-col gap-2"
+                style="display: none;"
+            >
+                <div class="flex flex-col gap-1 mb-2">
+                    <span class="font-bold text-lg text-WHITE">
+                        {{ news.titre ? news.titre : 'Sans titre' }}
+                    </span>
+                    <span class="text-xs 
+                        {{ news.Emetteur.getBestRole() == 'Administrateur' ? 'bg-red-500 text-WHITE' : (news.Emetteur.getBestRole() == 'Comptable' ? 'bg-blue-100 text-WHITE' : 'bg-gray-100 text-WHITE') }} 
+                        px-2 py-1 rounded w-fit">
+                        {{ news.Emetteur ? news.Emetteur.username ~ ': ' ~ news.Emetteur.getBestRole() : 'Anonyme' }}
+                    </span>
+                    <span class="text-sm text-gray-400">
+                        {{ news.dateCreation ? news.dateCreation|date('d/m/Y H:i') : '' }}
+                    </span>
+                </div>
+                <button
+                    class="self-start bg-VIOLET text-white text-sm px-4 py-1 rounded transition"
+                    @click="open = !open"
+                    x-text="open ? 'Masquer' : 'Lire'"
+                ></button>
+                <div
+                    x-show="open"
+                    x-transition:enter="transition-all duration-2000"
+                    x-transition:enter-start="opacity-0 max-h-0"
+                    x-transition:enter-end="opacity-100 max-h-96"
+                    x-transition:leave="transition-all duration-2000"
+                    x-transition:leave-start="opacity-100 max-h-96"
+                    x-transition:leave-end="opacity-0 max-h-0"
+                    class="bg-GREEN text-WHITE leading-relaxed whitespace-pre-line overflow-hidden"
+                    style="display: none;"
+                >
+                    {{ news.content }}
+                </div>
+            </div>
+        {% else %}
+            <div class="text-gray-500 text-center py-8">Aucune news pour le moment.</div>
+        {% endfor %}
     </div>
+    <!-- Alpine.js CDN for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </div>
 {% endblock %}

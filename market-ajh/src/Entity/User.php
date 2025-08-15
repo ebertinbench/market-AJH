@@ -53,10 +53,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idVendeur')]
     private Collection $commandesPrisesEnCharge;
 
+    /**
+     * @var Collection<int, News>
+     */
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'Emetteur')]
+    private Collection $news;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
         $this->commandesPrisesEnCharge = new ArrayCollection();
+        $this->news = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,5 +251,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): static
+    {
+        if (!$this->news->contains($news)) {
+            $this->news->add($news);
+            $news->setEmetteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): static
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getEmetteur() === $this) {
+                $news->setEmetteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBestRole(): ?string
+    {
+        $hierarchy = [
+            'ROLE_ADMIN' => ['ROLE_COMPTABLE', 'ROLE_VENDEUR', 'ROLE_CLIENT'],
+            'ROLE_COMPTABLE' => ['ROLE_VENDEUR', 'ROLE_CLIENT'],
+            'ROLE_VENDEUR' => ['ROLE_CLIENT'],
+            'ROLE_CLIENT' => []
+        ];
+
+        $roles = $this->getRoles();
+        $bestRole = null;
+
+        foreach (array_keys($hierarchy) as $role) {
+            if (in_array($role, $roles, true)) {
+            $bestRole = $role;
+            break;
+            }
+        }
+
+        return match ($bestRole) {
+            'ROLE_ADMIN' => 'Administrateur',
+            'ROLE_COMPTABLE' => 'Comptable',
+            'ROLE_VENDEUR' => 'Vendeur',
+            'ROLE_CLIENT' => 'Client',
+            default => null,
+        };
     }
 }

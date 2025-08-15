@@ -19,8 +19,7 @@ class ItemFixture extends Fixture implements FixtureGroupInterface
                 isset($itemData['image']) ? basename($itemData['image']) : null,
                 $itemData['palier'] ?? null,
                 $itemData['description'] ?? null,
-                $itemData['nom'] ?? null,
-                $itemData['prix'] ?? 0
+                $itemData['nom'] ?? null
             );
             $manager->persist($item);
         }

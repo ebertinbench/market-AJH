@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Services\Wallpaper;
 
 final class OrderController extends AbstractController
 {
@@ -16,7 +17,8 @@ final class OrderController extends AbstractController
     public function index(
         Request $request,
         CommandeRepository $commandeRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        Wallpaper $wallpaperService
     ): Response {
         $playerId = $request->query->get('player');
         $playerId = ($playerId !== null && $playerId !== '') ? (int)$playerId : null;
@@ -36,7 +38,8 @@ final class OrderController extends AbstractController
             'statuses'      => $statuses,
             'currentPlayer' => $playerId,
             'currentStatus' => $status,
-            'nomdepage'     => 'Commandes'
+            'nomdepage'     => 'Commandes',
+            'wallpaper'     => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 

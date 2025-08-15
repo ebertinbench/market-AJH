@@ -14,85 +14,175 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body class="bg-GRAY flex flex-col min-h-screen">
+    <body class="bg-GRAY flex flex-col min-h-screen" style="background-image: url('{{ asset('images/wallpapers/'~ wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;">
     <!-- Navigation -->
     <nav class="bg-BLACK shadow-md p-4">
-        <div class="container mx-auto px-4 flex items-center justify-between">
+        <div class="container mx-auto px-4 flex items-center justify-between relative">
             <!-- Logo à gauche -->
             <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
-                <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK">
+            <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK">
             </a>
-            
+
             <!-- Titre centré -->
             <div class="absolute left-1/2 transform -translate-x-1/2">
-                <a href="{{ path('app_home') }}" class="text-WHITE text-2xl font-bold">{{ nomdepage }}</a>
+                <span class="text-WHITE text-2xl font-bold">{{ nomdepage }}</span>
             </div>
-            
-            <!-- Boutons à droite -->
-            <div class="relative">
-                <button id="menu-toggle" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                    
-                </button>
-                <div id="menu-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                    <ul class="flex flex-col gap-2 p-2">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a href="{{ path('app_user_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Utilisateurs</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_item_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Items</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_guild') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Guildes</a>
-                            </li>
-                        {% endif %}
-                        {% if is_granted('ROLE_COMPTABLE') %}
-                            <li>
-                                <a href="{{ path('app_compta') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Comptabilité</a>
-                            </li>
-                        {% endif %}
-                        {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
-                            <li>
-                                <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Items de guilde</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
-                            </li>
-                        {% endif %}
-                         {% if is_granted('ROLE_VENDEUR') %}
-                            <li>
-                                <a href="{{ path('orders_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les commandes</a>
-                            </li>
-                        {% endif %}
-                        {% if not app.user %}
-                            <li>
-                                <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
-                            </li>
-                            
 
-                            <li>
-                                <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+            <!-- Boutons à droite -->
+            <div class="flex items-center ml-auto space-x-2">
+            <!-- Menu Admin -->
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="relative">
+                <button id="menu-toggle-admin" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                <span class="mr-2">Admin</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                </button>
+                <div id="menu-dropdown-admin" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
+                <ul class="flex flex-col gap-2 p-2">
+                    <li>
+                    <a href="{{ path('app_user_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Utilisateurs</a>
+                    </li>
+                    <li>
+                    <a href="{{ path('app_item_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Items</a>
+                    </li>
+                    <li>
+                    <a href="{{ path('app_guild') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Guildes</a>
+                    </li>
+                </ul>
                 </div>
+            </div>
+            {% endif %}
+
+            <!-- Menu Comptable -->
+            {% if is_granted('ROLE_COMPTABLE') %}
+            <div class="relative">
+                <button id="menu-toggle-comptable" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                <span class="mr-2">Comptable</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                </button>
+                <div id="menu-dropdown-comptable" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
+                <ul class="flex flex-col gap-2 p-2">
+                    <li>
+                    <a href="{{ path('app_compta') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Comptabilité</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Menu Chef de Guilde -->
+            {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
+            <div class="relative">
+                <button id="menu-toggle-chef" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                <span class="mr-2">Chef Guilde</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                </button>
+                <div id="menu-dropdown-chef" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
+                <ul class="flex flex-col gap-2 p-2">
+                    <li>
+                    <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Items de guilde</a>
+                    </li>
+                    <li>
+                    <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Menu Vendeur -->
+            {% if is_granted('ROLE_VENDEUR') %}
+            <div class="relative">
+                <button id="menu-toggle-vendeur" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                <span class="mr-2">Vendeur</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                </button>
+                <div id="menu-dropdown-vendeur" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
+                <ul class="flex flex-col gap-2 p-2">
+                    <li>
+                    <a href="{{ path('orders_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les commandes</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Menu Utilisateur -->
+            <div class="relative">
+                <button id="menu-toggle-user" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
+                <span class="mr-2">Menu</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                </button>
+                <div id="menu-dropdown-user" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
+                <ul class="flex flex-col gap-2 p-2">
+                    {% if not app.user %}
+                    <li>
+                    <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
+                    </li>
+                    {% else %}
+                    <li>
+                    <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
+                    </li>
+                    <li>
+                    <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
+                    </li>
+                    <li>
+                    <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                </div>
+            </div>
             </div>
 
             <script>
-                document.getElementById('menu-toggle').addEventListener('click', function () {
-                    const dropdown = document.getElementById('menu-dropdown');
+            function setupMenuToggle(toggleId, dropdownId, allDropdowns) {
+                const toggle = document.getElementById(toggleId);
+                const dropdown = document.getElementById(dropdownId);
+                if (toggle && dropdown) {
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    // Ferme tous les autres menus
+                    allDropdowns.forEach(function(id) {
+                    if (id !== dropdownId) {
+                        const el = document.getElementById(id);
+                        if (el) el.classList.add('hidden');
+                    }
+                    });
                     dropdown.classList.toggle('hidden');
                 });
+                document.addEventListener('click', function (e) {
+                    if (!dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                    }
+                });
+                dropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+                }
+            }
+            const allDropdowns = [
+                'menu-dropdown-admin',
+                'menu-dropdown-comptable',
+                'menu-dropdown-chef',
+                'menu-dropdown-vendeur',
+                'menu-dropdown-user'
+            ];
+            setupMenuToggle('menu-toggle-admin', 'menu-dropdown-admin', allDropdowns);
+            setupMenuToggle('menu-toggle-comptable', 'menu-dropdown-comptable', allDropdowns);
+            setupMenuToggle('menu-toggle-chef', 'menu-dropdown-chef', allDropdowns);
+            setupMenuToggle('menu-toggle-vendeur', 'menu-dropdown-vendeur', allDropdowns);
+            setupMenuToggle('menu-toggle-user', 'menu-dropdown-user', allDropdowns);
             </script>
         </div>
     </nav>

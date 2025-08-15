@@ -54,6 +54,7 @@ security:
         - { path: '^/guild', roles: ROLE_ADMIN }
         - { path: '^/shop', roles: ROLE_CLIENT }
         - { path: ^/compta, roles: ROLE_COMPTABLE }
+        - { path: ^/news, roles: ROLE_COMPTABLE }
 
 when@test:
     security:

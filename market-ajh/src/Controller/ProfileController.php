@@ -10,12 +10,13 @@ use App\Repository\GuildRepository;
 use App\Repository\UserRepository;
 use App\Entity\Guild;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Services\Wallpaper;
 
 #[Route('/profile')]
 final class ProfileController extends AbstractController
 {
     #[Route('', name: 'app_profile')]
-    public function index(GuildRepository $guildRepository): Response
+    public function index(GuildRepository $guildRepository, Wallpaper $wallpaperService): Response
     {
         if (!$this->getUser()) {
             return $this->redirect('/welcome');
@@ -27,7 +28,8 @@ final class ProfileController extends AbstractController
             'nomdepage' => 'Profil Utilisateur',
             'user' => $this->getUser(),
             'guilds' => $guilds,
-            'commandes' => $this->getUser()->getcommandesPassees()
+            'commandes' => $this->getUser()->getcommandesPassees(),
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
@@ -86,7 +88,8 @@ final class ProfileController extends AbstractController
 
     #[Route('/addmembers', name: 'profile_add_members')]
     public function addMembers(UserRepository $userRepository, 
-        GuildRepository $guildRepository
+        GuildRepository $guildRepository,
+        Wallpaper $wallpaperService
         ): Response
     {
         $user = $this->getUser();
@@ -98,6 +101,7 @@ final class ProfileController extends AbstractController
             'user' => $this->getUser(),
             'users' => $userRepository->findAll(),
             'guilds' => $guildRepository->findAll(),
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
         ]);
     }
 
