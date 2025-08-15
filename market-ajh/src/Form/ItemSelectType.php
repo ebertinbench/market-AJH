@@ -20,6 +20,10 @@ class ItemSelectType extends AbstractType
                 'choice_label' => 'nom',       // propriété getNom()
                 'placeholder'  => '— Choisissez un item —',
                 'label'        => 'Item',
+                'query_builder' => function (\App\Repository\ItemRepository $repository) {
+                    return $repository->createQueryBuilder('i')
+                        ->orderBy('i.nom', 'ASC');
+                },
             ])
             // Saisie du prix (vous pouvez adapter MoneyType ou IntegerType)
             ->add('price', MoneyType::class, [
