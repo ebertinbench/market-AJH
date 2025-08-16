@@ -68,7 +68,7 @@ final class OrderController extends AbstractController
         }
 
         $commande->setIdVendeur($seller);
-
+        $commande->setStatut('En attente de livraison');
         $entityManager->persist($commande);
         $entityManager->flush();
 

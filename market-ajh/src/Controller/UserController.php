@@ -32,6 +32,7 @@ final class UserController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
+        Wallpaper $wallpaperService,
         UserPasswordHasherInterface $passwordHasher
     ): Response {
         $user = new User();
@@ -56,6 +57,7 @@ final class UserController extends AbstractController
             'user'      => $user,
             'form'      => $form,
             'nomdepage' => 'Ajouter un utilisateur',
+            'wallpaper' => $wallpaperService->getRandomWallpaperName(),
         ]);
     }
 

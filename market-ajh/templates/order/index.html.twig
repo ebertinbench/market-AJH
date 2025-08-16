@@ -87,7 +87,7 @@
                             <form method="post" action="{{ path('orders_remove_seller', {'id': order.id}) }}" class="mb-2">
                                 <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">Me retirer de cette commande</button>
                             </form>
-                            {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' %}
+                            {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' and is_granted('ROLE_ADMIN') %}
                                 <div>
                                     {# Bouton marquer comme avortée #}
                                     <form method="post" action="{{ path('orders_abort', {'id': order.id}) }}">
