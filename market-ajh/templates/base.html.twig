@@ -71,13 +71,13 @@
                 <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Admin</h3>
                 <ul class="space-y-2">
                   <li>
-                    <a href="{{ path('app_user_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Utilisateurs</a>
+                    <a href="{{ path('app_user_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Gestion Utilisateurs</a>
                   </li>
                   <li>
-                    <a href="{{ path('app_item_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Items</a>
+                    <a href="{{ path('app_item_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Gestion Items</a>
                   </li>
                   <li>
-                    <a href="{{ path('app_guild') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Guildes</a>
+                    <a href="{{ path('app_guild') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Gestion Guildes</a>
                   </li>
                 </ul>
               </section>
@@ -88,7 +88,7 @@
                 <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Comptable</h3>
                 <ul class="space-y-2">
                   <li>
-                    <a href="{{ path('app_compta') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Comptabilité</a>
+                    <a href="{{ path('app_compta') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Comptabilité</a>
                   </li>
                 </ul>
               </section>
@@ -99,10 +99,10 @@
                 <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Chef de Guilde</h3>
                 <ul class="space-y-2">
                   <li>
-                    <a href="{{ path('app_guild_items_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Items de guilde</a>
+                    <a href="{{ path('app_guild_items_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Items de guilde</a>
                   </li>
                   <li>
-                    <a href="{{ path('profile_add_members') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Ajouter un membre</a>
+                    <a href="{{ path('profile_add_members') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Ajouter un membre</a>
                   </li>
                 </ul>
               </section>
@@ -113,7 +113,7 @@
                 <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Vendeur</h3>
                 <ul class="space-y-2">
                   <li>
-                    <a href="{{ path('orders_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Voir les commandes</a>
+                    <a href="{{ path('orders_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les commandes</a>
                   </li>
                 </ul>
               </section>
@@ -124,17 +124,17 @@
               <ul class="space-y-2">
                 {% if not app.user %}
                   <li>
-                    <a href="{{ path('app_login') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Se connecter</a>
+                    <a href="{{ path('app_login') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Se connecter</a>
                   </li>
                 {% else %}
                   <li>
-                    <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Voir les Items</a>
+                    <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les Items</a>
                   </li>
                   <li>
-                    <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Profil</a>
+                    <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Profil</a>
                   </li>
                   <li>
-                    <a href="{{ path('app_logout') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Se déconnecter</a>
+                    <a href="{{ path('app_logout') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Se déconnecter</a>
                   </li>
                 {% endif %}
               </ul>
