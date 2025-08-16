@@ -5,7 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+use App\Entity\AvisCommande;
+use App\Repository\AvisCommandeRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,6 +133,35 @@ final class OrderController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'Commande marquée comme livrée.');
+        return $this->redirectToRoute('app_profile');
+    }
+
+    #[Route('/orders/{id}/give-advice', name: 'orders_give_advice', methods: ['POST'])]
+    public function giveAdvice(
+        int $id,
+        Request $request,
+        CommandeRepository $commandeRepository,
+        AvisCommandeRepository $avisCommandeRepository,
+        \Doctrine\ORM\EntityManagerInterface $entityManager
+    ): Response {
+        $commande = $commandeRepository->find($id);
+        if (!$commande) {
+            throw $this->createNotFoundException('Commande non trouvée.');
+        }
+        $note = $request->request->get('note');
+        if($note == '') {
+            $this->addFlash('error', 'Veuillez sélectionner une note.');
+            return $this->redirectToRoute('app_profile');
+        }
+        $avis = new AvisCommande();
+        $avis->setIdCommande($commande);
+        $avis->setIdClient($this->getUser());
+        $avis->setIdVendeur($commande->getIdVendeur());
+        $avis->setNote((int)$note);
+        $entityManager->persist($avis);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Avis donné avec succès.');
         return $this->redirectToRoute('app_profile');
     }
 }

@@ -59,11 +59,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'Emetteur')]
     private Collection $news;
 
+    /**
+     * @var Collection<int, AvisCommande>
+     */
+    #[ORM\OneToMany(targetEntity: AvisCommande::class, mappedBy: 'idClient')]
+    private Collection $avisdonnes;
+
+    /**
+     * @var Collection<int, AvisCommande>
+     */
+    #[ORM\OneToMany(targetEntity: AvisCommande::class, mappedBy: 'idVendeur')]
+    private Collection $avisrecus;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
         $this->commandesPrisesEnCharge = new ArrayCollection();
         $this->news = new ArrayCollection();
+        $this->avisdonnes = new ArrayCollection();
+        $this->avisrecus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,5 +323,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'ROLE_CLIENT' => 'Client',
             default => null,
         };
+    }
+
+    /**
+     * @return Collection<int, AvisCommande>
+     */
+    public function getAvisdonnes(): Collection
+    {
+        return $this->avisdonnes;
+    }
+
+    public function addAvisdonne(AvisCommande $avisdonne): static
+    {
+        if (!$this->avisdonnes->contains($avisdonne)) {
+            $this->avisdonnes->add($avisdonne);
+            $avisdonne->setIdClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvisdonne(AvisCommande $avisdonne): static
+    {
+        if ($this->avisdonnes->removeElement($avisdonne)) {
+            // set the owning side to null (unless already changed)
+            if ($avisdonne->getIdClient() === $this) {
+                $avisdonne->setIdClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AvisCommande>
+     */
+    public function getAvisrecus(): Collection
+    {
+        return $this->avisrecus;
+    }
+
+    public function addAvisrecu(AvisCommande $avisrecu): static
+    {
+        if (!$this->avisrecus->contains($avisrecu)) {
+            $this->avisrecus->add($avisrecu);
+            $avisrecu->setIdVendeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvisrecu(AvisCommande $avisrecu): static
+    {
+        if ($this->avisrecus->removeElement($avisrecu)) {
+            // set the owning side to null (unless already changed)
+            if ($avisrecu->getIdVendeur() === $this) {
+                $avisrecu->setIdVendeur(null);
+            }
+        }
+
+        return $this;
     }
 }

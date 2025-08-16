@@ -74,9 +74,26 @@
                                     <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Marquer comme livrée</button>
                                 </form>
                             </td>
+                        {% elseif commande.statut == 'Livrée'  and commande.avisCommande is empty %}
+                            <td class="py-2 px-4">
+                                <form action="{{ path('orders_give_advice', { id: commande.id }) }}" method="post" class="inline">
+                                    <select name="note" required class="border border-gray-300 rounded px-2 py-1 mr-2">
+                                        <option value="">Note</option>
+                                        <option value="1">1/5</option>
+                                        <option value="2">2/5</option>
+                                        <option value="3">3/5</option>
+                                        <option value="4">4/5</option>
+                                        <option value="5">5/5</option>
+                                    </select>
+                                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Donner un avis</button>
+                                </form>
+                                
+                            </td>
+                        
                         {% else %}
                             <td class="py-2 px-4">Aucune action disponible</td>
                         {% endif %}
+                        
                     </tr>
                 {% endfor %}
             </tbody>

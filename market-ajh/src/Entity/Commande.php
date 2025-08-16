@@ -49,6 +49,9 @@ class Commande
     #[ORM\Column]
     private ?float $total = null;
 
+    #[ORM\OneToOne(mappedBy: 'idCommande', cascade: ['persist', 'remove'])]
+    private ?AvisCommande $avisCommande = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -211,6 +214,23 @@ class Commande
     public function setTotal(float $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getAvisCommande(): ?AvisCommande
+    {
+        return $this->avisCommande;
+    }
+
+    public function setAvisCommande(AvisCommande $avisCommande): static
+    {
+        // set the owning side of the relation if necessary
+        if ($avisCommande->getIdCommande() !== $this) {
+            $avisCommande->setIdCommande($this);
+        }
+
+        $this->avisCommande = $avisCommande;
 
         return $this;
     }
