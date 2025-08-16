@@ -54,28 +54,6 @@
                             <strong>Statut :</strong>
                             {{ statuses[order.statut] ?? order.statut }}
                         </p>
-                        <div class="flex flex-col gap-1 mb-2 items-center">
-                            {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' %}
-                                <div class="flex gap-2 justify-center">
-                                    {# Bouton reculer statut #}
-                                    <form method="post" action="{{ path('orders_recede_status', {'id': order.id}) }}">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('recede_status' ~ order.id) }}">
-                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
-                                            {% if order.statut == 'pending' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
-                                            ◀
-                                        </button>
-                                    </form>
-                                    {# Bouton avancer statut #}
-                                    <form method="post" action="{{ path('orders_advance_status', {'id': order.id}) }}">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('advance_status' ~ order.id) }}">
-                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
-                                            {% if order.statut == 'aborted' or order.statut == 'delivered' or order.statut == 'Avortée' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
-                                            ▶
-                                        </button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        </div>
                         <div class="text-gray-800 mb-2">
                             <strong>Quantité:</strong> {{ order.quantite }} unité(s)
                         </div>
@@ -83,7 +61,7 @@
                         <div class="text-blue-900 font-semibold mb-2">
                             <strong>Vendeur :</strong> {{ order.idVendeur.username | default('Aucun vendeur assigné') }}
                         </div>
-                        {% if order.idVendeur %}
+                        {% if order.idVendeur and order.statut != 'Avortée' and order.statut != 'Livrée'%}
                             <form method="post" action="{{ path('orders_remove_seller', {'id': order.id}) }}" class="mb-2">
                                 <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">Me retirer de cette commande</button>
                             </form>
@@ -100,10 +78,12 @@
                                 </div>
                             {% endif %}
                         {% else %}
+                            {% if order.statut != 'Avortée' and order.statut != 'Livrée' %}
                             <form method="post" action="{{ path('orders_assign_seller', {'id': order.id}) }}" class="mb-2">
                                 <input type="hidden" name="seller_id" value="{{ app.user.id }}">
                                 <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">M'assigner cette commande</button>
                             </form>
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% endfor %}

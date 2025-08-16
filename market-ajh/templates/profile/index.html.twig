@@ -15,7 +15,7 @@
             <p class="mb-2"><strong>Nom de la guilde :</strong> <span class="text-BLUE">{{ user.guild.name }}</span></p>
 
             {% if user.guild.chef %}
-                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-GREEN">{{ user.guild.chef.username }}</span></p>
+                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-BLACK">{{ user.guild.chef.username }}</span></p>
                 <form action="{{ path('profile_add_members') }}" method="get" class="mb-2">
                     <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Ajouter des membres</button>
                 </form>
@@ -54,6 +54,7 @@
                     <th class="py-2 px-4 text-left">Prix unitaire</th>
                     <th class="py-2 px-4 text-left">Quantité</th>
                     <th class="py-2 px-4 text-left">Total</th>
+                    <th class="py-2 px-4 text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +67,16 @@
                         <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
                         <td class="py-2 px-4">{{ commande.quantite }}</td>
                         <td class="py-2 px-4">{{ commande.idItem.price }}</td>
-                        <td class="py-2 px-4">{{ commande.getTotal() }}</td>        
+                        <td class="py-2 px-4">{{ commande.getTotal() }}</td>
+                        {% if commande.statut == 'En attente de livraison' %}
+                            <td class="py-2 px-4">
+                                <form action="{{ path('orders_mark_delivered', { id: commande.id }) }}" method="post">
+                                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Marquer comme livrée</button>
+                                </form>
+                            </td>
+                        {% else %}
+                            <td class="py-2 px-4">Aucune action disponible</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

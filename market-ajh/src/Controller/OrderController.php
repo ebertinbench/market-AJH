@@ -96,72 +96,7 @@ final class OrderController extends AbstractController
         return $this->redirectToRoute('orders_index');
     }
 
-    #[Route('/orders/{id}/advance-status', name: 'orders_advance_status', methods: ['POST'])]
-    public function advanceStatus(
-        int $id,
-        CommandeRepository $commandeRepository,
-        \Doctrine\ORM\EntityManagerInterface $entityManager
-    ): Response {
-        $commande = $commandeRepository->find($id);
-        if (!$commande) {
-            throw $this->createNotFoundException('Commande non trouvée.');
-        }
-        $statuses = [
-            'En attente',
-            'En attente de livraison',
-            'Livrée',
-        ];
-
-        $currentStatus = $commande->getStatut();
-        $currentIndex = array_search($currentStatus, $statuses);
-
-        if ($currentIndex === false || $currentIndex >= count($statuses) - 1) {
-            $this->addFlash('error', 'Impossible d\'avancer le statut.');
-            return $this->redirectToRoute('orders_index');
-        }
-
-        $newStatus = $statuses[$currentIndex + 1];
-        $commande->setStatut($newStatus);
-        $entityManager->persist($commande);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Statut avancé à "' . $newStatus . '".');
-        return $this->redirectToRoute('orders_index');
-    }
-
-    #[Route('/orders/{id}/recede-status', name: 'orders_recede_status', methods: ['POST'])]
-    public function recedeStatus(
-        int $id,
-        CommandeRepository $commandeRepository,
-        \Doctrine\ORM\EntityManagerInterface $entityManager
-    ): Response {
-        $commande = $commandeRepository->find($id);
-        if (!$commande) {
-            throw $this->createNotFoundException('Commande non trouvée.');
-        }
-        $statuses = [
-            'En attente',
-            'En attente de livraison',
-            'Livrée',
-        ];
-
-        $currentStatus = $commande->getStatut();
-        $currentIndex = array_search($currentStatus, $statuses);
-
-        if ($currentIndex === false || $currentIndex === 0) {
-            $this->addFlash('error', 'Impossible de reculer le statut.');
-            return $this->redirectToRoute('orders_index');
-        }
-
-        $newStatus = $statuses[$currentIndex - 1];
-        $commande->setStatut($newStatus);
-        $entityManager->persist($commande);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Statut reculé à "' . $newStatus . '".');
-        return $this->redirectToRoute('orders_index');
-    }
-
+    
     #[Route('/orders/{id}/abort', name: 'orders_abort', methods: ['POST'])]
     public function abortOrder(
         int $id,
@@ -179,5 +114,24 @@ final class OrderController extends AbstractController
 
         $this->addFlash('success', 'Commande marquée comme avortée.');
         return $this->redirectToRoute('orders_index');
+    }
+
+    #[Route('/orders/{id}/mark-delivered', name: 'orders_mark_delivered', methods: ['POST'])]
+    public function markDelivered(
+        int $id,
+        CommandeRepository $commandeRepository,
+        \Doctrine\ORM\EntityManagerInterface $entityManager
+    ): Response {
+        $commande = $commandeRepository->find($id);
+        if (!$commande) {
+            throw $this->createNotFoundException('Commande non trouvée.');
+        }
+
+        $commande->setStatut('Livrée');
+        $entityManager->persist($commande);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Commande marquée comme livrée.');
+        return $this->redirectToRoute('app_profile');
     }
 }
