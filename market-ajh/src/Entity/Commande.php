@@ -43,6 +43,9 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?GuildItems $idItem = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $traitementCompta = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,6 +179,7 @@ class Commande
         $this->dateLivraison = $dateLivraison;
         $this->dateAvortement = $dateAvortement;
         $this->idItem = $idItem;
+        $this->setTraitementCompta(false);
     }
 
     public function getTotal(): ?int
@@ -189,5 +193,17 @@ class Commande
     public function getGuild(): ?Guild
     {
         return $this->idItem ? $this->idItem->getGuild() : null;
+    }
+
+    public function isTraitementCompta(): ?bool
+    {
+        return $this->traitementCompta;
+    }
+
+    public function setTraitementCompta(?bool $traitementCompta): static
+    {
+        $this->traitementCompta = $traitementCompta;
+
+        return $this;
     }
 }

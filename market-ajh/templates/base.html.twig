@@ -148,7 +148,7 @@
     </nav>
 
     <!-- Flash messages -->
-    <div id="flash-messages" class="fixed top-8 right-8 z-40 flex flex-col items-end space-y-4">
+    <div id="flash-messages" class="fixed top-8 right-8 z-[80] flex flex-col items-end space-y-4 ">
       {% for label, messages in app.flashes %}
         {% for message in messages %}
           <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300 translate-x-full">

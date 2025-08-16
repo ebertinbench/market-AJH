@@ -75,7 +75,7 @@ class CommandeRepository extends ServiceEntityRepository
      * @param string|null $guild Nom ou ID guilde
      * @return Commande[]
      */
-    public function findByUserAndGuilde(?string $user, ?string $guild): array
+    public function findByUserAndGuildeAndStatutAndTraitementCompta(?string $user, ?string $guild, ?string $statut = null, ?string $traitementCompta = null): array
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.idClient', 'u')
@@ -90,6 +90,14 @@ class CommandeRepository extends ServiceEntityRepository
         }
         if ($guild !== null && $guild !== '') {
             $this->addGuildFilter($qb, $guild);
+        }
+        if ($statut !== null && $statut !== '' && $statut !== 'Tous') {
+            $qb->andWhere('c.statut = :statut')
+            ->setParameter('statut', $statut);
+        }
+        if ($traitementCompta !== null && $traitementCompta !== '' && $traitementCompta !== 'Tous') {
+            $qb->andWhere('c.traitementCompta = :traitementCompta')
+                ->setParameter('traitementCompta', $traitementCompta);
         }
 
         return $qb
