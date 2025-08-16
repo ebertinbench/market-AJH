@@ -46,6 +46,9 @@ class Commande
     #[ORM\Column(nullable: true)]
     private ?bool $traitementCompta = null;
 
+    #[ORM\Column]
+    private ?float $total = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -180,14 +183,12 @@ class Commande
         $this->dateAvortement = $dateAvortement;
         $this->idItem = $idItem;
         $this->setTraitementCompta(false);
+        $this->total = $idItem->getPrice() * $quantite;
     }
 
     public function getTotal(): ?int
     {
-        if ($this->idItem && $this->quantite) {
-            return $this->idItem->getPrice() * $this->quantite;
-        }
-        return null;
+        return $this->total;
     }
 
     public function getGuild(): ?Guild
@@ -203,6 +204,13 @@ class Commande
     public function setTraitementCompta(?bool $traitementCompta): static
     {
         $this->traitementCompta = $traitementCompta;
+
+        return $this;
+    }
+
+    public function setTotal(float $total): static
+    {
+        $this->total = $total;
 
         return $this;
     }
