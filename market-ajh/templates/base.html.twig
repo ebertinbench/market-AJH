@@ -1,246 +1,269 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="icon" href="{{ asset('images/logo_guilde.jpg') }}">
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        {% endblock %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ asset('images/logo_guilde.jpg') }}" />
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('build/app.css') }}" />
+    {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body class="bg-GRAY flex flex-col min-h-screen" style="background-image: url('{{ asset('images/wallpapers/'~ wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;">
+    {% block javascripts %}
+      {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+  </head>
+  <body
+    class="bg-GRAY flex flex-col min-h-screen"
+    style="background-image: url('{{ asset('images/wallpapers/' ~ wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
+  >
     <!-- Navigation -->
-    <nav class="bg-BLACK shadow-md p-4">
-        <div class="container mx-auto px-4 flex items-center justify-between relative">
-            <!-- Logo à gauche -->
-            <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
-            <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK">
-            </a>
+    <nav class="bg-BLACK shadow-md p-4 relative z-50">
+      <div class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo à gauche -->
+        <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
+          <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK" />
+        </a>
 
-            <!-- Titre centré -->
-            <div class="absolute left-1/2 transform -translate-x-1/2">
-                <span class="text-WHITE text-2xl font-bold">{{ nomdepage }}</span>
-            </div>
-
-            <!-- Boutons à droite -->
-            <div class="flex items-center ml-auto space-x-2">
-            <!-- Menu Admin -->
-            {% if is_granted('ROLE_ADMIN') %}
-            <div class="relative">
-                <button id="menu-toggle-admin" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                <span class="mr-2">Admin</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                </button>
-                <div id="menu-dropdown-admin" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                <ul class="flex flex-col gap-2 p-2">
-                    <li>
-                    <a href="{{ path('app_user_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Utilisateurs</a>
-                    </li>
-                    <li>
-                    <a href="{{ path('app_item_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Items</a>
-                    </li>
-                    <li>
-                    <a href="{{ path('app_guild') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Gestion Guildes</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Menu Comptable -->
-            {% if is_granted('ROLE_COMPTABLE') %}
-            <div class="relative">
-                <button id="menu-toggle-comptable" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                <span class="mr-2">Comptable</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                </button>
-                <div id="menu-dropdown-comptable" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                <ul class="flex flex-col gap-2 p-2">
-                    <li>
-                    <a href="{{ path('app_compta') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Comptabilité</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Menu Chef de Guilde -->
-            {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
-            <div class="relative">
-                <button id="menu-toggle-chef" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                <span class="mr-2">Chef Guilde</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                </button>
-                <div id="menu-dropdown-chef" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                <ul class="flex flex-col gap-2 p-2">
-                    <li>
-                    <a href="{{ path('app_guild_items_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Items de guilde</a>
-                    </li>
-                    <li>
-                    <a href="{{ path('profile_add_members') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Ajouter un membre</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Menu Vendeur -->
-            {% if is_granted('ROLE_VENDEUR') %}
-            <div class="relative">
-                <button id="menu-toggle-vendeur" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                <span class="mr-2">Vendeur</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                </button>
-                <div id="menu-dropdown-vendeur" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                <ul class="flex flex-col gap-2 p-2">
-                    <li>
-                    <a href="{{ path('orders_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les commandes</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Menu Utilisateur -->
-            <div class="relative">
-                <button id="menu-toggle-user" class="px-4 py-2 text-WHITE rounded-lg hover:bg-PINK transition-colors duration-300 font-medium flex items-center">
-                <span class="mr-2">Menu</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                </button>
-                <div id="menu-dropdown-user" class="hidden absolute right-0 mt-2 w-48 bg-BLACK border border-PINK rounded-lg shadow-lg z-50">
-                <ul class="flex flex-col gap-2 p-2">
-                    {% if not app.user %}
-                    <li>
-                    <a href="{{ path('app_login') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Connecter</a>
-                    </li>
-                    {% else %}
-                    <li>
-                    <a href="{{ path('shop_index') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Voir les Items</a>
-                    </li>
-                    <li>
-                    <a href="{{ path('app_profile') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Profil</a>
-                    </li>
-                    <li>
-                    <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-WHITE hover:bg-PINK rounded-lg transition-colors duration-300">Se Déconnecter</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                </div>
-            </div>
-            </div>
-
-            <script>
-            function setupMenuToggle(toggleId, dropdownId, allDropdowns) {
-                const toggle = document.getElementById(toggleId);
-                const dropdown = document.getElementById(dropdownId);
-                if (toggle && dropdown) {
-                toggle.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    // Ferme tous les autres menus
-                    allDropdowns.forEach(function(id) {
-                    if (id !== dropdownId) {
-                        const el = document.getElementById(id);
-                        if (el) el.classList.add('hidden');
-                    }
-                    });
-                    dropdown.classList.toggle('hidden');
-                });
-                document.addEventListener('click', function (e) {
-                    if (!dropdown.classList.contains('hidden')) {
-                    dropdown.classList.add('hidden');
-                    }
-                });
-                dropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
-                }
-            }
-            const allDropdowns = [
-                'menu-dropdown-admin',
-                'menu-dropdown-comptable',
-                'menu-dropdown-chef',
-                'menu-dropdown-vendeur',
-                'menu-dropdown-user'
-            ];
-            setupMenuToggle('menu-toggle-admin', 'menu-dropdown-admin', allDropdowns);
-            setupMenuToggle('menu-toggle-comptable', 'menu-dropdown-comptable', allDropdowns);
-            setupMenuToggle('menu-toggle-chef', 'menu-dropdown-chef', allDropdowns);
-            setupMenuToggle('menu-toggle-vendeur', 'menu-dropdown-vendeur', allDropdowns);
-            setupMenuToggle('menu-toggle-user', 'menu-dropdown-user', allDropdowns);
-            </script>
+        <!-- Titre centré -->
+        <div class="absolute left-1/2 -translate-x-1/2 hidden sm:block">
+          <span class="text-WHITE text-2xl font-bold">{{ nomdepage }}</span>
         </div>
+
+        <!-- Bouton Burger à droite -->
+        <button
+          id="burger-toggle"
+          class="ml-auto inline-flex items-center justify-center rounded-xl border border-PINK px-3 py-2 text-WHITE hover:bg-PINK/20 focus:outline-none focus:ring-2 focus:ring-PINK"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="burger-menu"
+        >
+          <span class="sr-only">Ouvrir le menu</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Panneau du menu burger -->
+      <div
+        id="burger-menu"
+        class="hidden absolute right-4 mt-3 w-80 max-w-[92vw] rounded-2xl border border-PINK bg-BLACK/95 backdrop-blur shadow-2xl z-[60]"
+        role="menu"
+        aria-labelledby="burger-toggle"
+      >
+        <div class="p-3 max-h-[70vh] overflow-y-auto">
+          <!-- En-tête -->
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-PINK/40">
+            <span class="text-PINK font-bold text-lg">Menu</span>
+            <button id="burger-close" class="p-2 rounded-lg text-WHITE hover:bg-PINK/20 focus:outline-none focus:ring-2 focus:ring-PINK" aria-label="Fermer le menu">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Sections par rôles -->
+          <div class="space-y-4">
+            {% if is_granted('ROLE_ADMIN') %}
+              <section>
+                <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Admin</h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="{{ path('app_user_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Utilisateurs</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('app_item_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Items</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('app_guild') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Gestion Guildes</a>
+                  </li>
+                </ul>
+              </section>
+            {% endif %}
+
+            {% if is_granted('ROLE_COMPTABLE') %}
+              <section>
+                <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Comptable</h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="{{ path('app_compta') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Comptabilité</a>
+                  </li>
+                </ul>
+              </section>
+            {% endif %}
+
+            {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
+              <section>
+                <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Chef de Guilde</h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="{{ path('app_guild_items_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Items de guilde</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('profile_add_members') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Ajouter un membre</a>
+                  </li>
+                </ul>
+              </section>
+            {% endif %}
+
+            {% if is_granted('ROLE_VENDEUR') %}
+              <section>
+                <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Vendeur</h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="{{ path('orders_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Voir les commandes</a>
+                  </li>
+                </ul>
+              </section>
+            {% endif %}
+
+            <section>
+              <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Utilisateur</h3>
+              <ul class="space-y-2">
+                {% if not app.user %}
+                  <li>
+                    <a href="{{ path('app_login') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Se connecter</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Voir les Items</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Profil</a>
+                  </li>
+                  <li>
+                    <a href="{{ path('app_logout') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-PINK/20 border border-transparent hover:border-PINK transition">Se déconnecter</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay pour clic extérieur (mobile/desktop) -->
+      <div id="burger-overlay" class="hidden fixed inset-0 bg-black/40 z-[50]"></div>
     </nav>
-    <div id="flash-messages" class="fixed top-8 right-8 z-50 flex flex-col items-end space-y-4">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300 translate-x-full">
-                    <span class="text-xl font-semibold">{{ message }}</span>
-                </div>
-            {% endfor %}
+
+    <!-- Flash messages -->
+    <div id="flash-messages" class="fixed top-8 right-8 z-40 flex flex-col items-end space-y-4">
+      {% for label, messages in app.flashes %}
+        {% for message in messages %}
+          <div class="bg-WHITE text-BLACK px-8 py-6 rounded-xl shadow-2xl mb-2 min-w-[320px] text-center opacity-95 flash-message relative transition-all duration-300 translate-x-full">
+            <span class="text-xl font-semibold">{{ message }}</span>
+          </div>
         {% endfor %}
+      {% endfor %}
     </div>
+
     <script>
-        document.querySelectorAll('.flash-message').forEach(function(el, idx) {
-            setTimeout(function() {
-                el.classList.remove('translate-x-full');
-                el.classList.add('translate-x-0');
-            }, 50 + idx * 100); // Stagger if multiple
+      // Animations flash
+      document.querySelectorAll('.flash-message').forEach(function (el, idx) {
+        setTimeout(function () {
+          el.classList.remove('translate-x-full');
+          el.classList.add('translate-x-0');
+        }, 50 + idx * 100);
 
-            setTimeout(function() {
-                el.classList.remove('translate-x-0');
-                el.classList.add('translate-x-full');
-            }, 2000);
+        setTimeout(function () {
+          el.classList.remove('translate-x-0');
+          el.classList.add('translate-x-full');
+        }, 2000);
 
-            setTimeout(function() {
-                el.style.display = 'none';
-            }, 2300);
+        setTimeout(function () {
+          el.style.display = 'none';
+        }, 2300);
+      });
+
+      // Burger logic
+      (function () {
+        const btn = document.getElementById('burger-toggle');
+        const menu = document.getElementById('burger-menu');
+        const overlay = document.getElementById('burger-overlay');
+        const closeBtn = document.getElementById('burger-close');
+
+        function openMenu() {
+          menu.classList.remove('hidden');
+          overlay.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+          const firstLink = menu.querySelector('a, button');
+          if (firstLink) firstLink.focus();
+        }
+
+        function closeMenu() {
+          menu.classList.add('hidden');
+          overlay.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.focus();
+        }
+
+        // Empêche les clics à l'intérieur du menu d'être captés par le document/overlay
+        if (menu) {
+          menu.addEventListener('click', function (e) {
+            e.stopPropagation();
+          });
+        }
+
+        btn && btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (menu.classList.contains('hidden')) openMenu();
+          else closeMenu();
         });
+
+        closeBtn && closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          closeMenu();
+        });
+
+        overlay && overlay.addEventListener('click', function (e) {
+          e.stopPropagation();
+          closeMenu();
+        });
+
+        // Ferme avec Echap & clic extérieur
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeMenu();
+        });
+        document.addEventListener('click', function (e) {
+          if (!menu.classList.contains('hidden')) {
+            if (!menu.contains(e.target) && e.target !== btn) {
+              closeMenu();
+            }
+          }
+        });
+      })();
     </script>
+
     <style>
-        .flash-message {
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
-        }
-        .flash-message.translate-x-0 {
-            transform: translateX(0);
-        }
-        .flash-message.translate-x-full {
-            transform: translateX(100%);
-        }
+      .flash-message {
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+      }
+      .flash-message.translate-x-0 { transform: translateX(0); }
+      .flash-message.translate-x-full { transform: translateX(100%); }
     </style>
+
     <!-- Contenu principal -->
     <main class="flex flex-col flex-grow container mx-auto ">
-        {% block body %}{% endblock %}
+      {% block body %}{% endblock %}
     </main>
+
+    <!-- (Optionnel) Réaffichage brut des flashes si vous l'utilisiez déjà ailleurs -->
     {% for label, messages in app.flashes %}
-    {% for message in messages %}
+      {% for message in messages %}
         <div class="alert alert-{{ label }}">
-            {{ message }}
+          {{ message }}
         </div>
+      {% endfor %}
     {% endfor %}
-{% endfor %}
-    <!-- Footer aligné avec la navigation -->
+
+    <!-- Footer -->
     <footer class="bg-BLACK text-WHITE p-4 border-t-2 border-PINK">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-PINK font-bold">&copy; {{ 'now'|date('Y') }} Boutique officielle de la guilde Ah-Jin</p>
-            <p class="text-WHITE/80 mt-1">Tous droits réservés</p>
-        </div>
+      <div class="container mx-auto px-4 text-center">
+        <p class="text-PINK font-bold">&copy; {{ 'now'|date('Y') }} Boutique officielle de la guilde Ah-Jin</p>
+        <p class="text-WHITE/80 mt-1">Tous droits réservés</p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>
