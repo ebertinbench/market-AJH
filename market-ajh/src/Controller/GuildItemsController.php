@@ -197,4 +197,35 @@ final class GuildItemsController extends AbstractController
         $this->addFlash('success', 'Mise en vente modifiée avec succès !');
         return $this->redirectToRoute('app_guild_items_index');
     }
+
+    #[Route('/change-price', name: 'app_guild_items_change_price', methods: ['POST'])]
+    public function changePrice(
+        Request $request,
+        GuildItemsRepository $repo,
+        EntityManagerInterface $em
+    ): Response {
+        if (!$this->getUser()->isChief()) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $id = $request->request->get('id');
+        $newPrice = $request->request->get('price');
+        $guildItem = $repo->find($id);
+        if (!$guildItem) {
+            $this->addFlash('error', 'Item introuvable.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        $userGuild = $this->getUser()->getGuild();
+        if ($guildItem->getGuild() !== $userGuild) {
+            $this->addFlash('error', 'Action non autorisée.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        $guildItem->setPrice($newPrice);
+        $em->flush();
+
+        $this->addFlash('success', 'Prix modifié avec succès !');
+        return $this->redirectToRoute('app_guild_items_index');
+    }
 }

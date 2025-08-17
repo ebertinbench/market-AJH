@@ -47,7 +47,6 @@
             <thead>
                 <tr class="bg-BLACK text-WHITE">
                     <th class="py-2 px-4 text-left">Item</th>
-                    
                     <th class="py-2 px-4 text-left">Statut</th>
                     <th class="py-2 px-4 text-left">Date de commande</th>
                     <th class="py-2 px-4 text-left">Vendeur</th>
@@ -61,12 +60,11 @@
                 {% for commande in commandes %}
                     <tr class="border-b bg-GREEN text-BLACK">
                         <td class="py-2 px-4">{{ commande.idItem.item.nom }}</td>
-                        
                         <td class="py-2 px-4">{{ commande.statut }}</td>
                         <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
                         <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
-                        <td class="py-2 px-4">{{ commande.quantite }}</td>
                         <td class="py-2 px-4">{{ commande.idItem.price }}</td>
+                        <td class="py-2 px-4">{{ commande.quantite }}</td>
                         <td class="py-2 px-4">{{ commande.getTotal() }}</td>
                         {% if commande.statut == 'En attente de livraison' %}
                             <td class="py-2 px-4">
@@ -87,13 +85,10 @@
                                     </select>
                                     <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Donner un avis</button>
                                 </form>
-                                
                             </td>
-                        
                         {% else %}
                             <td class="py-2 px-4">Aucune action disponible</td>
                         {% endif %}
-                        
                     </tr>
                 {% endfor %}
             </tbody>
