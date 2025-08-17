@@ -31,6 +31,9 @@ class GuildItems
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idItem')]
     private Collection $commandes;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $miseEnVente = null;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -110,6 +113,18 @@ class GuildItems
                 $commande->setIdItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isMiseEnVente(): ?bool
+    {
+        return $this->miseEnVente;
+    }
+
+    public function setMiseEnVente(?bool $miseEnVente): static
+    {
+        $this->miseEnVente = $miseEnVente;
 
         return $this;
     }

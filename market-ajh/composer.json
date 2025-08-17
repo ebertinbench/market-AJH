@@ -10,7 +10,7 @@
         "ext-pdo": "*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-fixtures-bundle": "^4.1",
-        "doctrine/doctrine-migrations-bundle": "*",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
         "symfony/asset": "7.2.*",
         "symfony/console": "7.2.*",

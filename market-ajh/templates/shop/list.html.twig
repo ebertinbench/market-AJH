@@ -3,61 +3,60 @@
 {% block title %}Boutique – {{ guild.Name }}{% endblock %}
 
 {% block body %}
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Boutique de la guilde « {{ guild.Name }} »</h1>
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Boutique de la guilde « {{ guild.Name }} »</h1>
 
-    <p class="mb-4">
-      <a href="{{ path('shop_index') }}" class="text-gray-600 hover:underline">
-        ← Retour à la sélection de guilde
-      </a>
-    </p>
+        <p class="mb-4">
+            <a href="{{ path('shop_index') }}" class="text-gray-600 hover:underline">
+                ← Retour à la sélection de guilde
+            </a>
+        </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {% if guildItems is not empty %}
-            <div class="w-full max-w-7xl mx-auto">
-                <div class="flex flex-wrap justify-center gap-6">
-                    {% for gi in guildItems %}
-                        <div class="flex-0 w-60 bg-GREEN rounded-lg shadow-lg flex flex-col items-center p-6 transition-transform">
-                            <div class="w-32 h-32 flex items-center justify-center mb-4 overflow-hidden rounded">
-                                {% if gi.item.image %}
-                                    <img
-                                            src="{{ asset(gi.item.image) }}"
-                                            alt="{{ gi.item.nom }}"
-                                            class="object-cover w-full h-full"
-                                    >
-                                {% else %}
-                                    <span class="text-gray-400">Pas d'image</span>
-                                {% endif %}
-                            </div>
-                            <span class="font-semibold text-lg mb-2 text-center">{{ gi.item.nom }}</span>
-                            <span class="text-GRAY font-bold mb-4">Item de palier {{ gi.item.palier }}</span>
-                            <span class="text-VIOLET font-bold mb-4">{{ gi.price }} €</span>
-                            <form method="post" action="{{ path('shop_order') }}" class="w-full flex flex-col items-center">
-                                <input type="hidden" name="id" value="{{ gi.id }}">
-                                <label for="quantity-{{ gi.id }}" class="mb-2 text-sm text-gray-700">Quantité :</label>
-                                <input
-                                    type="number"
-                                    id="quantity-{{ gi.id }}"
-                                    name="quantity"
-                                    min="1"
-                                    value="1"
-                                    class="mb-3 w-20 px-2 py-1 border rounded text-center"
-                                    required
-                                >
-                                <input type="hidden" name="item_id" value="{{ gi.id }}">
-                                
-                                <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-VIOLET-dark transition">
-                                    Commander
-                                </button>
-                            </form>
-
-                        </div>
-                    {% endfor %}
+                <div class="flex flex-wrap gap-6 justify-start">
+                        {% for gi in guildItems %}
+                                <div class="flex-none w-60 bg-GREEN rounded-lg shadow-lg flex flex-col items-center justify-between p-6 transition-transform">
+                                        <div class="w-32 h-32 flex items-center justify-center mb-4 overflow-hidden rounded">
+                                                {% if gi.item.image %}
+                                                        <img
+                                                                        src="{{ asset(gi.item.image) }}"
+                                                                        alt="{{ gi.item.nom }}"
+                                                                        class="object-cover w-full h-full"
+                                                        >
+                                                {% else %}
+                                                        <span class="text-gray-400">Pas d'image</span>
+                                                {% endif %}
+                                        </div>
+                                        <span class="font-semibold text-lg mb-2 text-center">{{ gi.item.nom }}</span>
+                                        <span class="text-GRAY font-bold mb-4">Item de palier {{ gi.item.palier }}</span>
+                                        <span class="text-VIOLET font-bold mb-4">{{ gi.price }} €</span>
+                                        {% if gi.miseEnVente %}
+                                                <form method="post" action="{{ path('shop_order') }}" class="w-full flex flex-col items-center">
+                                                        <input type="hidden" name="id" value="{{ gi.id }}">
+                                                        <label for="quantity-{{ gi.id }}" class="mb-2 text-sm text-gray-700">Quantité :</label>
+                                                        <input
+                                                                type="number"
+                                                                id="quantity-{{ gi.id }}"
+                                                                name="quantity"
+                                                                min="1"
+                                                                value="1"
+                                                                class="mb-3 w-20 px-2 py-1 border rounded text-center"
+                                                                required
+                                                        >
+                                                        <input type="hidden" name="item_id" value="{{ gi.id }}">
+                                                        
+                                                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-VIOLET-dark transition">
+                                                                Commander
+                                                        </button>
+                                                </form>
+                                        {% else %}
+                                                <span class="text-red-500 font-medium">Cet item n'est pas en vente</span>
+                                        {% endif %}
+                                </div>
+                        {% endfor %}
                 </div>
-            </div>
         {% else %}
-            <p>Aucun item n’est défini pour cette guilde.</p>
+                <p>Aucun item n'est défini pour cette guilde.</p>
         {% endif %}
     </div>
-  </div>
 {% endblock %}

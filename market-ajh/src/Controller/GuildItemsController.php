@@ -168,4 +168,33 @@ final class GuildItemsController extends AbstractController
             'wallpaper'  => $wallpaperService->getRandomWallpaperName()
         ]);
     }
+    #[Route('/change-miseenvente', name:'app_guild_items_change_miseenvente', methods: ['POST'])]
+    public function changeMiseEnVente(
+        Request $request,
+        GuildItemsRepository $repo,
+        EntityManagerInterface $em
+    ): Response {
+        if (!$this->getUser()->isChief()) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $id = $request->request->get('id');
+        $guildItem = $repo->find($id);
+        if (!$guildItem) {
+            $this->addFlash('error', 'Item introuvable.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        $userGuild = $this->getUser()->getGuild();
+        if ($guildItem->getGuild() !== $userGuild) {
+            $this->addFlash('error', 'Action non autorisée.');
+            return $this->redirectToRoute('app_guild_items_index');
+        }
+
+        $guildItem->setMiseEnVente(!$guildItem->isMiseEnVente());
+        $em->flush();
+
+        $this->addFlash('success', 'Mise en vente modifiée avec succès !');
+        return $this->redirectToRoute('app_guild_items_index');
+    }
 }

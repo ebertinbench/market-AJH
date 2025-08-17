@@ -47,6 +47,20 @@
                 Supprimer
               </button>
             </form>
+            <form
+              method="post"
+              action="{{ path('app_guild_items_change_miseenvente') }}"
+              class="w-full mt-2"
+            >
+              <input type="hidden" name="id" value="{{ gi.id }}">
+              <button class="bg-GREEN text-WHITE px-3 py-1 rounded w-full border-2 border-transparent hover:border-GREEN">
+                {% if gi.miseEnVente %}
+                  Retirer de la vente
+                {% else %}
+                  Remettre en vente
+                {% endif %}
+              </button>
+            </form>
           </div>
         {% endfor %}
       </div>
