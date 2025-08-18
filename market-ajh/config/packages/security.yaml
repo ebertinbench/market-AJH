@@ -39,7 +39,7 @@ security:
     # Role hierarchy
     role_hierarchy:
         ROLE_ADMIN: [ROLE_COMPTABLE, ROLE_VENDEUR, ROLE_CLIENT]
-        ROLE_COMPTABLE: [ROLE_VENDEUR, ROLE_CLIENT]
+        ROLE_COMPTABLE: [ROLE_CLIENT]
         ROLE_VENDEUR: [ROLE_CLIENT]
         ROLE_CLIENT: []
 
@@ -50,12 +50,12 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/orders, roles: ROLE_VENDEUR }
         - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/items, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/item, roles: ROLE_ADMIN }
         - { path: '^/guild', roles: ROLE_ADMIN }
         - { path: '^/shop', roles: ROLE_CLIENT }
         - { path: ^/compta, roles: ROLE_COMPTABLE }
         - { path: ^/news, roles: ROLE_COMPTABLE }
-
 when@test:
     security:
         password_hashers:

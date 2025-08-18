@@ -21,12 +21,12 @@ final class UserController extends AbstractController
     #[Route(name: 'app_user_index', methods: ['GET'])]
     public function index(
         UserRepository $userRepository, 
-        Wallpaper $wallpaper
+        Wallpaper $wallpaperService
     ): Response {
         return $this->render('user/index.html.twig', [
             'users'     => $userRepository->findAll(),
             'nomdepage' => 'Gestion des utilisateurs',
-            'wallpaper' => $wallpaper->getRandomWallpaperName(),
+            'wallpaper' => $wallpaperService->getRandomWallpaperName(),
         ]);
     }
 
@@ -64,11 +64,14 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
+    public function show(
+        User $user,
+        Wallpaper $wallpaperService
+    ): Response {
         return $this->render('user/show.html.twig', [
             'user'      => $user,
             'nomdepage' => 'Détails de l\'utilisateur',
+            'wallpaper' => $wallpaperService->getRandomWallpaperName(),
         ]);
     }
 
@@ -77,7 +80,8 @@ final class UserController extends AbstractController
         User $user,
         Request $request,
         EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher
+        UserPasswordHasherInterface $hasher,
+        Wallpaper $wallpaperService
     ): Response {
         $roleForm = $this->createForm(RoleFormType::class, $user);
         $roleForm->handleRequest($request);
@@ -105,6 +109,7 @@ final class UserController extends AbstractController
             'passwordForm' => $passwordForm->createView(),
             'user'         => $user,
             'nomdepage'    => 'Modifier l\'utilisateur',
+            'wallpaper'    => $wallpaperService->getRandomWallpaperName(),
         ]);
     }
 

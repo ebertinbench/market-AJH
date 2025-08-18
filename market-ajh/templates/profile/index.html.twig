@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="container mx-auto mt-8 max-w-2xl bg-GREEN rounded shadow p-8">
+   
         <form method="post" action="{{ path('profile_change_password') }}" class="mb-8">
             <div class="mb-4">
                 <label for="newPassword" class="block text-WHITE font-semibold mb-2">Nouveau mot de passe</label>
@@ -12,23 +13,24 @@
         <hr class="my-6">
 
         {% if user.guild %}
+            <p class="mb-2"><strong>Mon pseudo :</strong> {{ user.username }}</p>
             <p class="mb-2"><strong>Nom de la guilde :</strong> <span class="text-BLUE">{{ user.guild.name }}</span></p>
 
-            {% if user.guild.chef %}
-                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-BLACK">{{ user.guild.chef.username }}</span></p>
+            {% if user.guild.chef == user %}
+                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-BLUE">{{ user.guild.chef.username }}</span></p>
                 <form action="{{ path('profile_add_members') }}" method="get" class="mb-2">
-                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Ajouter des membres</button>
+                    <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded">Ajouter des membres</button>
                 </form>
                 {% if user.guild.allowedToSell %}
                     <form action="{{ path('app_guild_items_index') }}" method="get" class="mb-2">
-                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Gérer les items vendus</button>
+                        <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded">Gérer les items vendus</button>
                     </form>
                 {% endif %}
             {% else %}
-                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-red-500">Aucun chef désigné</span></p>
+                <p class="mb-4"><strong>Chef de la guilde :</strong> <span class="text-BLUE">{{ user.guild.chef.username }}</span></p>
             {% endif %}
             <form action="{{ path('guild_quit') }}" method="post" onsubmit="return confirm('Es-tu sûr de vouloir quitter la guilde ?');" class="mb-4">
-                <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Quitter la guilde</button>
+                <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded">Quitter la guilde</button>
             </form>
         {% else %}
             <p class="mb-4 text-WHITE">Vous n'appartenez à aucune guilde.</p>

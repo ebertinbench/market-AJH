@@ -28,7 +28,7 @@ final class HomeController extends AbstractController
             'user'      => $user,
             'nomdepage' => 'Page utilisateur',
             'wallpaper' => $wallpaperService->getRandomWallpaperName(),
-            'news_list' => $entityManager->getRepository(News::class)->findBy(['Emetteur' => $user])
+            'news_list' => $entityManager->getRepository(News::class)->findAll(),
         ]);
     }
 

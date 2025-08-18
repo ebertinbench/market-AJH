@@ -18,17 +18,38 @@ final class ComptaController extends AbstractController
     public function index(
         CommandeRepository $commandeRepository, 
         Wallpaper $wallpaperService
-    ): Response
-    {
-        $commandes = $commandeRepository->findAll();
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
 
-        return $this->render('compta/index.html.twig', [
-            'controller_name' => 'ComptaController',
-            'nomdepage' => 'Comptabilité générale ',
-            'user' => $this->getUser(),
-            'commandes' => $commandes,
-            'wallpaper' => $wallpaperService->getRandomWallpaperName()
-        ]);
+        if (!$user || !$this->isGranted('ROLE_COMPTABLE')) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if (!$user->getGuild()) {
+            $this->addFlash('error', 'Vous devez être assigné à une guilde pour accéder à la comptabilité.');
+            return $this->redirectToRoute('app_home');
+        }
+        if (!$user || !$this->isGranted('ROLE_ADMIN')) {
+            return $this->render('compta/index.html.twig', [
+                'controller_name' => 'ComptaController',
+                'nomdepage' => 'Comptabilité générale ',
+                'user' => $user,
+                'commandes' => $commandeRepository->findAll(),
+                'wallpaper' => $wallpaperService->getRandomWallpaperName()
+            ]);
+        }
+        else{
+            return $this->render('compta/index.html.twig', [
+                'controller_name' => 'ComptaController',
+                'nomdepage' => 'Comptabilité générale ',
+                'user' => $user,
+                'commandes' => $commandeRepository->findByUserAndGuild(null, $user->getGuild()),
+                'wallpaper' => $wallpaperService->getRandomWallpaperName()
+            ]);
+
+        }
+        
     }
     
     #[Route('/compta/filter', name: 'app_compta_filter', methods: ['GET', 'POST'])]

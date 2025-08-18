@@ -98,7 +98,7 @@ final class GuildItemsController extends AbstractController
             $gi->setGuild($guild);
             $gi->setItem($data['item']);
             $gi->setPrice($data['price']);
-
+            $gi->setMiseEnVente(true);
             $em->persist($gi);
             $em->flush();
             $this->addFlash('success', 'L\'item a été ajouté avec succès !');
