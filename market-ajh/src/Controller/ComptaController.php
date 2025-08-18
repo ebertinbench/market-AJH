@@ -30,7 +30,7 @@ final class ComptaController extends AbstractController
             $this->addFlash('error', 'Vous devez être assigné à une guilde pour accéder à la comptabilité.');
             return $this->redirectToRoute('app_home');
         }
-        if (!$user || !$this->isGranted('ROLE_ADMIN')) {
+        if (!$user || $this->isGranted('ROLE_ADMIN')) {
             return $this->render('compta/index.html.twig', [
                 'controller_name' => 'ComptaController',
                 'nomdepage' => 'Comptabilité générale ',
