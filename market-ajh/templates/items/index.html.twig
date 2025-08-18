@@ -26,7 +26,7 @@
             <div class="w-32 h-32 flex items-center justify-center mb-4 overflow-hidden rounded">
               {% if gi.item.image %}
                 <img
-                  src="{{ gi.item.image }}"
+                  src="{{ '/' ~ gi.item.image }}"
                   alt="{{ gi.item.nom }}"
                   class="object-cover w-full h-full"
                 >
