@@ -4,6 +4,11 @@ namespace App\Services;
 
 class Wallpaper
 {
+    
+    /**
+     * Permet d'obtenir un nom de fond d'écran aléatoire. 
+     * Cette fonction est nécessaire dans toutes les routes, sous la forme de la variable 'wallpaper'.
+     */
     public function getRandomWallpaperName(): ?string
     {
         $directory = __DIR__ . '/../../assets/images/wallpapers';

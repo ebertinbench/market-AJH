@@ -13,7 +13,10 @@ use Doctrine\ORM\EntityManagerInterface;
 final class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(Wallpaper $wallpaperService, EntityManagerInterface $entityManager): Response
+    public function index(
+        Wallpaper $wallpaperService, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $user = $this->getUser();
         

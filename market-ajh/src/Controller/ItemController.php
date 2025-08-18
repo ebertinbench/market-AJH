@@ -10,13 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Services\Wallpaper;
 
 #[Route('/item')]
 final class ItemController extends AbstractController
 {
     #[Route(name: 'app_item_index', methods: ['GET'])]
-    public function index(ItemRepository $itemRepository, Wallpaper $wallpaperService): Response
+    public function index(
+        ItemRepository $itemRepository, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
@@ -26,7 +30,11 @@ final class ItemController extends AbstractController
     }
 
     #[Route('/new', name: 'app_item_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, Wallpaper $wallpaperService): Response
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         $item = new Item();
         $form = $this->createForm(ItemForm::class, $item);
@@ -64,7 +72,10 @@ final class ItemController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_item_show', methods: ['GET'])]
-    public function show(Item $item, Wallpaper $wallpaperService): Response
+    public function show(
+        Item $item, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         return $this->render('item/show.html.twig', [
             'item' => $item,

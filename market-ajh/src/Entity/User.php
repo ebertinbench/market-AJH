@@ -384,4 +384,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getMoyenneAvisVendeur(): float
+    {
+        $total = 0;
+        $count = 0;
+
+        foreach ($this->avisrecus as $avis) {
+            $total += $avis->getNote();
+            $count++;
+        }
+
+        return $count > 0 ? $total / $count : 0;
+    }
 }

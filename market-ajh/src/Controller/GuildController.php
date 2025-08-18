@@ -23,8 +23,7 @@ final class GuildController extends AbstractController
         GuildRepository $guildRepository, 
         UserRepository $userRepository,
         Wallpaper $wallpaperService
-    ): Response
-    {
+    ): Response {
         $guilds = $guildRepository->findAll();
         $users = $userRepository->findAll();
         return $this->render('guild/index.html.twig', [
@@ -41,8 +40,7 @@ final class GuildController extends AbstractController
         int $guildId, 
         int $userId, 
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $guild = $entityManager->getRepository(Guild::class)->find($guildId);
         $user  = $entityManager->getRepository(User::class)->find($userId);
 
@@ -99,8 +97,7 @@ final class GuildController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager,
         Wallpaper $wallpaperService
-    ): Response
-    {
+    ): Response {
         if ($request->isMethod('POST')) {
             $name          = $request->request->get('name');
             $allowedToSell = (bool) $request->request->get('allowedtosell', false);
@@ -145,8 +142,7 @@ final class GuildController extends AbstractController
     public function delete(
         int $id, 
         EntityManagerInterface $entityManager
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $guild = $entityManager->getRepository(Guild::class)->find($id);
 
         if (!$guild) {

@@ -19,12 +19,16 @@ use App\Services\Wallpaper;
 final class GuildItemsController extends AbstractController
 {
     #[Route(name: 'app_guild_items_index', methods: ['GET'])]
-    public function index(GuildItemsRepository $repo, Wallpaper $wallpaperService): Response
+    public function index(
+        GuildItemsRepository $repo, 
+        Wallpaper $wallpaperService
+    ): Response
     {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        $user  = $this->getUser();
         $guild = $user->getGuild();
         return $this->render('items/index.html.twig', [
             'guildItems' => $repo->findBy(['guild' => $guild]), 
@@ -40,10 +44,11 @@ final class GuildItemsController extends AbstractController
         GuildItemsRepository $repo,
         Wallpaper $wallpaperService
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        $user  = $this->getUser();
         $guild = $user->getGuild();
         $form  = $this->createForm(ItemSelectType::class);
 
@@ -76,10 +81,11 @@ final class GuildItemsController extends AbstractController
         GuildItemsRepository $repo,
         Wallpaper $wallpaperService
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        $user  = $this->getUser();
         $guild = $user->getGuild();
 
         $form = $this->createForm(ItemSelectType::class);
@@ -114,7 +120,9 @@ final class GuildItemsController extends AbstractController
         EntityManagerInterface $em,
         Request $request
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -123,7 +131,7 @@ final class GuildItemsController extends AbstractController
             $this->addFlash('error', 'Item introuvable.');
             return $this->redirectToRoute('app_guild_items_index');
         }
-        $userGuild = $this->getUser()->getGuild();
+        $userGuild = $user->getGuild();
         if ($guildItem->getGuild() !== $userGuild) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_guild_items_index');
@@ -142,10 +150,11 @@ final class GuildItemsController extends AbstractController
         GuildItemsRepository $repo,
         Wallpaper $wallpaperService
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
-        $user  = $this->getUser();
         $guild = $user->getGuild();
         $query = $request->query->get('q', '');
 
@@ -174,7 +183,9 @@ final class GuildItemsController extends AbstractController
         GuildItemsRepository $repo,
         EntityManagerInterface $em
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -185,7 +196,7 @@ final class GuildItemsController extends AbstractController
             return $this->redirectToRoute('app_guild_items_index');
         }
 
-        $userGuild = $this->getUser()->getGuild();
+        $userGuild = $user->getGuild();
         if ($guildItem->getGuild() !== $userGuild) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_guild_items_index');
@@ -204,7 +215,9 @@ final class GuildItemsController extends AbstractController
         GuildItemsRepository $repo,
         EntityManagerInterface $em
     ): Response {
-        if (!$this->getUser()->isChief()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user->isChief()) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -216,7 +229,7 @@ final class GuildItemsController extends AbstractController
             return $this->redirectToRoute('app_guild_items_index');
         }
 
-        $userGuild = $this->getUser()->getGuild();
+        $userGuild = $user->getGuild();
         if ($guildItem->getGuild() !== $userGuild) {
             $this->addFlash('error', 'Action non autorisée.');
             return $this->redirectToRoute('app_guild_items_index');

@@ -15,7 +15,10 @@ use Doctrine\ORM\EntityManagerInterface;
 final class ComptaController extends AbstractController
 {
     #[Route('/compta', name: 'app_compta')]
-    public function index(CommandeRepository $commandeRepository, Wallpaper $wallpaperService): Response
+    public function index(
+        CommandeRepository $commandeRepository, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         $commandes = $commandeRepository->findAll();
 
@@ -29,7 +32,11 @@ final class ComptaController extends AbstractController
     }
     
     #[Route('/compta/filter', name: 'app_compta_filter', methods: ['GET', 'POST'])]
-    public function filter(Request $request, CommandeRepository $commandeRepository, Wallpaper $wallpaperService): Response
+    public function filter(
+        Request $request, 
+        CommandeRepository $commandeRepository, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         $userParam = $request->query->get('user', '');
         $guildeParam = $request->query->get('guilde', '');

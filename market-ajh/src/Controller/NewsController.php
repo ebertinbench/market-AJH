@@ -15,7 +15,10 @@ use Doctrine\ORM\EntityManagerInterface;
 final class NewsController extends AbstractController
 {
     #[Route('/news', name: 'app_news')]
-    public function index(Request $request, Wallpaper $wallpaperService): Response
+    public function index(
+        Request $request, 
+        Wallpaper $wallpaperService
+    ): Response
     {
         return $this->render('news/index.html.twig', [
             'controller_name' => 'NewsController',
@@ -25,7 +28,11 @@ final class NewsController extends AbstractController
     }
 
     #[Route('/news/create', name: 'app_news_create', methods: ['POST'])]
-    public function create(Request $request, Wallpaper $wallpaperService, EntityManagerInterface $entityManager): Response
+    public function create(
+        Request $request, 
+        Wallpaper $wallpaperService, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $contenu = $request->request->get('contenu');
         $titre = $request->request->get('titre');
@@ -38,6 +45,10 @@ final class NewsController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
+    /**
+     * Retire les nouvelles de plus de 7 jours
+     * TODO: Implémenter la logique de suppression selon une valeur de chaque nouvelle
+     */
     public static function removeExpiredNews(EntityManagerInterface $entityManager): Response{
         $sevenDaysAgo = (new \DateTime())->modify('-7 days');
         $qb = $entityManager->createQueryBuilder();

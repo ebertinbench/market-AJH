@@ -10,14 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Service\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\Services\Wallpaper;
+use App\Entity\User;
 
 class ShopController extends AbstractController
 {
     #[Route('/shop', name: 'shop_index')]
-    public function index(GuildRepository $guildRepository, Wallpaper $wallpaperService): Response
-    {
+    public function index(
+        GuildRepository $guildRepository, 
+        Wallpaper $wallpaperService
+    ): Response {
         $guilds = $guildRepository->findAllowedToSell();
 
         return $this->render('shop/index.html.twig', [
@@ -32,9 +35,7 @@ class ShopController extends AbstractController
         int $id, 
         GuildRepository $guildRepository,
         Wallpaper $wallpaperService
-    ): Response
-    {
-        // récupère la guilde
+    ): Response {
         $guild = $guildRepository->find($id);
         if (!$guild) {
             throw $this->createNotFoundException('Guilde non trouvée.');
@@ -60,6 +61,9 @@ class ShopController extends AbstractController
         $quantity      = $request->request->get('quantity');
         $itemId        = $request->request->get('item_id');
         $statut        = 'En attente';
+        /**
+         * @var User $idClient
+         */
         $idClient      = $this->getUser();
         $idVendeur     = null;
         $dateCommande  = new \DateTime();

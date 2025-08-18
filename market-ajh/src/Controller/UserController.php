@@ -19,8 +19,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
     #[Route(name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository, Wallpaper $wallpaper): Response
-    {
+    public function index(
+        UserRepository $userRepository, 
+        Wallpaper $wallpaper
+    ): Response {
         return $this->render('user/index.html.twig', [
             'users'     => $userRepository->findAll(),
             'nomdepage' => 'Gestion des utilisateurs',
