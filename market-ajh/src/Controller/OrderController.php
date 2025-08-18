@@ -24,7 +24,9 @@ final class OrderController extends AbstractController
         $playerId = $request->query->get('player');
         $playerId = ($playerId !== null && $playerId !== '') ? (int)$playerId : null;
         $status   = $request->query->get('status');
-        $orders = $commandeRepository->findByFilters($playerId, $status);
+        /** @var User $user */
+        $user = $this->getUser();
+        $orders = $commandeRepository->findByGuild($user->getGuild()->getName());
         $players = $userRepository->findAll();
         $statuses = [
             'En attente'                => 'En attente',

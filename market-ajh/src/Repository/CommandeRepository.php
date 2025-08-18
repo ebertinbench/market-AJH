@@ -148,5 +148,28 @@ class CommandeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Retourne les commandes filtrées par guilde.
+     * @param string|null $guild Nom ou ID de la guilde
+     * @return Commande[]
+     */
+    public function findByGuild(?string $guild): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.idItem', 'gi')
+            ->leftJoin('gi.guild', 'g')
+            ->addSelect('gi')
+            ->addSelect('g');
+
+        if ($guild !== null && $guild !== '') {
+            $this->addGuildFilter($qb, $guild);
+        }
+
+        return $qb
+            ->orderBy('c.dateCommande', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 }

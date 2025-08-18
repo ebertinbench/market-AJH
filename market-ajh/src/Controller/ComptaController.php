@@ -44,7 +44,7 @@ final class ComptaController extends AbstractController
                 'controller_name' => 'ComptaController',
                 'nomdepage' => 'Comptabilité générale ',
                 'user' => $user,
-                'commandes' => $commandeRepository->findByUserAndGuild(null, $user->getGuild()),
+                'commandes' => $commandeRepository->findByUserAndGuild(null, $user->getGuild()->getName()),
                 'wallpaper' => $wallpaperService->getRandomWallpaperName()
             ]);
 
