@@ -31,8 +31,8 @@ class GuildItems
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'idItem')]
     private Collection $commandes;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $miseEnVente = null;
+    #[ORM\Column(nullable: false, options: ['default' => true])]
+    private bool $miseEnVente = true;
 
     public function __construct()
     {

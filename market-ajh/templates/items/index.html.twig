@@ -43,9 +43,11 @@
               class="w-full"
             >
               <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ gi.id) }}">
+              {% if is_granted('ROLE_ADMIN') %}
               <button class="bg-VIOLET text-WHITE px-3 py-1 rounded w-full border-2 border-transparent hover:border-VIOLET">
                 Supprimer
               </button>
+              {% endif %}
             </form>
             <form
               method="post"
@@ -53,16 +55,20 @@
               class="w-full mt-2"
             >
               <input type="hidden" name="id" value="{{ gi.id }}">
-              <button class="bg-GREEN text-WHITE px-3 py-1 rounded w-full border-2 border-transparent hover:border-GREEN">
-                {% if gi.miseEnVente %}
-                  Retirer de la vente
-                {% else %}
-                  Remettre en vente
-                {% endif %}
+              <div class="flex justify-center gap-2 mt-2">
+                <button class="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20">
+                  {% if gi.miseEnVente %}
+                    Retirer de la vente
+                  {% else %}
+                    Remettre en vente
+                  {% endif %}
                 </button>
+              </div>
               </form>
-              <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
-              <button command="show-modal" commandfor="dialog" class="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20">Changer le prix</button>
+              <div class="flex justify-center gap-2">
+                <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+                <button command="show-modal" commandfor="dialog" class="rounded-md mt-2 bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20">Changer le prix</button>
+              </div>
               <el-dialog>
                 <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                   <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>

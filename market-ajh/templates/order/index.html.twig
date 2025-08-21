@@ -37,16 +37,16 @@
             </div>
 
             <button type="submit"
-                    class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                    class="px-4 py-2 bg-VIOLET text-white rounded shadow hover:bg-VIOLET">
                 Filtrer
             </button>
         </form>
 
         {% if orders|length > 0 %}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+            <div class="flex flex-wrap gap-6 justify-center">
                 {% for order in orders %}
                     <div class="bg-GREEN shadow-lg rounded-lg p-5 mx-auto flex flex-col items-center">
-                        <p class="text-WHITE"><strong>Commande émise par :</strong> {{ order.idClient.username }} </p>
+                        <p class="text-WHITE"><strong>Commande n°{{ order.id }} <br>Emise par :</strong> {{ order.idClient.username }} </p>
                         <p class="text-WHITE text-sm mb-3">
                             <em>Le {{ order.dateCommande|date('d/m/Y') }} à {{ order.dateCommande|date('H:i') }}</em>
                         </p>
@@ -54,10 +54,16 @@
                             <strong>Statut :</strong>
                             {{ statuses[order.statut] ?? order.statut }}
                         </p>
-                        <div class="text-gray-800 mb-2">
-                            <strong>Quantité:</strong> {{ order.quantite }} unité(s)
-                        </div>
                         <img src="{{ asset(order.idItem.item.image) }}" alt="{{ order.idItem.item.nom }}" class="w-24 h-24 object-cover mt-3 mb-2 rounded">
+                        <div class="text-gray-800 mb-2">
+                            <strong>Article :</strong> {{ order.idItem.item.nom }}
+                        </div>
+                        <div class="text-gray-800 mb-2">
+                            <strong>Quantité:</strong> {{ order.quantite }}
+                        </div>
+                        <div class="text-gray-800 mb-2">
+                            <strong>Total :</strong> {{ order.total }} €
+                        </div>
                         <div class="text-blue-900 font-semibold mb-2">
                             <strong>Vendeur :</strong> {{ order.idVendeur.username | default('Aucun vendeur assigné') }}
                         </div>

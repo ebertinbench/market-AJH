@@ -65,7 +65,7 @@
                         <td class="py-2 px-4">{{ commande.statut }}</td>
                         <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
                         <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
-                        <td class="py-2 px-4">{{ commande.idItem.price }}</td>
+                        <td class="py-2 px-4">{{ commande.total / commande.quantite }}</td>
                         <td class="py-2 px-4">{{ commande.quantite }}</td>
                         <td class="py-2 px-4">{{ commande.getTotal() }}</td>
                         {% if commande.statut == 'En attente de livraison' %}

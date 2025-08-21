@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\AvisCommande;
+use App\Entity\Commande;
 use App\Repository\AvisCommandeRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
@@ -54,6 +55,9 @@ final class OrderController extends AbstractController
         UserRepository $userRepository,
         \Doctrine\ORM\EntityManagerInterface $entityManager
     ): Response {
+        /**
+         * @var Commande $commande
+         */
         $commande = $commandeRepository->find($id);
         if (!$commande) {
             throw $this->createNotFoundException('Commande non trouvée.');
@@ -72,6 +76,7 @@ final class OrderController extends AbstractController
 
         $commande->setIdVendeur($seller);
         $commande->setStatut('En attente de livraison');
+        $commande->setDatePriseEnCharge(new \DateTime());
         $entityManager->persist($commande);
         $entityManager->flush();
 
@@ -85,6 +90,9 @@ final class OrderController extends AbstractController
         CommandeRepository $commandeRepository,
         \Doctrine\ORM\EntityManagerInterface $entityManager
     ): Response {
+        /**
+         * @var Commande $commande
+         */
         $commande = $commandeRepository->find($id);
         if (!$commande) {
             throw $this->createNotFoundException('Commande non trouvée.');
@@ -92,6 +100,7 @@ final class OrderController extends AbstractController
 
         $commande->setIdVendeur(null);
         $commande->setStatut('En attente');
+        $commande->setDatePriseEnCharge(null);
         $entityManager->persist($commande);
         $entityManager->flush();
 
@@ -125,12 +134,16 @@ final class OrderController extends AbstractController
         CommandeRepository $commandeRepository,
         \Doctrine\ORM\EntityManagerInterface $entityManager
     ): Response {
+        /**
+         * @var Commande $commande
+         */
         $commande = $commandeRepository->find($id);
         if (!$commande) {
             throw $this->createNotFoundException('Commande non trouvée.');
         }
 
         $commande->setStatut('Livrée');
+        $commande->setDateLivraison(new \DateTime());
         $entityManager->persist($commande);
         $entityManager->flush();
 
