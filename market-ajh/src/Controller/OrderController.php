@@ -10,6 +10,7 @@ use App\Entity\Commande;
 use App\Repository\AvisCommandeRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\Wallpaper;
 

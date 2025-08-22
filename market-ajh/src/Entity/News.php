@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\NewsType;
 use App\Repository\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,9 @@ class News
 
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
+
+    #[ORM\Column(enumType: NewsType::class)]
+    private ?NewsType $type = null;
 
     public function getId(): ?int
     {
@@ -90,6 +94,18 @@ class News
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getType(): ?NewsType
+    {
+        return $this->type;
+    }
+
+    public function setType(NewsType $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

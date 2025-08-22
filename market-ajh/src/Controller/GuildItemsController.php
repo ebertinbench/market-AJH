@@ -7,6 +7,7 @@ use App\Entity\GuildItems;
 use App\Form\GuildItemsForm;
 use App\Form\ItemSelectType;
 use App\Repository\ItemRepository;
+use App\Entity\User;
 use App\Repository\GuildItemsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

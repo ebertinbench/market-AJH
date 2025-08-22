@@ -5,8 +5,8 @@ reset-env-db:
 	php market-ajh/bin/console doctrine:fixtures:load --no-interaction
 
 migration-no-check:
-	php bin/console make:migration
-	php bin/console doctrine:migrations:migrate
+	php market-ajh/bin/console make:migration
+	php market-ajh/bin/console doctrine:migrations:migrate
 
 
 migration-check-1:

@@ -21,6 +21,23 @@
                     <span class="font-bold text-lg text-WHITE">
                         {{ news.titre ? news.titre : 'Sans titre' }}
                     </span>
+                    <span class="text-sm px-2 py-1 rounded w-fit
+                        {% if news.type %}
+                            {% if news.type.value == 'Communication du staff SAO' %}
+                                bg-red-500 text-white
+                            {% elseif news.type.value == 'Nouvelle fonctionnalité' %}
+                                bg-blue-500 text-white
+                            {% elseif news.type.value == 'Note de maintenance' %}
+                                bg-yellow-500 text-black
+                            {% else %}
+                                bg-gray-500 text-white
+                            {% endif %}
+                        {% else %}
+                            bg-gray-300 text-black
+                        {% endif %}
+                    ">
+                        {{ news.type ? news.type.value : 'Type non spécifié' }}
+                    </span>
                     <span class="text-xs 
                         {{ news.Emetteur.getBestRole() == 'Administrateur' ? 'bg-red-500 text-WHITE' : (news.Emetteur.getBestRole() == 'Comptable' ? 'bg-blue-100 text-WHITE' : 'bg-gray-100 text-WHITE') }} 
                         px-2 py-1 rounded w-fit">
@@ -37,10 +54,10 @@
                 ></button>
                 <div
                     x-show="open"
-                    x-transition:enter="transition-all duration-2000"
+                    x-transition:enter="transition-all duration-50"
                     x-transition:enter-start="opacity-0 max-h-0"
                     x-transition:enter-end="opacity-100 max-h-96"
-                    x-transition:leave="transition-all duration-2000"
+                    x-transition:leave="transition-all duration-50"
                     x-transition:leave-start="opacity-100 max-h-96"
                     x-transition:leave-end="opacity-0 max-h-0"
                     class="bg-GREEN text-WHITE leading-relaxed whitespace-pre-line overflow-hidden"

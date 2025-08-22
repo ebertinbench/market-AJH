@@ -1,0 +1,40 @@
+{# templates/news/create.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ nomdepage ?? 'Créer une nouvelle' }}{% endblock %}
+
+{% block body %}
+<div class="flex justify-center items-center min-h-screen">
+  {{ form_start(form, {'attr': {'class': 'bg-GREEN p-8 rounded-lg shadow-lg w-[45%] space-y-4'}}) }}
+
+    {{ form_row(form.type, {
+      label: 'Type :',
+      row_attr: {'class': 'mb-6'},
+      attr: {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md text-black'}
+    }) }}
+    
+    {{ form_row(form.titre, {
+      label: 'Titre :',
+      row_attr: {'class': 'mb-4'},
+      attr: {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md text-black'}
+    }) }}
+
+    {{ form_row(form.contenu, {
+      label: 'Contenu :',
+      row_attr: {'class': 'mb-4'},
+      attr: {'class': 'w-full px-3 py-2 border border-gray-300 rounded-md text-black', 'rows': '10'}
+    }) }}
+
+    
+    {{ form_rest(form) }}
+
+    <button type="submit" class="w-full bg-VIOLET text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200">
+      Créer
+    </button>
+  {{ form_end(form, { render_rest: false }) }}
+</div>
+
+    </button>
+  {{ form_end(form, { render_rest: false }) }}
+</div>
+{% endblock %}

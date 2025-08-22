@@ -8,41 +8,64 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Services\Wallpaper;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\News;
+use App\Form\NewsPostType;
 use Doctrine\ORM\EntityManagerInterface;
 
 
 
 final class NewsController extends AbstractController
 {
-    #[Route('/news', name: 'app_news')]
+    #[Route('/news', name: 'app_news', methods: ['GET', 'POST'])]
     public function index(
-        Request $request, 
-        Wallpaper $wallpaperService
-    ): Response
-    {
-        return $this->render('news/index.html.twig', [
-            'controller_name' => 'NewsController',
+        Request $request,
+        Wallpaper $wallpaperService,
+        EntityManagerInterface $em
+    ): Response {
+        $news = new News();
+        $form = $this->createForm(NewsPostType::class, $news);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news->setDateCreation(new \DateTime());
+            $news->setEmetteur($this->getUser()); // ajout pour cohérence
+            $em->persist($news);
+            $em->flush();
+            $this->addFlash('success', 'Nouvelle créée avec succès !');
+            return $this->redirectToRoute('app_news');
+        }
+
+        return $this->render('news/create.html.twig', [
+            'form' => $form->createView(),
             'nomdepage' => 'Gestion des nouvelles',
-            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+            'wallpaper' => $wallpaperService->getRandomWallpaperName(),
         ]);
     }
 
-    #[Route('/news/create', name: 'app_news_create', methods: ['POST'])]
+
+    #[Route('/news/create', name: 'app_news_create', methods: ['GET', 'POST'])]
     public function create(
         Request $request, 
         Wallpaper $wallpaperService, 
         EntityManagerInterface $entityManager
     ): Response
     {
-        $contenu = $request->request->get('contenu');
-        $titre = $request->request->get('titre');
-        $user = $this->getUser();
-        $dateCreation = new \DateTime();
-        $news = new News($user, $contenu, $dateCreation, $titre);
-        $entityManager->persist($news);
-        $entityManager->flush();
-        $this->addFlash('success', 'Nouvelle créée avec succès !');
-        return $this->redirectToRoute('app_home');
+        $news = new News();
+        $form = $this->createForm(NewsPostType::class, $news);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $news->setDateCreation(new \DateTime());
+            $news->setEmetteur($this->getUser()); // déjà présent
+            $entityManager->persist($news);
+            $entityManager->flush();
+            $this->addFlash('success', 'Nouvelle créée avec succès !');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('news/create.html.twig', [
+            'form' => $form->createView(),
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+        ]);
     }
 
     /**
