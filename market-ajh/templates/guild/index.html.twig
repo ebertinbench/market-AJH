@@ -64,6 +64,11 @@
                             <form method="post" action="{{ path('guild_delete', {'id': guild.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette guilde ?');">
                                 <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">Supprimer</button>
                             </form>
+                            <form method="post" action="{{ path('guild_reverse_allow_to_sell', {'id': guild.id}) }}" class="mt-2">
+                                <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">
+                                    {{ guild.allowedToSell ? 'Interdire de vendre' : 'Autoriser à vendre' }}
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

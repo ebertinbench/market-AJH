@@ -154,4 +154,27 @@ final class GuildController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_guild');
     }
+
+    #[Route("/guild/reverse-allow-to-sell/{id}", name: "guild_reverse_allow_to_sell", methods: ['POST'])]
+    public function reverseAllowToSell(
+        int $id, 
+        EntityManagerInterface $entityManager
+    ): RedirectResponse {
+        /**
+         * @var Guild $guild
+         */
+        $guild = $entityManager->getRepository(Guild::class)->find($id);
+
+        if (!$guild) {
+            $this->addFlash('error', 'Guilde introuvable.');
+            return $this->redirectToRoute('app_guild');
+        }
+
+        $guild->setAllowedToSell(!$guild->isAllowedToSell());
+        $entityManager->persist($guild);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La guilde a bien été mise à jour.');
+        return $this->redirectToRoute('app_guild');
+    }
 }
