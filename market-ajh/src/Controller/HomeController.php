@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Services\Wallpaper;
 use App\Entity\User;
 use App\Entity\News;
+use App\Enum\NewsType;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class HomeController extends AbstractController
@@ -28,7 +29,9 @@ final class HomeController extends AbstractController
             'user'      => $user,
             'nomdepage' => 'Page utilisateur',
             'wallpaper' => $wallpaperService->getRandomWallpaperName(),
-            'news_list' => $entityManager->getRepository(News::class)->findAll(),
+            'news_staff' => $entityManager->getRepository(News::class)->findByType(NewsType::STAFF),
+            'news_feature' => $entityManager->getRepository(News::class)->findByType(NewsType::FEATURE),
+            'news_maintenance' => $entityManager->getRepository(News::class)->findByType(NewsType::MAINTENANCE)
         ]);
     }
 

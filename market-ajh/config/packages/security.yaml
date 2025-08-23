@@ -50,7 +50,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/orders, roles: ROLE_VENDEUR }
         - { path: ^/user, roles: ROLE_ADMIN }
-        - { path: ^/items, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/items, roles: ROLE_CLIENT}
         - { path: ^/item, roles: ROLE_ADMIN }
         - { path: '^/guild', roles: ROLE_ADMIN }
         - { path: '^/shop', roles: ROLE_CLIENT }

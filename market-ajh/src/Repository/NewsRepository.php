@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\News;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use App\Enum\NewsType;
 /**
  * @extends ServiceEntityRepository<News>
  */
@@ -15,7 +15,19 @@ class NewsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, News::class);
     }
-
+    /**
+     * @return News[] Returns an array of News objects
+     */
+    public function findByType(NewsType $type): array
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.type = :type')
+            ->setParameter('type', $type)
+            ->orderBy('n.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    /**
     //     * @return News[] Returns an array of News objects
     //     */
