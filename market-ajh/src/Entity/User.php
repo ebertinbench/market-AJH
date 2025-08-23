@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: AvisCommande::class, mappedBy: 'idVendeur')]
     private Collection $avisrecus;
 
+    #[ORM\Column(length: 255)]
+    private ?string $wallpaper = null;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
@@ -396,5 +399,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $count > 0 ? $total / $count : 0;
+    }
+
+    public function getWallpaper(): ?string
+    {
+        return $this->wallpaper;
+    }
+
+    public function setWallpaper(string $wallpaper): static
+    {
+        $this->wallpaper = $wallpaper;
+
+        return $this;
     }
 }
