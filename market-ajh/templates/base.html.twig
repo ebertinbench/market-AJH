@@ -18,7 +18,9 @@
   </head>
   <body
     class="bg-GRAY flex flex-col min-h-screen"
-    style="background-image: url('{{ asset('images/wallpapers/' ~ app.user.wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
+    {% if app.user %}
+      style="background-image: url('{{ asset('images/wallpapers/' ~ app.user.wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
+    {% endif %}
   >
     <!-- Navigation -->
     <nav class="bg-BLACK shadow-md p-4 relative z-50">

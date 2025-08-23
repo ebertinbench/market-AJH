@@ -40,6 +40,7 @@ class RegistrationController extends AbstractController
             } else {
                 $user->setRoles(['ROLE_CLIENT']);
             }
+            $user->setWallpaper($wallpaperService->getRandomWallpaperName());
             $entityManager->persist($user);
             $entityManager->flush();
             $utilisateursLogger->info('Nouvel utilisateur inscrit', [
