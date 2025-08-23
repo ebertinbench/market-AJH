@@ -7,10 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ asset('images/logo_guilde.jpg') }}" />
     {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
       <link rel="stylesheet" href="{{ asset('build/app.css') }}" />
     {% endblock %}
 
     {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
       {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
   </head>

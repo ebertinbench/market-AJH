@@ -16,3 +16,7 @@ migration-check-1:
 
 migration-check-2: migration-check-1
 	php market-ajh/bin/console doctrine:migrations:migrate
+
+build-prod-webpack-encore:
+	/opt/alt/alt-nodejs22/root/usr/bin/npm install --prefix market-ajh
+	/opt/alt/alt-nodejs22/root/usr/bin/npm run build --prefix market-ajh
