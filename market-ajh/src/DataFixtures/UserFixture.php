@@ -35,6 +35,7 @@ class UserFixture extends Fixture
             $hashedPassword = $this->passwordHasher->hashPassword($user, $userData['password']);
             $user->setPassword($hashedPassword);
             $user->setRoles($userData['roles']);
+            $user->setWallpaper('wallpaper1.png');
             $manager->persist($user);
         }
 
