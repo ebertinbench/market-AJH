@@ -23,11 +23,16 @@ final class OrderController extends AbstractController
         UserRepository $userRepository,
         Wallpaper $wallpaperService
     ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(!$user->getGuild()) {
+            $this->addFlash('error', 'Vous devez être dans une guilde pour accéder aux commandes.');
+            return $this->redirectToRoute('app_home');
+        }
         $playerId = $request->query->get('player');
         $playerId = ($playerId !== null && $playerId !== '') ? (int)$playerId : null;
         $status   = $request->query->get('status');
-        /** @var User $user */
-        $user = $this->getUser();
+        
         $orders = $commandeRepository->findByGuild($user->getGuild()->getName());
         $players = $userRepository->findAll();
         $statuses = [

@@ -1,7 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-body {
-    background-color: skyblue;
+@layer base {
+  :root {
+    --color-BLACK: #000000;
+    --color-VIOLET: #291527;
+    --color-GRAY: #393D3A;
+    --color-WHITE: #EEECF2;
+    --color-GREEN: #585B4C;
+  }
 }
+
+/* Classes utilitaires personnalisées */
+.bg-BLACK { background-color: var(--color-BLACK); }
+.bg-VIOLET { background-color: var(--color-VIOLET); }
+.bg-GRAY { background-color: var(--color-GRAY); }
+.bg-WHITE { background-color: var(--color-WHITE); }
+.bg-GREEN { background-color: var(--color-GREEN); }
+
+.text-BLACK { color: var(--color-BLACK); }
+.text-VIOLET { color: var(--color-VIOLET); }
+.text-GRAY { color: var(--color-GRAY); }
+.text-WHITE { color: var(--color-WHITE); }
+.text-GREEN { color: var(--color-GREEN); }
+
+.border-BLACK { border-color: var(--color-BLACK); }
+.border-VIOLET { border-color: var(--color-VIOLET); }
+.border-GRAY { border-color: var(--color-GRAY); }
+.border-WHITE { border-color: var(--color-WHITE); }
+.border-GREEN { border-color: var(--color-GREEN); }
+
+/* Support pour les opacités */
+.bg-WHITE\/20 { background-color: rgba(238, 236, 242, 0.2); }
+.bg-VIOLET\/30 { background-color: rgba(41, 21, 39, 0.3); }
+.text-WHITE\/80 { color: rgba(238, 236, 242, 0.8); }
+.text-BLACK\/80 { color: rgba(0, 0, 0, 0.8); }
+
+/* Classes de gradient */
+.from-VIOLET { --tw-gradient-from: var(--color-VIOLET); --tw-gradient-to: rgb(from var(--color-VIOLET) r g b / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.via-GRAY { --tw-gradient-to: rgb(from var(--color-GRAY) r g b / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--color-GRAY), var(--tw-gradient-to); }
+.to-GREEN { --tw-gradient-to: var(--color-GREEN); }

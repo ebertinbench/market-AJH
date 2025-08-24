@@ -13,21 +13,23 @@
 
     {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-      {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
   </head>
   <body
     class="bg-GRAY flex flex-col min-h-screen"
     {% if app.user %}
-      style="background-image: url('{{ asset('images/wallpapers/' ~ app.user.wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
+      style="background-image: url('{{ asset('build/images/wallpapers/' ~ app.user.wallpaper) }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
+    {% else %}
+      style="background-image: url('{{ asset('build/images/wallpapers/wallpaper1.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;"
     {% endif %}
+    
   >
     <!-- Navigation -->
     <nav class="bg-BLACK shadow-md p-4 relative z-50">
       <div class="container mx-auto px-4 flex items-center justify-between">
         <!-- Logo à gauche -->
         <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
-          <img src="{{ asset('images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK" />
+          <img src="{{ asset('build/images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK" />
         </a>
 
         <!-- Titre centré -->

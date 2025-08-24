@@ -12,3 +12,15 @@ monolog:
             path: "%kernel.logs_dir%/user.log"
             level: info
             channels: ["utilisateurs"]
+
+        main:
+            type: fingers_crossed
+            action_level: error      # déclenche dès error
+            handler: nested
+            buffer_size: 200         # conserve le contexte d'avant l'erreur
+        nested:
+            type: rotating_file
+            path: "%kernel.project_dir%/var/log/prod.log"
+            max_files: 10
+            level: debug             # logs détaillés en prod.log
+            formatter: monolog.formatter.line
