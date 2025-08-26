@@ -56,7 +56,24 @@ final class GuildItemsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $gi   = new GuildItems();
+            
+            // Vérifier si l'item existe déjà pour cette guilde
+            $existingGuildItem = $repo->findOneBy([
+            'guild' => $guild,
+            'item' => $data['item']
+            ]);
+            
+            if ($existingGuildItem) {
+            $this->addFlash('error', 'Cet item existe déjà dans votre guilde.');
+            return $this->render('items/new.html.twig', [
+                'form'       => $form->createView(),
+                'guildItems' => $repo->findBy(['guild' => $guild]),
+                'nomdepage'  => 'Ajouter un item de guilde',
+                'wallpaper'  => $wallpaperService->getRandomWallpaperName()
+            ]);
+            }
+            
+            $gi = new GuildItems();
             $gi->setGuild($guild);
             $gi->setItem($data['item']);
             $gi->setPrice($data['price']);
