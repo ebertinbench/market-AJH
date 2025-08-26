@@ -27,6 +27,16 @@ services:
     networks:
       - mynetwork
 
+
+
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP (non TLS)
+      - "8025:8025"   # UI web pour voir les mails
+
 volumes:
   mysql_data:
 

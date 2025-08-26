@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto bg-GREEN rounded-lg shadow-md p-6">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl text-WHITE">Contactez-nous</h2>
+            <p class="mt-2 text-sm text-WHITE">Une page d'erreur ? Une suggestion d'amélioration ? Parlez-nous !</p>
+        </div>
+        
+        <form class="space-y-6" method="POST" action="{{ path('app_contact_submit') }}">
+            <div>
+                <label for="subject" class="block text-sm font-medium text-WHITE">Sujet</label>
+                <input type="text" id="subject" name="subject" required
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+                <label for="message" class="block text-sm font-medium text-WHITE">Message</label>
+                <textarea id="message" name="message" rows="4" required
+                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+            
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-VIOLET">
+                    Envoyer le message
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

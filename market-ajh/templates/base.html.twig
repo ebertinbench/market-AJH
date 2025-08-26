@@ -137,16 +137,19 @@
                   </li>
                 {% else %}
                   <li>
-                    <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les Items</a>
+                    <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Profil</a>
                   </li>
                   <li>
-                    <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Profil</a>
+                    <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les Items</a>
                   </li>
                   <li>
                     <a href="{{ path('app_logout') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Se déconnecter</a>
                   </li>
                 {% endif %}
               </ul>
+              <li>
+                <a href="{{ path('app_contact') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Nous contacter</a>
+              </li>
             </section>
           </div>
         </div>
