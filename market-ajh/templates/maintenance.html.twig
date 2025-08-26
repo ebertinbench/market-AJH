@@ -35,7 +35,50 @@
             color: #666;
             line-height: 1.6;
         }
+        .error-message {
+            color: #d9534f;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .form-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
+    <link rel="icon" href="{{ asset('build/images/logo_guilde.jpg') }}" />
 </head>
 <body>
     <div class="maintenance-container">
@@ -44,6 +87,28 @@
         <p>Notre site est actuellement en maintenance programmée pour améliorer votre expérience.</p>
         <p>Nous nous excusons pour tout inconvénient et apprécions votre patience.</p>
         <p>Veuillez revenir plus tard.</p>
-    </div>
+        
+        {% if error is defined %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="form-container">
+            <form method="POST" action="{{ path('maintenance_bypass') }}">
+                <div class="form-group">
+                    <label for="maintenance_bypass">Code d'accès :</label>
+                    <input type="password" 
+                           id="maintenance_bypass" 
+                           name="maintenance_bypass" 
+                           placeholder="Entrez le code de bypass"
+                           required>
+                </div>
+                <button type="submit">Accéder au site (1h)</button>
+            </form>
+            <p style="font-size: 0.9em; color: #888; margin-top: 10px;">
+                L'accès sera accordé pour une durée d'1 heure après validation du code.
+            </p>
+        </div>
 </body>
 </html>

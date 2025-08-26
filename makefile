@@ -17,10 +17,6 @@ migration-check-1:
 migration-check-2: migration-check-1
 	php market-ajh/bin/console doctrine:migrations:migrate
 
-build-prod-webpack-encore:
-	/opt/alt/alt-nodejs22/root/usr/bin/npm install --prefix market-ajh
-	/opt/alt/alt-nodejs22/root/usr/bin/npm run build --prefix market-ajh
-
 maintenance:
 	@if grep -q "MAINTENANCE_MODE=1" market-ajh/.env.local; then \
 		sed -i 's/MAINTENANCE_MODE=1/MAINTENANCE_MODE=0/' market-ajh/.env.local; \
@@ -31,3 +27,15 @@ maintenance:
 	else \
 		echo "la variable MAINTENANCE_MODE n'a pas été trouvée dans le fichier .env.local"; \
 	fi
+
+build:
+	php market-ajh/bin/console cache:clear --env=prod
+	/opt/alt/alt-nodejs22/root/usr/bin/npm install --prefix market-ajh
+	/opt/alt/alt-nodejs22/root/usr/bin/npm run build --prefix market-ajh
+	php market-ajh/bin/console cache:warmup --env=prod
+
+build-local:
+	php market-ajh/bin/console cache:clear --env=prod
+	npm install --prefix market-ajh
+	npm run build --prefix market-ajh
+	php market-ajh/bin/console cache:warmup --env=prod
