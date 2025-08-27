@@ -80,6 +80,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pseudoDiscord = null;
 
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender')]
+    private Collection $messagesSent;
+
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'recipient')]
+    private Collection $messagesReceived;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
@@ -87,6 +99,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->news = new ArrayCollection();
         $this->avisdonnes = new ArrayCollection();
         $this->avisrecus = new ArrayCollection();
+        $this->messagesSent = new ArrayCollection();
+        $this->messagesReceived = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -441,5 +455,75 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pseudoDiscord = $pseudoDiscord;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessagesSent(): Collection
+    {
+        return $this->messagesSent;
+    }
+
+    public function addMessagesSent(Message $messagesSent): static
+    {
+        if (!$this->messagesSent->contains($messagesSent)) {
+            $this->messagesSent->add($messagesSent);
+            $messagesSent->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesSent(Message $messagesSent): static
+    {
+        if ($this->messagesSent->removeElement($messagesSent)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesSent->getSender() === $this) {
+                $messagesSent->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessagesReceived(): Collection
+    {
+        return $this->messagesReceived;
+    }
+
+    public function addMessagesReceived(Message $messagesReceived): static
+    {
+        if (!$this->messagesReceived->contains($messagesReceived)) {
+            $this->messagesReceived->add($messagesReceived);
+            $messagesReceived->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesReceived(Message $messagesReceived): static
+    {
+        if ($this->messagesReceived->removeElement($messagesReceived)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesReceived->getRecipient() === $this) {
+                $messagesReceived->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get unread messages count
+     */
+    public function getUnreadMessagesCount(): int
+    {
+        return $this->messagesReceived->filter(function(Message $message) {
+            return !$message->isRead();
+        })->count();
     }
 }

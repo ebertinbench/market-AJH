@@ -140,6 +140,16 @@
                     <a href="{{ path('app_profile') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Profil</a>
                   </li>
                   <li>
+                    <a href="{{ path('app_messages_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">
+                      Messagerie
+                      {% if app.user.unreadMessagesCount > 0 %}
+                        <span class="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          {{ app.user.unreadMessagesCount }}
+                        </span>
+                      {% endif %}
+                    </a>
+                  </li>
+                  <li>
                     <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les Items</a>
                   </li>
                   <li>

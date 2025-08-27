@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex items-center mb-6">
+            <a href="{{ path('app_messages_index') }}" class="mr-4 text-blue-500 hover:text-blue-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            <h1 class="text-3xl font-bold text-gray-900">Utilisateurs disponibles</h1>
+        </div>
+
+        {% if users|length > 0 %}
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="bg-gray-50 px-6 py-3 border-b">
+                    <h2 class="text-lg font-semibold text-gray-900">{{ users|length }} utilisateur{{ users|length > 1 ? 's' : '' }} disponible{{ users|length > 1 ? 's' : '' }}</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% for user in users %}
+                        <div class="px-6 py-4 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                            {{ user.username|slice(0, 1)|upper }}
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-lg font-medium text-gray-900">
+                                            {{ user.username }}
+                                        </p>
+                                        {% if user.bestRole %}
+                                            <p class="text-sm text-gray-500">{{ user.bestRole }}</p>
+                                        {% endif %}
+                                        {% if user.guild %}
+                                            <p class="text-xs text-gray-400">Guilde : {{ user.guild.nom }}</p>
+                                        {% endif %}
+                                        {% if user.pseudoMinecraft %}
+                                            <p class="text-xs text-gray-400">Minecraft : {{ user.pseudoMinecraft }}</p>
+                                        {% endif %}
+                                        {% if user.pseudoDiscord %}
+                                            <p class="text-xs text-gray-400">Discord : {{ user.pseudoDiscord }}</p>
+                                        {% endif %}
+                                        {% if user.unreadMessagesCount > 0 %}
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                                {{ user.unreadMessagesCount }} message{{ user.unreadMessagesCount > 1 ? 's' : '' }} non lu{{ user.unreadMessagesCount > 1 ? 's' : '' }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <a href="{{ path('app_messages_conversation', {userId: user.id}) }}" 
+                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+                                        Envoyer un message
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="bg-white shadow-lg rounded-lg p-8 text-center">
+                <div class="mb-4">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun utilisateur disponible</h3>
+                <p class="text-gray-500">Il n'y a actuellement aucun autre utilisateur sur la plateforme.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

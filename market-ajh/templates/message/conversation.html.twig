@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation avec {{ recipient.username }}{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex items-center mb-6">
+            <a href="{{ path('app_messages_index') }}" class="mr-4 text-blue-500 hover:text-blue-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                    {{ recipient.username|slice(0, 1)|upper }}
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ recipient.username }}</h1>
+                    {% if recipient.bestRole %}
+                        <p class="text-sm text-gray-500">{{ recipient.bestRole }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- Messages conversation -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+            <div class="bg-gray-50 px-6 py-3 border-b">
+                <h2 class="text-lg font-semibold text-gray-900">Conversation</h2>
+            </div>
+            <div class="p-6">
+                {% if messages|length > 0 %}
+                    <div class="space-y-4 max-h-96 overflow-y-auto" id="messages-container">
+                        {% for message in messages %}
+                            <div class="flex {{ message.sender == current_user ? 'justify-end' : 'justify-start' }}">
+                                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg {{ message.sender == current_user ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900' }}">
+                                    <div class="flex items-start space-x-2">
+                                        {% if message.sender != current_user %}
+                                            <div class="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                                                {{ message.sender.username|slice(0, 1)|upper }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="flex-1">
+                                            <p class="text-sm">{{ message.content|e|nl2br }}</p>
+                                            <p class="text-xs {{ message.sender == current_user ? 'text-blue-200' : 'text-gray-500' }} mt-1">
+                                                {{ message.sentAt|date('d/m/Y H:i') }}
+                                                {% if message.sender == current_user %}
+                                                    {% if message.isRead %}
+                                                        <span class="ml-1">✓✓</span>
+                                                    {% else %}
+                                                        <span class="ml-1">✓</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center text-gray-500 py-8">
+                        <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <p>Aucun message dans cette conversation.</p>
+                        <p class="text-sm">Envoyez le premier message ci-dessous !</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- New message form -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="bg-gray-50 px-6 py-3 border-b">
+                <h3 class="text-lg font-semibold text-gray-900">Répondre</h3>
+            </div>
+            <div class="p-6">
+                {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                    <div>
+                        {{ form_label(form.content, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                        {{ form_widget(form.content, {'attr': {'placeholder': 'Tapez votre réponse...'}}) }}
+                        {{ form_errors(form.content) }}
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        {{ form_widget(form.submit) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-scroll to bottom of messages
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('messages-container');
+    if (container) {
+        container.scrollTop = container.scrollHeight;
+    }
+});
+</script>
+{% endblock %}
