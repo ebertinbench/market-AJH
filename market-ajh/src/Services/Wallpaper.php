@@ -30,4 +30,20 @@ class Wallpaper
 
         return $files[array_rand($files)];
     }
+
+    public function getAllWallpapers(): array
+    {
+        $directory = __DIR__ . '/../../assets/images/wallpapers';
+        if (!is_dir($directory)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            scandir($directory),
+            function ($file) use ($directory) {
+                return is_file($directory . '/' . $file) &&
+                    preg_match('/\.(jpg|jpeg|png|gif|bmp)$/i', $file);
+            }
+        ));
+    }
 }

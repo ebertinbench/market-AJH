@@ -1,42 +1,43 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <p>
+    <p class="text-center mt-5">
         Cette page vous permettra d'ajouter des membres à votre guilde si vous en êtes le chef.
     </p>
-    <form method="get" class="mb-3">
-        <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-WHITE">
-        <button type="submit">Rechercher</button>
+    <form method="get" class="mb-3 text-center">
+        <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-white border border-gray-300 rounded px-3 py-2">
+        <button type="submit" class="bg-VIOLET text-white font-bold py-2 px-4 rounded">Rechercher</button>
     </form>
 
     {% set search = app.request.get('search') %}
     {% set filtered_users = users|filter(u => (search is empty) or (u.username is defined and (search|lower in u.username|lower))) %}
 
     {% if filtered_users|length > 0 %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom d'utilisateur</th>
-                    <th>Email</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for member in filtered_users %}
-                {% if user.getChiefOf() and (member.getGuild() is null or member.getGuild().id != user.getChiefOf().id) and member.id != user.id %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-GREEN border border-gray-200">
+                <thead class="bg-BLACK text-WHITE">
                     <tr>
-                        <td>{{ member.username }}</td>
-                        <td>
-                            <form method="post" action="{{ path('profile_add_member') }}">
-                                <input type="hidden" name="member_id" value="{{ member.id }}">
-                                <button type="submit" class="btn btn-primary btn-sm">Ajouter à la guilde</button>
-                            </form>
-                        </td>
+                        <th class="px-6 py-3 text-left text-x uppercase tracking-wider">Nom d'utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs  uppercase tracking-wider">Action</th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="">
+                {% for member in filtered_users %}
+                    {% if user.getChiefOf() and (member.getGuild() is null or member.getGuild().id != user.getChiefOf().id) and member.id != user.id %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">{{ member.username }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <form method="post" action="{{ path('profile_add_member') }}">
+                                    <input type="hidden" name="member_id" value="{{ member.id }}">
+                                    <button type="submit" class="bg-VIOLET text-white font-bold py-2 px-4 rounded text-xs">Ajouter à la guilde</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
-        <p>Aucun membre trouvé.</p>
+        <p class="text-gray-500">Aucun membre trouvé.</p>
     {% endif %}
-    {% endblock %}
+{% endblock %}

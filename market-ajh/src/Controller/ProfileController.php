@@ -33,7 +33,8 @@ final class ProfileController extends AbstractController
             'user' => $user,
             'guilds' => $guilds,
             'commandes' => $user->getcommandesPassees(),
-            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+            'wallpaper' => $wallpaperService->getRandomWallpaperName(),
+            'wallpaperservice' => $wallpaperService
         ]);
     }
 

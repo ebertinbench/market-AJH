@@ -74,6 +74,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $wallpaper = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pseudoMinecraft = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pseudoDiscord = null;
+
     public function __construct()
     {
         $this->commandesPassees = new ArrayCollection();
@@ -409,6 +415,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setWallpaper(string $wallpaper): static
     {
         $this->wallpaper = $wallpaper;
+
+        return $this;
+    }
+
+    public function getPseudoMinecraft(): ?string
+    {
+        return $this->pseudoMinecraft;
+    }
+
+    public function setPseudoMinecraft(?string $pseudoMinecraft): static
+    {
+        $this->pseudoMinecraft = $pseudoMinecraft;
+
+        return $this;
+    }
+
+    public function getPseudoDiscord(): ?string
+    {
+        return $this->pseudoDiscord;
+    }
+
+    public function setPseudoDiscord(?string $pseudoDiscord): static
+    {
+        $this->pseudoDiscord = $pseudoDiscord;
 
         return $this;
     }
