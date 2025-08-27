@@ -29,27 +29,31 @@
       <div class="container mx-auto px-4 flex items-center justify-between">
         <!-- Logo à gauche -->
         <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
-          <img src="{{ asset('build/images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-PINK" />
+          <img src="{{ asset('build/images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-WHITE" />
         </a>
+       
 
         <!-- Titre centré -->
         <div class="absolute left-1/2 -translate-x-1/2 hidden sm:block">
           <span class="text-WHITE text-2xl font-bold">{{ nomdepage }}</span>
         </div>
 
-        <!-- Bouton Burger à droite -->
-        <button
-          id="burger-toggle"
-          class="ml-auto inline-flex items-center justify-center rounded-xl border border-PINK px-3 py-2 text-WHITE hover:bg-PINK/20 focus:outline-none focus:ring-2 focus:ring-PINK"
-          aria-haspopup="true"
-          aria-expanded="false"
-          aria-controls="burger-menu"
-        >
-          <span class="sr-only">Ouvrir le menu</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+        <div class="flex items-center">
+            <a href="https://discord.gg/rzr2c9vvsC" target="_blank" class="block w-35 rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE border text-center border-WHITE mr-3">Rejoins-nous !</a>
+            <!-- Bouton Burger à droite -->
+            <button
+            id="burger-toggle"
+            class="ml-auto inline-flex items-center justify-center rounded-xl border border-PINK px-3 py-2 text-WHITE hover:bg-PINK/20 focus:outline-none focus:ring-2 focus:ring-PINK"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="burger-menu"
+            >
+            <span class="sr-only">Ouvrir le menu</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            </button>
+        </div>
       </div>
 
       <!-- Panneau du menu burger -->
@@ -67,7 +71,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+
           </div>
 
           <!-- Sections par rôles -->
