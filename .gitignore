@@ -40,3 +40,10 @@
 /market-ajh/src/DataFixtures/*.json
 .DS_Store
 .idea
+
+# npm / Node.js
+/market-ajh/package-lock.json
+/market-ajh/yarn.lock
+/market-ajh/npm-debug.log*
+/market-ajh/.npm/
+/market-ajh/node_modules/
