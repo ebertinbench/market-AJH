@@ -15,13 +15,13 @@
         </div>
 
         {% if users|length > 0 %}
-            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b">
-                    <h2 class="text-lg font-semibold text-gray-900">{{ users|length }} utilisateur{{ users|length > 1 ? 's' : '' }} disponible{{ users|length > 1 ? 's' : '' }}</h2>
+            <div class="bg-GREEN shadow-lg rounded-lg overflow-hidden">
+                <div class=" px-6 py-3 border-b">
+                    <h2 class="text-lg font-semibold text-WHITE">{{ users|length }} utilisateur{{ users|length > 1 ? 's' : '' }} disponible{{ users|length > 1 ? 's' : '' }}</h2>
                 </div>
                 <div class="divide-y divide-gray-200">
                     {% for user in users %}
-                        <div class="px-6 py-4 hover:bg-gray-50 transition-colors">
+                        <div class="bg-WHITE px-6 py-4">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-shrink-0">
@@ -37,7 +37,7 @@
                                             <p class="text-sm text-gray-500">{{ user.bestRole }}</p>
                                         {% endif %}
                                         {% if user.guild %}
-                                            <p class="text-xs text-gray-400">Guilde : {{ user.guild.nom }}</p>
+                                            <p class="text-xs text-gray-400">Guilde : {{ user.guild.name }}</p>
                                         {% endif %}
                                         {% if user.pseudoMinecraft %}
                                             <p class="text-xs text-gray-400">Minecraft : {{ user.pseudoMinecraft }}</p>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <a href="{{ path('app_messages_conversation', {userId: user.id}) }}" 
-                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+                                       class="bg-VIOLET text-white font-bold py-2 px-4 rounded text-sm">
                                         Envoyer un message
                                     </a>
                                 </div>

@@ -72,7 +72,10 @@ final class OrderController extends AbstractController
             $this->addFlash('error', 'Cette commande a déjà un vendeur assigné.');
             return $this->redirectToRoute('orders_index');
         }
-
+        if($commande->getIdClient() == $this->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas vous assigner en tant que vendeur pour cette commande.');
+            return $this->redirectToRoute('orders_index');
+        }
         $sellerId = $request->request->get('seller_id');
         $seller = $userRepository->find($sellerId);
         if (!$seller) {

@@ -21,13 +21,12 @@
 
         {% if conversations|length > 0 %}
             <div class="bg-GREEN shadow-lg rounded-lg overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b">
-                    <h2 class="text-lg font-semibold text-gray-900">Vos conversations</h2>
+                <div class="bg-GREEN px-6 py-3 border-b">
+                    <h2 class="text-lg font-semibold text-WHITE">Vos conversations</h2>
                 </div>
                 <div class="divide-y divide-gray-200">
                     {% for conversation in conversations %}
-                        <div class="px-6 py-4 hover:bg-gray-50 transition-colors">
-                            <a href="{{ path('app_messages_conversation', {userId: conversation.partner.id}) }}" class="block">
+                        <div class="px-6 py-4 bg-WHITE transition-colors">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-3">
                                         <div class="flex-shrink-0">
@@ -60,9 +59,11 @@
                                         <span class="text-xs text-gray-400">
                                             {{ conversation.lastMessage.sentAt|date('d/m/Y H:i') }}
                                         </span>
+                                        <a href="{{ path('app_messages_conversation', {userId: conversation.partner.id}) }}" class="bg-VIOLET p-2 font-bold rounded text-WHITE">
+                                            Envoyer un message
+                                        </a>
                                     </div>
                                 </div>
-                            </a>
                         </div>
                     {% endfor %}
                 </div>

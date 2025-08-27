@@ -103,7 +103,7 @@
               </section>
             {% endif %}
 
-            {% if app.user is not null and app.user.guild is not null and app.user.guild.chef %}
+            {% if app.user is not null and app.user.guild is not null and app.user.guild.chef == app.user %}
               <section>
                 <h3 class="text-WHITE/80 text-sm uppercase tracking-wide mb-2">Chef de Guilde</h3>
                 <ul class="space-y-2">
@@ -153,13 +153,13 @@
                     <a href="{{ path('shop_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Voir les Items</a>
                   </li>
                   <li>
+                    <a href="{{ path('app_contact') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent">Nous contacter</a>
+                  </li>
+                  <li>
                     <a href="{{ path('app_logout') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Se déconnecter</a>
                   </li>
                 {% endif %}
               </ul>
-              <li>
-                <a href="{{ path('app_contact') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">Nous contacter</a>
-              </li>
             </section>
           </div>
         </div>
