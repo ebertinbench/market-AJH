@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <div class="container mx-auto mt-8 max-w-2xl bg-GREEN rounded shadow p-8">
    
         <form method="post" action="{{ path('profile_change_password') }}" class="mb-8">
@@ -48,15 +49,15 @@
 
         <!-- Grille pour les boutons de profil -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <button onclick="openDiscordModal()" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
+            <button command="show-modal" commandfor="discordDialog" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
                 Modifier pseudo Discord
             </button>
 
-            <button onclick="openMinecraftModal()" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
+            <button command="show-modal" commandfor="minecraftDialog" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
                 Modifier pseudo Minecraft
             </button>
 
-            <button onclick="openWallpaperModal()" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
+            <button command="show-modal" commandfor="wallpaperDialog" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
                 Changer le fond d'écran
             </button>
         </div>
@@ -68,99 +69,112 @@
         </div>
 
         <!-- Discord Modal -->
-        <div id="discordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-            <div class="bg-GREEN rounded-lg p-6 w-96 max-w-lg mx-4">
-                <h3 class="text-xl font-bold mb-4 text-WHITE">Modifier pseudo Discord</h3>
-                <form method="post" action="{{ path('app_user_edit_discord', {'id': user.id}) }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token('edit_discord' ~ user.id) }}">
-                    <div class="mb-4">
-                        <label for="discordPseudo" class="block text-WHITE font-semibold mb-2">Nouveau pseudo Discord</label>
-                        <input type="text" id="discordPseudo" name="discordPseudo" class="form-input w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-BLUE" value="{{ user.pseudoDiscord ?? '' }}" required>
-                    </div>
-                    <div class="flex justify-end space-x-2">
-                        <button type="button" onclick="closeDiscordModal()" class="bg-gray-500 text-WHITE px-4 py-2 rounded hover:bg-gray-600 transition">
-                            Annuler
-                        </button>
-                        <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
-                            Sauvegarder
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <el-dialog>
+            <dialog id="discordDialog" aria-labelledby="discord-dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+                <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                        <form method="post" action="{{ path('app_user_edit_discord', {'id': user.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('edit_discord' ~ user.id) }}">
+                            <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                        <h3 id="discord-dialog-title" class="text-xl font-bold text-WHITE mb-4">Modifier pseudo Discord</h3>
+                                        <div class="mb-4">
+                                            <label for="discordPseudo" class="block text-WHITE font-semibold mb-2">Nouveau pseudo Discord</label>
+                                            <input type="text" id="discordPseudo" name="discordPseudo" class="form-input w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-BLUE" value="{{ user.pseudoDiscord ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-GREEN px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="submit" class="inline-flex w-full justify-center rounded-md bg-VIOLET px-3 py-2 text-sm font-semibold text-WHITE hover:bg-purple-700 sm:ml-3 sm:w-auto">Sauvegarder</button>
+                                <button type="button" command="close" commandfor="discordDialog" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-WHITE hover:bg-gray-600 sm:mt-0 sm:w-auto">Annuler</button>
+                            </div>
+                        </form>
+                    </el-dialog-panel>
+                </div>
+            </dialog>
+        </el-dialog>
 
         <!-- Minecraft Modal -->
-        <div id="minecraftModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-            <div class="bg-GREEN rounded-lg p-6 w-96 max-w-lg mx-4">
-                <h3 class="text-xl font-bold mb-4 text-WHITE">Modifier pseudo Minecraft</h3>
-                <form method="post" action="{{ path('app_user_edit_minecraft', {'id': user.id}) }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token('edit_minecraft' ~ user.id) }}">
-                    <div class="mb-4">
-                        <label for="minecraftPseudo" class="block text-WHITE font-semibold mb-2">Nouveau pseudo Minecraft</label>
-                        <input type="text" id="minecraftPseudo" name="minecraftPseudo" class="form-input w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-BLUE" value="{{ user.pseudoMinecraft ?? '' }}" required>
-                    </div>
-                    <div class="flex justify-end space-x-2">
-                        <button type="button" onclick="closeMinecraftModal()" class="bg-gray-500 text-WHITE px-4 py-2 rounded hover:bg-gray-600 transition">
-                            Annuler
-                        </button>
-                        <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition">
-                            Sauvegarder
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <el-dialog>
+            <dialog id="minecraftDialog" aria-labelledby="minecraft-dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+                <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                        <form method="post" action="{{ path('app_user_edit_minecraft', {'id': user.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('edit_minecraft' ~ user.id) }}">
+                            <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                        <h3 id="minecraft-dialog-title" class="text-xl font-bold text-WHITE mb-4">Modifier pseudo Minecraft</h3>
+                                        <div class="mb-4">
+                                            <label for="minecraftPseudo" class="block text-WHITE font-semibold mb-2">Nouveau pseudo Minecraft</label>
+                                            <input type="text" id="minecraftPseudo" name="minecraftPseudo" class="form-input w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-BLUE" value="{{ user.pseudoMinecraft ?? '' }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-GREEN px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="submit" class="inline-flex w-full justify-center rounded-md bg-VIOLET px-3 py-2 text-sm font-semibold text-WHITE hover:bg-purple-700 sm:ml-3 sm:w-auto">Sauvegarder</button>
+                                <button type="button" command="close" commandfor="minecraftDialog" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-WHITE hover:bg-gray-600 sm:mt-0 sm:w-auto">Annuler</button>
+                            </div>
+                        </form>
+                    </el-dialog-panel>
+                </div>
+            </dialog>
+        </el-dialog>
 
         <!-- Wallpaper Modal -->
-        <div id="wallpaperModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-            <div class="bg-GREEN rounded-lg p-6 w-4/5 max-w-4xl mx-4 max-h-5/6 overflow-y-auto">
-            <h3 class="text-xl font-bold mb-4 text-WHITE">Choisir un fond d'écran</h3>
-            <form method="post" action="{{ path('app_user_change_wallpaper', {'id': user.id}) }}">
-                <input type="hidden" name="_token" value="{{ csrf_token('change_wallpaper' ~ user.id) }}">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-                {% for wallpaper in wallpaperservice.getAllWallpapers() %}
-                    <div class="relative cursor-pointer wallpaper-option" onclick="selectWallpaper('{{ wallpaper }}', this)">
-                    <input type="radio" name="wallpaper" value="{{ wallpaper }}" class="hidden wallpaper-radio" id="wallpaper_{{ loop.index }}" {% if user.wallpaper == wallpaper %}checked{% endif %}>
-                    <img src="{{ asset('images/wallpapers/' ~ wallpaper) }}" 
-                         alt="{{ wallpaper }}" 
-                         class="w-full h-24 object-cover rounded border-2 {% if user.wallpaper == wallpaper %}border-VIOLET{% else %}border-transparent{% endif %} wallpaper-img">
-                    {% if user.wallpaper == wallpaper %}
-                    <div class="absolute top-1 right-1 bg-VIOLET rounded-full w-6 h-6 flex items-center justify-center">
-                        <span class="text-WHITE font-bold text-sm">✓</span>
-                    </div>
-                    {% endif %}
-                    </div>
-                {% endfor %}
+        <el-dialog>
+            <dialog id="wallpaperDialog" aria-labelledby="wallpaper-dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+                <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+                <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-4xl data-closed:sm:translate-y-0 data-closed:sm:scale-95 max-h-5/6">
+                        <form method="post" action="{{ path('app_user_change_wallpaper', {'id': user.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('change_wallpaper' ~ user.id) }}">
+                            <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                        <h3 id="wallpaper-dialog-title" class="text-xl font-bold text-WHITE mb-4">Choisir un fond d'écran</h3>
+                                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+                                            {% for wallpaper in wallpaperservice.getAllWallpapers() %}
+                                                <div class="relative cursor-pointer wallpaper-option" onclick="selectWallpaper('{{ wallpaper }}', this)">
+                                                    <input type="radio" name="wallpaper" value="{{ wallpaper }}" class="hidden wallpaper-radio" id="wallpaper_{{ loop.index }}" {% if user.wallpaper == wallpaper %}checked{% endif %}>
+                                                    <img src="{{ asset('build/images/wallpapers/' ~ wallpaper) }}" 
+                                                         alt="{{ wallpaper }}" 
+                                                         class="w-full h-24 object-cover rounded border-2 {% if user.wallpaper == wallpaper %}border-VIOLET{% else %}border-transparent{% endif %} wallpaper-img">
+                                                    {% if user.wallpaper == wallpaper %}
+                                                        <div class="absolute top-1 right-1 bg-VIOLET rounded-full w-6 h-6 flex items-center justify-center">
+                                                            <span class="text-WHITE font-bold text-sm">✓</span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-GREEN px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="submit" class="inline-flex w-full justify-center rounded-md bg-VIOLET px-3 py-2 text-sm font-semibold text-WHITE hover:bg-purple-700 sm:ml-3 sm:w-auto" {% if not user.wallpaper %}disabled{% endif %} id="wallpaperSubmitBtn">Sauvegarder</button>
+                                <button type="button" command="close" commandfor="wallpaperDialog" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-WHITE hover:bg-gray-600 sm:mt-0 sm:w-auto">Annuler</button>
+                            </div>
+                        </form>
+                    </el-dialog-panel>
                 </div>
-                <div class="flex justify-end space-x-2">
-                <button type="button" onclick="closeWallpaperModal()" class="bg-gray-500 text-WHITE px-4 py-2 rounded hover:bg-gray-600 transition">
-                    Annuler
-                </button>
-                <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-purple-700 transition" {% if not user.wallpaper %}disabled{% endif %} id="wallpaperSubmitBtn">
-                    Sauvegarder
-                </button>
-                </div>
-            </form>
-            </div>
-        </div>
+            </dialog>
+        </el-dialog>
 
         <script>
-        function openWallpaperModal() {
-            document.getElementById('wallpaperModal').classList.remove('hidden');
-        }
-
-        function closeWallpaperModal() {
-            document.getElementById('wallpaperModal').classList.add('hidden');
-        }
-
         function selectWallpaper(wallpaperName, element) {
             // Remove selection from all options
             document.querySelectorAll('.wallpaper-option').forEach(option => {
-            option.querySelector('.wallpaper-img').classList.remove('border-VIOLET');
-            option.querySelector('.wallpaper-img').classList.add('border-transparent');
-            const checkmark = option.querySelector('.absolute.top-1.right-1');
-            if (checkmark) checkmark.remove();
-            option.querySelector('.wallpaper-radio').checked = false;
+                option.querySelector('.wallpaper-img').classList.remove('border-VIOLET');
+                option.querySelector('.wallpaper-img').classList.add('border-transparent');
+                const checkmark = option.querySelector('.absolute.top-1.right-1');
+                if (checkmark) checkmark.remove();
+                option.querySelector('.wallpaper-radio').checked = false;
             });
             
             // Add selection to clicked option
@@ -177,100 +191,64 @@
             // Enable submit button
             document.getElementById('wallpaperSubmitBtn').disabled = false;
         }
-
-        // Close modal when clicking outside
-        document.getElementById('wallpaperModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeWallpaperModal();
-            }
-        });
-        </script>
-        <script>
-        function openDiscordModal() {
-            document.getElementById('discordModal').classList.remove('hidden');
-        }
-
-        function closeDiscordModal() {
-            document.getElementById('discordModal').classList.add('hidden');
-        }
-
-        function openMinecraftModal() {
-            document.getElementById('minecraftModal').classList.remove('hidden');
-        }
-
-        function closeMinecraftModal() {
-            document.getElementById('minecraftModal').classList.add('hidden');
-        }
-
-        // Close modals when clicking outside
-        document.getElementById('discordModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDiscordModal();
-            }
-        });
-
-        document.getElementById('minecraftModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeMinecraftModal();
-            }
-        });
         </script>
     </div>
-<h3 class="text-xl font-bold mt-8 mb-4 text-center text-WHITE">Mes commandes</h3>
-{% if commandes is not empty %}
-    <div class="overflow-x-auto w-full">
-        <table class="min-w-full rounded shadow">
-            <thead>
-                <tr class="bg-BLACK text-WHITE">
-                    <th class="py-2 px-4 text-left">Item</th>
-                    <th class="py-2 px-4 text-left">Statut</th>
-                    <th class="py-2 px-4 text-left">Date de commande</th>
-                    <th class="py-2 px-4 text-left">Vendeur</th>
-                    <th class="py-2 px-4 text-left">Prix unitaire</th>
-                    <th class="py-2 px-4 text-left">Quantité</th>
-                    <th class="py-2 px-4 text-left">Total</th>
-                    <th class="py-2 px-4 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for commande in commandes %}
-                    <tr class="border-b bg-GREEN text-BLACK">
-                        <td class="py-2 px-4">{{ commande.idItem.item.nom }}</td>
-                        <td class="py-2 px-4">{{ commande.statut }}</td>
-                        <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
-                        <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
-                        <td class="py-2 px-4">{{ commande.total / commande.quantite }}</td>
-                        <td class="py-2 px-4">{{ commande.quantite }}</td>
-                        <td class="py-2 px-4">{{ commande.getTotal() }}</td>
-                        {% if commande.statut == 'En attente de livraison' %}
-                            <td class="py-2 px-4">
-                                <form action="{{ path('orders_mark_delivered', { id: commande.id }) }}" method="post">
-                                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Marquer comme livrée</button>
-                                </form>
-                            </td>
-                        {% elseif commande.statut == 'Livrée'  and commande.avisCommande is empty %}
-                            <td class="py-2 px-4">
-                                <form action="{{ path('orders_give_advice', { id: commande.id }) }}" method="post" class="inline">
-                                    <select name="note" required class="border border-gray-300 rounded px-2 py-1 mr-2">
-                                        <option value="">Note</option>
-                                        <option value="1">1/5</option>
-                                        <option value="2">2/5</option>
-                                        <option value="3">3/5</option>
-                                        <option value="4">4/5</option>
-                                        <option value="5">5/5</option>
-                                    </select>
-                                    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Donner un avis</button>
-                                </form>
-                            </td>
-                        {% else %}
-                            <td class="py-2 px-4">Aucune action disponible</td>
-                        {% endif %}
+
+    <h3 class="text-xl font-bold mt-8 mb-4 text-center text-WHITE">Mes commandes</h3>
+    {% if commandes is not empty %}
+        <div class="overflow-x-auto w-full">
+            <table class="min-w-full rounded shadow">
+                <thead>
+                    <tr class="bg-BLACK text-WHITE">
+                        <th class="py-2 px-4 text-left">Item</th>
+                        <th class="py-2 px-4 text-left">Statut</th>
+                        <th class="py-2 px-4 text-left">Date de commande</th>
+                        <th class="py-2 px-4 text-left">Vendeur</th>
+                        <th class="py-2 px-4 text-left">Prix unitaire</th>
+                        <th class="py-2 px-4 text-left">Quantité</th>
+                        <th class="py-2 px-4 text-left">Total</th>
+                        <th class="py-2 px-4 text-left">Actions</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% else %}
-    <p class="text-WHITE text-center">Aucune commande passée.</p>
-{% endif %}
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr class="border-b bg-GREEN text-BLACK">
+                            <td class="py-2 px-4">{{ commande.idItem.item.nom }}</td>
+                            <td class="py-2 px-4">{{ commande.statut }}</td>
+                            <td class="py-2 px-4">{{ commande.dateCommande ? commande.dateCommande|date('d/m/Y H:i') : '' }}</td>
+                            <td class="py-2 px-4">{{ commande.idVendeur ? commande.idVendeur.username : 'Non assigné' }}</td>
+                            <td class="py-2 px-4">{{ commande.total / commande.quantite }}</td>
+                            <td class="py-2 px-4">{{ commande.quantite }}</td>
+                            <td class="py-2 px-4">{{ commande.getTotal() }}</td>
+                            {% if commande.statut == 'En attente de livraison' %}
+                                <td class="py-2 px-4">
+                                    <form action="{{ path('orders_mark_delivered', { id: commande.id }) }}" method="post">
+                                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Marquer comme livrée</button>
+                                    </form>
+                                </td>
+                            {% elseif commande.statut == 'Livrée'  and commande.avisCommande is empty %}
+                                <td class="py-2 px-4">
+                                    <form action="{{ path('orders_give_advice', { id: commande.id }) }}" method="post" class="inline">
+                                        <select name="note" required class="border border-gray-300 rounded px-2 py-1 mr-2">
+                                            <option value="">Note</option>
+                                            <option value="1">1/5</option>
+                                            <option value="2">2/5</option>
+                                            <option value="3">3/5</option>
+                                            <option value="4">4/5</option>
+                                            <option value="5">5/5</option>
+                                        </select>
+                                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded">Donner un avis</button>
+                                    </form>
+                                </td>
+                            {% else %}
+                                <td class="py-2 px-4">Aucune action disponible</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-WHITE text-center">Aucune commande passée.</p>
+    {% endif %}
 {% endblock %}
