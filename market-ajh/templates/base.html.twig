@@ -26,15 +26,14 @@
   >
     <!-- Navigation -->
     <nav class="bg-BLACK shadow-md p-4 relative z-50">
-      <div class="w-full flex items-center justify-between px-4">
+      <div class="w-full flex items-center justify-between px-4 relative">
         <!-- Logo à gauche -->
         <a href="{{ app.user ? path('app_home') : path('app_welcome') }}" class="flex-shrink-0">
           <img src="{{ asset('build/images/logo_guilde.jpg') }}" alt="Logo" class="h-16 w-16 rounded-full border-2 border-WHITE" />
         </a>
-       
 
-        <!-- Titre centré -->
-        <div class="absolute left-1/2 -translate-x-1/2 hidden sm:block">
+        <!-- Titre centré absolument par rapport à toute la largeur -->
+        <div class="absolute hidden sm:block" style="left: 50vw; transform: translateX(-50%);">
           <span class="text-WHITE text-2xl font-bold">{{ nomdepage }}</span>
         </div>
 
