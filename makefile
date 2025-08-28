@@ -39,3 +39,8 @@ build-local:
 	npm install --prefix market-ajh
 	npm run build --prefix market-ajh
 	php market-ajh/bin/console cache:warmup --env=prod
+
+
+cache:
+	php market-ajh/bin/console cache:clear --env=prod
+	php market-ajh/bin/console cache:warmup --env=prod

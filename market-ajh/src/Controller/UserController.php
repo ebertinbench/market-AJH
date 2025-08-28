@@ -126,49 +126,4 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    #[Route('/{id}/discord', name: 'app_user_edit_discord', methods: ['POST'])]
-    public function editDiscord(
-        Request $request,
-        User $user,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $newDiscord = $request->request->get('discordPseudo');
-        if ($newDiscord && $this->isCsrfTokenValid('edit_discord' . $user->getId(), $request->request->get('_token'))) {
-            $user->setPseudoDiscord($newDiscord);
-            $entityManager->flush();
-            $this->addFlash('success', 'Pseudo Discord mis à jour.');
-        }
-        return $this->redirectToRoute('app_profile');
-    }
-
-    #[Route('/{id}/minecraft', name: 'app_user_edit_minecraft', methods: ['POST'])]
-    public function editMinecraft(
-        Request $request,
-        User $user,
-        EntityManagerInterface $entityManager
-    ): Response {
-        
-        $newMinecraft = $request->request->get('minecraftPseudo');
-        if ($newMinecraft && $this->isCsrfTokenValid('edit_minecraft' . $user->getId(), $request->request->get('_token'))) {
-            $user->setPseudoMinecraft($newMinecraft);
-            $entityManager->flush();
-            $this->addFlash('success', 'Pseudo Minecraft mis à jour.');
-        }
-        return $this->redirectToRoute('app_profile');
-    }
-
-    #[Route('/{id}/wallpaper', name: 'app_user_change_wallpaper', methods: ['POST'])]
-    public function changeWallpaper(
-        Request $request,
-        User $user,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $newWallpaper = $request->request->get('wallpaper');
-        // Ensure $newWallpaper is a string, not null
-        $user->setWallpaper($newWallpaper ?? '');
-        $entityManager->flush();
-        $this->addFlash('success', 'Fond d\'écran mis à jour.');
-        return $this->redirectToRoute('app_profile');
-    }
 }

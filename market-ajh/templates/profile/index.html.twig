@@ -74,7 +74,7 @@
                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                 <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
                     <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                        <form method="post" action="{{ path('app_user_edit_discord', {'id': user.id}) }}">
+                        <form method="post" action="{{ path('app_user_edit_discord') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('edit_discord' ~ user.id) }}">
                             <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
@@ -103,7 +103,7 @@
                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                 <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
                     <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                        <form method="post" action="{{ path('app_user_edit_minecraft', {'id': user.id}) }}">
+                        <form method="post" action="{{ path('app_user_edit_minecraft') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('edit_minecraft' ~ user.id) }}">
                             <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
@@ -132,7 +132,7 @@
                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                 <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
                     <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-GREEN text-left shadow-xl outline outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-4xl data-closed:sm:translate-y-0 data-closed:sm:scale-95 max-h-5/6">
-                        <form method="post" action="{{ path('app_user_change_wallpaper', {'id': user.id}) }}">
+                        <form method="post" action="{{ path('app_user_change_wallpaper') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('change_wallpaper' ~ user.id) }}">
                             <div class="bg-GREEN px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto">
                                 <div class="sm:flex sm:items-start">
@@ -222,9 +222,7 @@
                             <td class="py-2 px-4">{{ commande.getTotal() }}</td>
                             {% if commande.statut == 'En attente de livraison' %}
                                 <td class="py-2 px-4">
-                                    <form action="{{ path('orders_mark_delivered', { id: commande.id }) }}" method="post">
-                                        <button type="submit" class="bg-VIOLET text-white px-4 py-2 mb-4 rounded">Marquer comme livrée</button>
-                                     </form>
+                                    <button command="show-modal" commandfor="confirmDeliverDialog_{{ commande.id }}" class="bg-VIOLET text-white px-4 py-2 mb-4 rounded">Marquer comme livrée</button>
                                     <!-- Confirmation Modal -->
                                     {% if commande.idVendeur %}
                                         <a href="{{ path('app_messages_conversation', {userId: commande.idVendeur.id}) }}" class="bg-VIOLET text-white px-4 mt-2 p-2 rounded py-2 rounded">Contacter le vendeur</a>
@@ -282,4 +280,5 @@
     {% else %}
         <p class="text-WHITE text-center">Aucune commande passée.</p>
     {% endif %}
+    
 {% endblock %}

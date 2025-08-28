@@ -3,13 +3,13 @@
 {% block title %}Profil utilisateur{% endblock %}
 
 {% block body %}
-<div class="max-w-2xl mx-auto mt-8">
-    <h2 class="text-2xl  text-center font-bold mb-4">News du moment</h2>
-    <div class="space-y-4" x-data>
-        <div class="flex items-around md:grid-cols-3 gap-6">
+<div class="w-full mx-auto mt-8 px-6">
+    <h2 class="text-2xl  text-center font-bold mb-6">News du moment</h2>
+    <div class="space-y-6" x-data>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 w-full">
             <!-- Staff News Column -->
-            <div class="bg-GREEN p-4 rounded-lg">
-                <h3 class="text-xl font-bold text-white mb-4 text-center">Communications Staff</h3>
+            <div class="bg-GREEN p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Communications Staff</h3>
                 {% for news in news_staff %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -18,7 +18,7 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="bg-white text-gray-800 shadow-lg rounded-lg p-4 mb-4"
+                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-red-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
@@ -67,8 +67,8 @@
             </div>
 
             <!-- Feature News Column -->
-            <div class="bg-VIOLET p-4 rounded-lg">
-                <h3 class="text-xl font-bold text-white mb-4 text-center">Nouvelles Fonctionnalités</h3>
+            <div class="bg-VIOLET p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Nouvelles Fonctionnalités</h3>
                 {% for news in news_feature %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -77,7 +77,7 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="bg-white text-gray-800 shadow-lg rounded-lg p-4 mb-4"
+                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
@@ -126,8 +126,8 @@
             </div>
 
             <!-- Maintenance News Column -->
-            <div class="bg-GRAY p-4 rounded-lg">
-                <h3 class="text-xl font-bold text-white mb-4 text-center">Notes de Maintenance</h3>
+            <div class="bg-GRAY p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
+                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Notes de Maintenance</h3>
                 {% for news in news_maintenance %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -136,7 +136,7 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="bg-white text-gray-800 shadow-lg rounded-lg p-4 mb-4"
+                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-yellow-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
@@ -188,5 +188,10 @@
     <!-- Alpine.js CDN for interactivity -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <style>
+      dialog, dialog * {
+        white-space: pre-line;
+      }
+    </style>
 </div>
 {% endblock %}
