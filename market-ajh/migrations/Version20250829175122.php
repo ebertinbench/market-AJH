@@ -22,7 +22,7 @@ final class Version20250829175122 extends AbstractMigration
         // Add ROLE_COMPTABLE and ROLE_VENDEUR to all existing guild chiefs
         $this->addSql("
             UPDATE user 
-            SET roles = JSON_ARRAY_APPEND(roles, '$', 'ROLE_COMPTABLE', 'ROLE_VENDEUR')
+            SET roles = JSON_ARRAY_APPEND(JSON_ARRAY_APPEND(roles, '$', 'ROLE_COMPTABLE'), '$', 'ROLE_VENDEUR')
             WHERE id IN (
                 SELECT chef_id FROM guild WHERE chef_id IS NOT NULL
             ) 
