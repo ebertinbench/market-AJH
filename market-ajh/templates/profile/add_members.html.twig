@@ -87,7 +87,7 @@
                             <div class="flex space-x-2">
                                 {% if member.id != user.id %}
                                     <!-- Bouton pour basculer le rôle vendeur -->
-                                    <form method="post" action="{{ path('app_user_toggle_vendeur', {id: member.id}) }}" class="inline">
+                                    <form method="post" action="{{ path('profile_toggle_vendeur', {id: member.id}) }}" class="inline">
                                         <input type="hidden" name="_token" value="{{ csrf_token('toggle_vendeur' ~ member.id) }}">
                                         {% if member.hasVendeurRole() %}
                                             <button type="submit" class="bg-ORANGE text-WHITE font-bold py-1 px-2 rounded text-xs">Retirer vendeur</button>
@@ -97,7 +97,7 @@
                                     </form>
                                     
                                     <!-- Bouton pour basculer le rôle comptable -->
-                                    <form method="post" action="{{ path('app_user_toggle_comptable', {id: member.id}) }}" class="inline">
+                                    <form method="post" action="{{ path('profile_toggle_comptable', {id: member.id}) }}" class="inline">
                                         <input type="hidden" name="_token" value="{{ csrf_token('toggle_comptable' ~ member.id) }}">
                                         {% if member.hasComptableRole() %}
                                             <button type="submit" class="bg-PURPLE text-WHITE font-bold py-1 px-2 rounded text-xs">Retirer comptable</button>
