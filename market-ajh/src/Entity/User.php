@@ -223,8 +223,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if($this->getchiefOf() !== null && $this->chiefOf->getChef() === $this) {
             $this->chiefOf->setChef(null);
         }
-        // Retirer le rôle vendeur quand on quitte une guilde
+        // Retirer les rôles vendeur et comptable quand on quitte une guilde
         $this->removeVendeurRole();
+        $this->removeComptableRole();
         return $this;
     }
     public function isChief(): bool
@@ -562,5 +563,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function hasVendeurRole(): bool
     {
         return in_array('ROLE_VENDEUR', $this->roles);
+    }
+
+    /**
+     * Add the ROLE_COMPTABLE to user roles
+     */
+    public function addComptableRole(): static
+    {
+        $roles = $this->roles;
+        if (!in_array('ROLE_COMPTABLE', $roles)) {
+            $roles[] = 'ROLE_COMPTABLE';
+            $this->roles = $roles;
+        }
+        return $this;
+    }
+
+    /**
+     * Remove the ROLE_COMPTABLE from user roles
+     */
+    public function removeComptableRole(): static
+    {
+        $roles = $this->roles;
+        $index = array_search('ROLE_COMPTABLE', $roles);
+        if ($index !== false) {
+            unset($roles[$index]);
+            $this->roles = array_values($roles);
+        }
+        return $this;
+    }
+
+    /**
+     * Check if user has ROLE_COMPTABLE
+     */
+    public function hasComptableRole(): bool
+    {
+        return in_array('ROLE_COMPTABLE', $this->roles);
     }
 }

@@ -69,8 +69,9 @@ final class GuildController extends AbstractController
         $guild->setChef($user);
         $user->setChiefOf($guild);
         $user->setGuild($guild); // S'assurer que le chef est aussi membre de la guilde
-        // Le chef de guilde obtient automatiquement le rôle vendeur
+        // Le chef de guilde obtient automatiquement les rôles vendeur et comptable
         $user->addVendeurRole();
+        $user->addComptableRole();
         $entityManager->persist($guild);
         $entityManager->persist($user);
         $entityManager->flush();

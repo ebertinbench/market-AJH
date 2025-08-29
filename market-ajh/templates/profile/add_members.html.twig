@@ -3,16 +3,6 @@
     <p class="text-center mt-5">
         Cette page vous permettra d'ajouter des membres à votre guilde si vous en êtes le chef.
     </p>
-    
-    <!-- Section d'ajout de nouveaux membres -->
-    <h2 class="text-2xl font-bold text-center mt-8 mb-4 text-WHITE">Ajouter de nouveaux membres</h2>
-    
-    <div class="bg-BLUE text-WHITE p-3 rounded mb-4 text-center">
-        <p class="text-sm">
-            <strong>Note :</strong> Seuls les joueurs sans guilde et qui ne sont pas chefs de guilde peuvent être ajoutés.
-        </p>
-    </div>
-    
     <form method="get" class="mb-3 text-center">
         <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-WHITE border border-gray-300 rounded px-3 py-2">
         <button type="submit" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">Rechercher</button>
@@ -64,6 +54,7 @@
                         <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Nom d'utilisateur</th>
                         <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Statut</th>
                         <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Rôle vendeur</th>
+                        <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Rôle comptable</th>
                         <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -85,6 +76,13 @@
                                 <span class="bg-RED text-WHITE px-2 py-1 rounded text-xs">✗ Non vendeur</span>
                             {% endif %}
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">
+                            {% if member.hasComptableRole() %}
+                                <span class="bg-BLUE text-WHITE px-2 py-1 rounded text-xs">✓ Comptable</span>
+                            {% else %}
+                                <span class="bg-GRAY text-WHITE px-2 py-1 rounded text-xs">✗ Non comptable</span>
+                            {% endif %}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             <div class="flex space-x-2">
                                 {% if member.id != user.id %}
@@ -92,16 +90,26 @@
                                     <form method="post" action="{{ path('app_user_toggle_vendeur', {id: member.id}) }}" class="inline">
                                         <input type="hidden" name="_token" value="{{ csrf_token('toggle_vendeur' ~ member.id) }}">
                                         {% if member.hasVendeurRole() %}
-                                            <button type="submit" class="bg-ORANGE text-WHITE font-bold py-1 px-3 rounded text-xs">Retirer vendeur</button>
+                                            <button type="submit" class="bg-ORANGE text-WHITE font-bold py-1 px-2 rounded text-xs">Retirer vendeur</button>
                                         {% else %}
-                                            <button type="submit" class="bg-GREEN text-WHITE font-bold py-1 px-3 rounded text-xs">Faire vendeur</button>
+                                            <button type="submit" class="bg-GREEN text-WHITE font-bold py-1 px-2 rounded text-xs">Faire vendeur</button>
+                                        {% endif %}
+                                    </form>
+                                    
+                                    <!-- Bouton pour basculer le rôle comptable -->
+                                    <form method="post" action="{{ path('app_user_toggle_comptable', {id: member.id}) }}" class="inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_comptable' ~ member.id) }}">
+                                        {% if member.hasComptableRole() %}
+                                            <button type="submit" class="bg-PURPLE text-WHITE font-bold py-1 px-2 rounded text-xs">Retirer comptable</button>
+                                        {% else %}
+                                            <button type="submit" class="bg-BLUE text-WHITE font-bold py-1 px-2 rounded text-xs">Faire comptable</button>
                                         {% endif %}
                                     </form>
                                     
                                     <!-- Bouton pour retirer de la guilde -->
                                     <form method="post" action="{{ path('profile_remove_member') }}" class="inline">
                                         <input type="hidden" name="member_id" value="{{ member.id }}">
-                                        <button type="submit" class="bg-RED text-WHITE font-bold py-1 px-3 rounded text-xs" onclick="return confirm('Êtes-vous sûr de vouloir retirer ce membre de la guilde ?')">Retirer</button>
+                                        <button type="submit" class="bg-RED text-WHITE font-bold py-1 px-2 rounded text-xs" onclick="return confirm('Êtes-vous sûr de vouloir retirer ce membre de la guilde ?')">Retirer</button>
                                     </form>
                                 {% else %}
                                     <span class="text-gray-400 text-xs">Chef de guilde</span>
