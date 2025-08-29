@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\Services\Wallpaper;
 use App\Entity\User;
+use App\Repository\ItemRepository;
 
 class ShopController extends AbstractController
 {
@@ -84,7 +85,6 @@ class ShopController extends AbstractController
             'idClient'     => $idClient?->getId(),
             'item_id'      => $itemId,
             'statut'       => $statut,
-            'idClient'     => $idClient ? $idClient->getId() : null,
             'idVendeur'    => $idVendeur,
             'dateCommande' => $dateCommande->format('Y-m-d H:i:s'),
         ]);
@@ -106,5 +106,42 @@ class ShopController extends AbstractController
         $this->addFlash('success', 'Votre commande a bien été enregistrée.');
 
         return $this->redirect($request->headers->get('referer'));
+    }
+
+    #[Route('/shop/comparateur', name: 'shop_comparateur')]
+    public function comparateur(
+        ItemRepository $itemRepository,
+        Wallpaper $wallpaperService
+    ): Response {
+        $items = $itemRepository->findAllOrderedByName();
+
+        return $this->render('shop/comparateur.html.twig', [
+            'items' => $items,
+            'nomdepage' => 'Comparateur de prix',
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+        ]);
+    }
+
+    #[Route('/shop/comparateur/{itemId}', name: 'shop_comparateur_item', requirements: ['itemId' => '\d+'])]
+    public function comparateurItem(
+        int $itemId,
+        ItemRepository $itemRepository,
+        GuildItemsRepository $guildItemsRepository,
+        Wallpaper $wallpaperService
+    ): Response {
+        $item = $itemRepository->find($itemId);
+        if (!$item) {
+            throw $this->createNotFoundException('Item non trouvé.');
+        }
+
+        // Récupérer tous les GuildItems pour cet item, triés par prix croissant
+        $guildItems = $guildItemsRepository->findByItemOrderedByPrice($itemId);
+
+        return $this->render('shop/comparateur_item.html.twig', [
+            'item' => $item,
+            'guildItems' => $guildItems,
+            'nomdepage' => 'Comparateur - ' . $item->getNom(),
+            'wallpaper' => $wallpaperService->getRandomWallpaperName()
+        ]);
     }
 }

@@ -16,6 +16,23 @@ class GuildItemsRepository extends ServiceEntityRepository
         parent::__construct($registry, GuildItems::class);
     }
 
+    /**
+     * Trouve tous les GuildItems pour un item donné, triés par prix croissant
+     * @return GuildItems[]
+     */
+    public function findByItemOrderedByPrice(int $itemId): array
+    {
+        return $this->createQueryBuilder('gi')
+            ->join('gi.item', 'i')
+            ->join('gi.guild', 'g')
+            ->andWhere('i.id = :itemId')
+            ->andWhere('gi.miseEnVente = true')
+            ->setParameter('itemId', $itemId)
+            ->orderBy('gi.price', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return GuildItems[] Returns an array of GuildItems objects
 //     */

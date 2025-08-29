@@ -146,7 +146,7 @@
                     <a href="{{ path('app_messages_index') }}" class="block w-full rounded-lg px-4 py-2 bg-BLACK/60 text-WHITE hover:bg-VIOLET border border-transparent hover:border-PINK transition">
                       Messagerie
                       {% if app.user.unreadMessagesCount > 0 %}
-                        <span class="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        <span class="ml-2 bg-red-500 text-WHITE text-xs font-bold px-2 py-1 rounded-full">
                           {{ app.user.unreadMessagesCount }}
                         </span>
                       {% endif %}

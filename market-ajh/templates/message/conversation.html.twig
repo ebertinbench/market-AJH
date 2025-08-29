@@ -12,7 +12,7 @@
                 </svg>
             </a>
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-WHITE font-bold">
                     {{ recipient.username|slice(0, 1)|upper }}
                 </div>
                 <div>
@@ -35,10 +35,10 @@
                     <div class="space-y-4 max-h-96 overflow-y-auto" id="messages-container">
                         {% for message in messages %}
                             <div class="flex {{ message.sender == current_user ? 'justify-end' : 'justify-start' }}">
-                                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg {{ message.sender == current_user ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900' }}">
+                                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg {{ message.sender == current_user ? 'bg-blue-500 text-WHITE' : 'bg-gray-200 text-gray-900' }}">
                                     <div class="flex items-start space-x-2">
                                         {% if message.sender != current_user %}
-                                            <div class="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                                            <div class="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center text-WHITE font-bold text-xs">
                                                 {{ message.sender.username|slice(0, 1)|upper }}
                                             </div>
                                         {% endif %}

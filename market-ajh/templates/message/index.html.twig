@@ -8,10 +8,10 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Messagerie</h1>
             <div class="space-x-2">
-                <a href="{{ path('app_messages_new') }}" class="bg-VIOLET text-white font-bold py-2 px-4 rounded">
+                <a href="{{ path('app_messages_new') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">
                     Nouveau message
                 </a>
-                <a href="{{ path('app_messages_users') }}" class="bg-VIOLET text-white font-bold py-2 px-4 rounded">
+                <a href="{{ path('app_messages_users') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">
                     Voir tous les utilisateurs
                 </a>
             </div>
@@ -30,7 +30,7 @@
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-3">
                                         <div class="flex-shrink-0">
-                                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-WHITE font-bold">
                                                 {{ conversation.partner.username|slice(0, 1)|upper }}
                                             </div>
                                         </div>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="flex items-center space-x-2">
                                         {% if conversation.unreadCount > 0 %}
-                                            <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                            <span class="bg-red-500 text-WHITE text-xs font-bold px-2 py-1 rounded-full">
                                                 {{ conversation.unreadCount }}
                                             </span>
                                         {% endif %}
@@ -77,7 +77,7 @@
                 </div>
                 <h3 class="text-lg text-WHITE mb-2">Aucune conversation</h3>
                 <p class="text-WHITE mb-6">Vous n'avez pas encore de conversations. Commencez par envoyer un message !</p>
-                <a href="{{ path('app_messages_new') }}" class="bg-VIOLET text-white font-bold py-2 px-4 rounded">
+                <a href="{{ path('app_messages_new') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">
                     Envoyer votre premier message
                 </a>
             </div>

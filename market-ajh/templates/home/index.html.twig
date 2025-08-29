@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 w-full">
             <!-- Staff News Column -->
             <div class="bg-GREEN p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
-                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Communications Staff</h3>
+                <h3 class="text-2xl font-bold text-WHITE mb-6 text-center border-b-2 border-WHITE pb-2">Communications Staff</h3>
                 {% for news in news_staff %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -18,27 +18,27 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-red-500 transition-all duration-300"
+                        class="w-full bg-WHITE text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-red-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
                             <span class="font-bold text-lg">
                                 {{ news.titre ? news.titre : 'Sans titre' }}
                             </span>
-                            <span class="text-xs bg-red-500 text-white px-2 py-1 rounded w-fit">
+                            <span class="text-xs bg-red-500 text-WHITE px-2 py-1 rounded w-fit">
                                 {{ news.Emetteur ? news.Emetteur.username ~ ': ' ~ news.Emetteur.getBestRole() : 'Anonyme' }}
                             </span>
                             <span class="text-sm text-gray-500">
                                 {{ news.dateCreation ? news.dateCreation|date('d/m/Y H:i') : '' }}
                             </span>
                         </div>
-                        <button command="show-modal" commandfor="dialog-staff-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5">Lire</button>
+                        <button command="show-modal" commandfor="dialog-staff-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-WHITE inset-ring inset-ring-WHITE/5">Lire</button>
                         
                         <el-dialog>
                             <dialog id="dialog-staff-{{ loop.index0 }}" aria-labelledby="dialog-title-staff-{{ loop.index0 }}" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                                 <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center focus:outline-none">
-                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-WHITE/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                                         <div class="bg-gray-800 px-4 py-4">
                                             <div class="flex items-start gap-3">
                                                 <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-500/10 overflow-hidden">
@@ -46,13 +46,13 @@
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <p class="text-xs text-gray-300 mb-1">Communication Staff</p>
-                                                    <h3 id="dialog-title-staff-{{ loop.index0 }}" class="text-sm font-semibold text-white mb-2">{{ news.titre }}</h3>
+                                                    <h3 id="dialog-title-staff-{{ loop.index0 }}" class="text-sm font-semibold text-WHITE mb-2">{{ news.titre }}</h3>
                                                     <div class="text-sm text-gray-400 news-content">{{ news.content }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="bg-gray-700/25 px-4 py-2 flex justify-end">
-                                            <button type="button" command="close" commandfor="dialog-staff-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/20">Fermer</button>
+                                            <button type="button" command="close" commandfor="dialog-staff-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-WHITE/10 px-3 py-1.5 text-sm font-semibold text-WHITE hover:bg-WHITE/20">Fermer</button>
                                         </div>
                                     </el-dialog-panel>
                                 </div>
@@ -60,13 +60,13 @@
                         </el-dialog>
                     </div>
                 {% else %}
-                    <div class="text-white text-center py-4">Aucune communication staff.</div>
+                    <div class="text-WHITE text-center py-4">Aucune communication staff.</div>
                 {% endfor %}
             </div>
 
             <!-- Feature News Column -->
             <div class="bg-VIOLET p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
-                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Nouvelles Fonctionnalités</h3>
+                <h3 class="text-2xl font-bold text-WHITE mb-6 text-center border-b-2 border-WHITE pb-2">Nouvelles Fonctionnalités</h3>
                 {% for news in news_feature %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -75,27 +75,27 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
+                        class="w-full bg-WHITE text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-blue-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
                             <span class="font-bold text-lg">
                                 {{ news.titre ? news.titre : 'Sans titre' }}
                             </span>
-                            <span class="text-xs bg-blue-500 text-white px-2 py-1 rounded w-fit">
+                            <span class="text-xs bg-blue-500 text-WHITE px-2 py-1 rounded w-fit">
                                 {{ news.Emetteur ? news.Emetteur.username ~ ': ' ~ news.Emetteur.getBestRole() : 'Anonyme' }}
                             </span>
                             <span class="text-sm text-gray-500">
                                 {{ news.dateCreation ? news.dateCreation|date('d/m/Y H:i') : '' }}
                             </span>
                         </div>
-                        <button command="show-modal" commandfor="dialog-feature-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5">Lire</button>
+                        <button command="show-modal" commandfor="dialog-feature-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-WHITE inset-ring inset-ring-WHITE/5">Lire</button>
                         
                         <el-dialog>
                             <dialog id="dialog-feature-{{ loop.index0 }}" aria-labelledby="dialog-title-feature-{{ loop.index0 }}" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                                 <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center focus:outline-none">
-                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-WHITE/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                                         <div class="bg-gray-800 px-4 py-4">
                                             <div class="flex items-start gap-3">
                                                 <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-500/10 overflow-hidden">
@@ -103,13 +103,13 @@
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <p class="text-xs text-gray-300 mb-1">Nouvelle Fonctionnalité</p>
-                                                    <h3 id="dialog-title-feature-{{ loop.index0 }}" class="text-sm font-semibold text-white mb-2">{{ news.titre }}</h3>
+                                                    <h3 id="dialog-title-feature-{{ loop.index0 }}" class="text-sm font-semibold text-WHITE mb-2">{{ news.titre }}</h3>
                                                     <div class="text-sm text-gray-400 news-content">{{ news.content }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="bg-gray-700/25 px-4 py-2 flex justify-end">
-                                            <button type="button" command="close" commandfor="dialog-feature-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/20">Fermer</button>
+                                            <button type="button" command="close" commandfor="dialog-feature-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-WHITE/10 px-3 py-1.5 text-sm font-semibold text-WHITE hover:bg-WHITE/20">Fermer</button>
                                         </div>
                                     </el-dialog-panel>
                                 </div>
@@ -117,13 +117,13 @@
                         </el-dialog>
                     </div>
                 {% else %}
-                    <div class="text-white text-center py-4">Aucune nouvelle fonctionnalité.</div>
+                    <div class="text-WHITE text-center py-4">Aucune nouvelle fonctionnalité.</div>
                 {% endfor %}
             </div>
 
             <!-- Maintenance News Column -->
             <div class="bg-GRAY p-8 rounded-lg min-h-[500px] border-4 border-gray-700 shadow-2xl">
-                <h3 class="text-2xl font-bold text-white mb-6 text-center border-b-2 border-white pb-2">Notes de Maintenance</h3>
+                <h3 class="text-2xl font-bold text-WHITE mb-6 text-center border-b-2 border-WHITE pb-2">Notes de Maintenance</h3>
                 {% for news in news_maintenance %}
                     <div
                         x-data="{ show: false, open: false }"
@@ -132,7 +132,7 @@
                         x-transition:enter="transition-transform transition-opacity duration-1000"
                         x-transition:enter-start="opacity-0 scale-90"
                         x-transition:enter-end="opacity-100 scale-100"
-                        class="w-full bg-white text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-yellow-500 transition-all duration-300"
+                        class="w-full bg-WHITE text-gray-800 shadow-xl rounded-lg p-6 mb-6 border-2 border-gray-300 hover:border-yellow-500 transition-all duration-300"
                         style="display: none;"
                     >
                         <div class="flex flex-col gap-1 mb-2">
@@ -146,13 +146,13 @@
                                 {{ news.dateCreation ? news.dateCreation|date('d/m/Y H:i') : '' }}
                             </span>
                         </div>
-                        <button command="show-modal" commandfor="dialog-maintenance-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5">Lire</button>
+                        <button command="show-modal" commandfor="dialog-maintenance-{{ loop.index0 }}" class="rounded-md bg-VIOLET px-2.5 py-1.5 text-sm font-semibold text-WHITE inset-ring inset-ring-WHITE/5">Lire</button>
                         
                         <el-dialog>
                             <dialog id="dialog-maintenance-{{ loop.index0 }}" aria-labelledby="dialog-title-maintenance-{{ loop.index0 }}" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
                                 <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
                                 <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center focus:outline-none">
-                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                                    <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-WHITE/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in w-full max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                                         <div class="bg-gray-800 px-4 py-4">
                                             <div class="flex items-start gap-3">
                                                 <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-yellow-500/10 overflow-hidden">
@@ -160,13 +160,13 @@
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <p class="text-xs text-gray-300 mb-1">Note de maintenance</p>
-                                                    <h3 id="dialog-title-maintenance-{{ loop.index0 }}" class="text-sm font-semibold text-white mb-2">{{ news.titre }}</h3>
+                                                    <h3 id="dialog-title-maintenance-{{ loop.index0 }}" class="text-sm font-semibold text-WHITE mb-2">{{ news.titre }}</h3>
                                                     <div class="text-sm text-gray-400 news-content">{{ news.content }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="bg-gray-700/25 px-4 py-2 flex justify-end">
-                                            <button type="button" command="close" commandfor="dialog-maintenance-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-white/10 px-3 py-1.5 text-sm font-semibold text-white hover:bg-white/20">Fermer</button>
+                                            <button type="button" command="close" commandfor="dialog-maintenance-{{ loop.index0 }}" class="inline-flex justify-center rounded-md bg-WHITE/10 px-3 py-1.5 text-sm font-semibold text-WHITE hover:bg-WHITE/20">Fermer</button>
                                         </div>
                                     </el-dialog-panel>
                                 </div>
@@ -174,7 +174,7 @@
                         </el-dialog>
                     </div>
                 {% else %}
-                    <div class="text-white text-center py-4">Aucune note de maintenance.</div>
+                    <div class="text-WHITE text-center py-4">Aucune note de maintenance.</div>
                 {% endfor %}
             </div>
         </div>

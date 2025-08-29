@@ -31,18 +31,18 @@
             {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
                 <div>
                 {{ form_label(form.recipient, null, {'label_attr': {'class': 'block text-sm font-medium text-WHITE mb-1'}}) }}
-                {{ form_widget(form.recipient, {'attr': {'class': 'bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'}}) }}
+                {{ form_widget(form.recipient, {'attr': {'class': 'bg-WHITE w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'}}) }}
                 {{ form_errors(form.recipient) }}
                 </div>
                 
                 <div>
                 {{ form_label(form.content, null, {'label_attr': {'class': 'block text-sm font-medium text-WHITE mb-1'}}) }}
-                {{ form_widget(form.content, {'attr': {'class': 'bg-white w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical', 'rows': '4'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'bg-WHITE w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical', 'rows': '4'}}) }}
                 {{ form_errors(form.content) }}
                 </div>
                 
                 <div class="flex justify-end space-x-2">
-                <a href="{{ path('app_messages_index') }}" class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ path('app_messages_index') }}" class="bg-gray-500 text-WHITE font-bold py-2 px-4 rounded">
                     Annuler
                 </a>
                 {{ form_widget(form.submit, {'attr': {'class': 'bg-VIOLET text-WHITE font-bold py-2 px-4 rounded'}}) }}
@@ -52,7 +52,7 @@
         </div>
 
         {% if available_recipients|length > 0 %}
-            <div class="mt-8 bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="mt-8 bg-WHITE shadow-lg rounded-lg overflow-hidden">
                 <div class="bg-GREEN px-6 py-3 border-b">
                     <h3 class="text-lg font-semibold text-WHITE">Utilisateurs disponibles</h3>
                 </div>
@@ -61,7 +61,7 @@
                         {% for user in available_recipients %}
                             <div class="flex items-center justify-between p-3 border bg-WHITE rounded-lg">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-WHITE font-bold text-sm">
                                         {{ user.username|slice(0, 1)|upper }}
                                     </div>
                                     <div>

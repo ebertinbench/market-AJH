@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comparateur - {{ item.nom }}{% endblock %}
+
+{% block body %}
+  <div class="container p-6 bg-GREEN rounded-lg shadow-lg mt-5">
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex items-center space-x-4">
+        <h1 class="text-3xl font-extrabold text-WHITE">Comparateur de prix</h1>
+        <div class="flex items-center space-x-2 text-lg text-WHITE opacity-80">
+          {% if item.image %}
+            <img src="{{ asset(item.image) }}" alt="{{ item.nom }}" class="w-8 h-8 rounded border-2 border-WHITE shadow-sm">
+          {% endif %}
+          <span>- {{ item.nom }}</span>
+        </div>
+      </div>
+      <div class="flex space-x-2">
+        <a href="{{ path('shop_comparateur') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+          <i class="fas fa-arrow-left mr-2"></i>Changer d'item
+        </a>
+        <a href="{{ path('shop_index') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+          <i class="fas fa-home mr-2"></i>Boutiques
+        </a>
+      </div>
+    </div>
+    
+    <div class="bg-WHITE rounded-lg shadow-md overflow-hidden">
+      {% if guildItems is not empty %}
+        <div class="p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+            <i class="fas fa-chart-line mr-3 text-VIOLET"></i>
+            Classement par prix ({{ guildItems|length }} {% if guildItems|length > 1 %}guildes{% else %}guilde{% endif %})
+          </h2>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rang</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guilde</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Différence</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+              </tr>
+            </thead>
+            <tbody class="bg-WHITE divide-y divide-gray-200">
+              {% set minPrice = guildItems[0].price %}
+              {% for guildItem in guildItems %}
+                {% set rank = loop.index %}
+                {% set priceDiff = guildItem.price - minPrice %}
+                <tr class="transition duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      {% if rank == 1 %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <i class="fas fa-crown mr-1"></i>#{{ rank }} - Meilleur prix
+                        </span>
+                      {% else %}
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                          #{{ rank }}
+                        </span>
+                      {% endif %}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      {% if guildItem.guild.image %}
+                        <img src="{{ asset(guildItem.guild.image) }}" alt="{{ guildItem.guild.name }}" class="w-8 h-8 rounded mr-3 border-2 border-gray-200">
+                      {% else %}
+                        <div class="w-8 h-8 rounded mr-3 border-2 border-gray-200 bg-gray-300 flex items-center justify-center text-xs">?</div>
+                      {% endif %}
+                      <div>
+                        <div class="text-sm font-medium text-gray-900">{{ guildItem.guild.name }}</div>
+                        <div class="text-sm text-gray-500">Guilde</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-lg font-semibold text-gray-900">{{ guildItem.price|number_format(2, ',', ' ') }} €</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    {% if priceDiff == 0 %}
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <i class="fas fa-check mr-1"></i>Prix le plus bas
+                      </span>
+                    {% else %}
+                      <span class="text-red-600 font-medium">+{{ priceDiff|number_format(2, ',', ' ') }} €</span>
+                      <div class="text-xs text-gray-500">
+                        (+{{ ((priceDiff / minPrice) * 100)|number_format(1) }}%)
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-center">
+                    <a href="{{ path('shop_show', {id: guildItem.guild.id}) }}" class="inline-flex items-center px-3 py-1 bg-VIOLET text-WHITE text-sm font-medium rounded-lg transition duration-200">
+                      <i class="fas fa-shopping-cart mr-1"></i>Voir boutique
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="p-6 bg-gray-50 border-t">
+          <div class="flex items-center justify-between text-sm text-gray-600">
+            <div class="flex items-center space-x-4">
+              <span><i class="fas fa-info-circle mr-1"></i>Économie maximale : <strong>{{ (guildItems|last.price - minPrice)|number_format(2, ',', ' ') }} €</strong></span>
+              <span><i class="fas fa-percentage mr-1"></i>Écart maximum : <strong>{{ (((guildItems|last.price - minPrice) / minPrice) * 100)|number_format(1) }}%</strong></span>
+            </div>
+            <span class="text-gray-500">Dernière mise à jour : {{ 'now'|date('d/m/Y H:i') }}</span>
+          </div>
+        </div>
+      {% else %}
+        <div class="p-12 text-center">
+          <div class="mb-4">
+            <i class="fas fa-exclamation-triangle text-6xl text-yellow-400"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Aucune guilde ne vend cet item</h3>
+          <p class="text-gray-600 mb-6">L'item "{{ item.nom }}" n'est actuellement vendu par aucune guilde.</p>
+          <div class="flex justify-center space-x-4">
+            <a href="{{ path('shop_comparateur') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+              <i class="fas fa-search mr-2"></i>Chercher un autre item
+            </a>
+            <a href="{{ path('shop_index') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+              <i class="fas fa-store mr-2"></i>Voir toutes les boutiques
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

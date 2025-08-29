@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comparateur de prix{% endblock %}
+
+{% block body %}
+  <div class="container p-6 bg-GREEN rounded-lg shadow-lg mt-5">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-extrabold text-WHITE">Comparateur de prix</h1>
+      <a href="{{ path('shop_index') }}" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+        <i class="fas fa-arrow-left mr-2"></i>Retour aux boutiques
+      </a>
+    </div>
+    
+    <div class="bg-WHITE rounded-lg p-6 shadow-md">
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Sélectionnez un item à comparer</h2>
+      
+      <form action="{{ path('shop_comparateur_item', {itemId: 0}) }}" method="GET" class="space-y-4">
+        <div class="flex flex-col space-y-2">
+          <label for="item-select" class="text-sm font-medium text-gray-700">Choisir un item :</label>
+          <select id="item-select" name="itemId" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="this.form.action = '{{ path('shop_comparateur_item', {itemId: ''}) }}' + this.value">
+            <option value="">-- Sélectionnez un item --</option>
+            {% for item in items %}
+              <option value="{{ item.id }}">{{ item.nom }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <button type="submit" id="compare-btn" disabled class="w-full bg-VIOLET disabled:bg-gray-400 disabled:cursor-not-allowed text-WHITE font-bold py-2 px-4 rounded-lg transition duration-200">
+          <i class="fas fa-search mr-2"></i>Comparer les prix
+        </button>
+      </form>
+      
+      {% if items is empty %}
+        <div class="text-center py-8 text-gray-500">
+          <i class="fas fa-inbox text-4xl mb-4"></i>
+          <p>Aucun item disponible pour la comparaison.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('item-select').addEventListener('change', function() {
+      const compareBtn = document.getElementById('compare-btn');
+      if (this.value) {
+        compareBtn.disabled = false;
+        compareBtn.classList.remove('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
+      } else {
+        compareBtn.disabled = true;
+        compareBtn.classList.add('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
+      }
+    });
+  </script>
+{% endblock %}

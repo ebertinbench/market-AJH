@@ -37,7 +37,7 @@
             </div>
 
             <button type="submit"
-                    class="px-4 py-2 bg-VIOLET text-white rounded shadow hover:bg-VIOLET">
+                    class="px-4 py-2 bg-VIOLET text-WHITE rounded shadow hover:bg-VIOLET">
                 Filtrer
             </button>
         </form>
@@ -69,14 +69,14 @@
                         </div>
                         {% if order.idVendeur and order.statut != 'Avortée' and order.statut != 'Livrée'%}
                             <form method="post" action="{{ path('orders_remove_seller', {'id': order.id}) }}" class="mb-2">
-                                <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">Me retirer de cette commande</button>
+                                <button type="submit" class="px-3 py-1 bg-VIOLET text-WHITE rounded hover:bg-VIOLET text-xs">Me retirer de cette commande</button>
                             </form>
                             {% if order.idVendeur and order.idVendeur.id == app.user.id and order.statut != 'Avortée' and is_granted('ROLE_ADMIN') %}
                                 <div>
                                     {# Bouton marquer comme avortée #}
                                     <form method="post" action="{{ path('orders_abort', {'id': order.id}) }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token('abort' ~ order.id) }}">
-                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs"
+                                        <button type="submit" class="px-2 py-1 bg-VIOLET text-WHITE rounded hover:bg-VIOLET text-xs"
                                             {% if order.statut == 'Avortée' %}disabled class="opacity-50 cursor-not-allowed"{% endif %}>
                                             Marquer comme avortée
                                         </button>
@@ -87,7 +87,7 @@
                             {% if order.statut != 'Avortée' and order.statut != 'Livrée' %}
                             <form method="post" action="{{ path('orders_assign_seller', {'id': order.id}) }}" class="mb-2">
                                 <input type="hidden" name="seller_id" value="{{ app.user.id }}">
-                                <button type="submit" class="px-3 py-1 bg-VIOLET text-white rounded hover:bg-VIOLET text-xs">M'assigner cette commande</button>
+                                <button type="submit" class="px-3 py-1 bg-VIOLET text-WHITE rounded hover:bg-VIOLET text-xs">M'assigner cette commande</button>
                             </form>
                             {% endif %}
                         {% endif %}

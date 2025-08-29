@@ -16,6 +16,18 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
+    /**
+     * Trouve tous les items triés par nom par ordre alphabétique
+     * @return Item[]
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Item[] Returns an array of Item objects
     //     */

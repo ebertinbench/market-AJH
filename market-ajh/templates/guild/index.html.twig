@@ -28,7 +28,7 @@
                                     <option value="{{ guild.id }}">{{ guild.name }}</option>
                                 {% endfor %}
                             </select>
-                            <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">Assigner comme chef</button>
+                            <button type="submit" class="bg-VIOLET text-WHITE px-3 py-1 rounded hover:bg-BLACK transition">Assigner comme chef</button>
                         </form>
                     </li>
                 {% endif %}
@@ -41,7 +41,7 @@
 
     <h2 class="text-xl font-semibold mb-4">Liste des Guildes et leurs Chefs</h2>
     <div class="overflow-x-auto mb-8">
-        <table class="min-w-full bg-black text-white shadow rounded">
+        <table class="min-w-full bg-black text-WHITE shadow rounded">
             <thead>
                 <tr>
                     <th class="px-4 py-2 border-b font-semibold text-left">Guilde</th>
@@ -62,10 +62,10 @@
                         </td>
                         <td class="px-4 py-2 border-b border-gray-700">
                             <form method="post" action="{{ path('guild_delete', {'id': guild.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette guilde ?');">
-                                <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">Supprimer</button>
+                                <button type="submit" class="bg-VIOLET text-WHITE px-3 py-1 rounded hover:bg-BLACK transition">Supprimer</button>
                             </form>
                             <form method="post" action="{{ path('guild_reverse_allow_to_sell', {'id': guild.id}) }}" class="mt-2">
-                                <button type="submit" class="bg-VIOLET text-white px-3 py-1 rounded hover:bg-BLACK transition">
+                                <button type="submit" class="bg-VIOLET text-WHITE px-3 py-1 rounded hover:bg-BLACK transition">
                                     {{ guild.allowedToSell ? 'Interdire de vendre' : 'Autoriser à vendre' }}
                                 </button>
                             </form>
@@ -94,7 +94,7 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
 
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="flash-{{ label }} px-4 py-2 rounded mb-4 {{ label == 'success' ? 'bg-green text-white' : 'bg-black text-white' }}">
+            <div class="flash-{{ label }} px-4 py-2 rounded mb-4 {{ label == 'success' ? 'bg-green text-WHITE' : 'bg-black text-WHITE' }}">
                 {{ message }}
             </div>
         {% endfor %}
@@ -124,7 +124,7 @@ document.querySelectorAll('.assign-chief-form').forEach(form => {
         class="border border-gray rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet"
     >
 
-    <button type="submit" class="bg-VIOLET text-white px-4 py-2 rounded hover:bg-black transition">
+    <button type="submit" class="bg-VIOLET text-WHITE px-4 py-2 rounded hover:bg-black transition">
         Créer la guilde
     </button>
 </form>

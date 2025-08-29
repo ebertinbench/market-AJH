@@ -37,13 +37,13 @@
                 </select>
                 </div>
             </div>
-            <button type="submit" class="bg-VIOLET text-white px-6 py-2 rounded  transition w-40 mt-2">Filtrer</button>
+            <button type="submit" class="bg-VIOLET text-WHITE px-6 py-2 rounded  transition w-40 mt-2">Filtrer</button>
             </form>
         </div>
         <div class="overflow-x-auto w-full">
             <table class="min-w-full rounded shadow bg-BLACK">
                 <thead>
-                    <tr class="bg-BLACK text-white">
+                    <tr class="bg-BLACK text-WHITE">
                     <th class="py-3 px-4 text-left">ID</th>
                         <th class="py-3 px-4 text-left">Guilde</th>
                         <th class="py-3 px-4 text-left">Vendeur</th>
@@ -78,7 +78,7 @@
                             {% else %}
                                 <td class="py-2 px-4">
                                     <a href="{{ path('app_compta_mark_traiteecompta', {'id': commande.id}) }}" 
-                                       class="bg-VIOLET text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
+                                       class="bg-VIOLET text-WHITE px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
                                         Marquer traité
                                     </a>
                                 </td>
@@ -111,13 +111,13 @@
                 <input type="hidden" name="guilde" id="guilde" value="{{ app.user.guild ? app.user.guild.name : '' }}">
                 </div>
             </div>
-            <button type="submit" class="bg-VIOLET text-white px-6 py-2 rounded  transition w-40 mt-2">Filtrer</button>
+            <button type="submit" class="bg-VIOLET text-WHITE px-6 py-2 rounded  transition w-40 mt-2">Filtrer</button>
             </form>
         </div>
         <div class="overflow-x-auto w-full">
             <table class="min-w-full rounded shadow bg-BLACK">
                 <thead>
-                    <tr class="bg-BLACK text-white">
+                    <tr class="bg-BLACK text-WHITE">
                     <th class="py-3 px-4 text-left">ID</th>
                         <th class="py-3 px-4 text-left">Guilde</th>
                         <th class="py-3 px-4 text-left">Vendeur</th>
@@ -155,7 +155,7 @@
                             {% else %}
                                 <td class="py-2 px-4">
                                     <a href="{{ path('app_compta_mark_traiteecompta', {'id': commande.id}) }}" 
-                                       class="bg-VIOLET text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
+                                       class="bg-VIOLET text-WHITE px-3 py-1 rounded text-sm hover:bg-blue-600 transition">
                                         Marquer traité
                                     </a>
                                 </td>

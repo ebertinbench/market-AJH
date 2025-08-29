@@ -25,7 +25,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-shrink-0">
-                                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-WHITE font-bold text-lg">
                                             {{ user.username|slice(0, 1)|upper }}
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <a href="{{ path('app_messages_conversation', {userId: user.id}) }}" 
-                                       class="bg-VIOLET text-white font-bold py-2 px-4 rounded text-sm">
+                                       class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded text-sm">
                                         Envoyer un message
                                     </a>
                                 </div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="bg-white shadow-lg rounded-lg p-8 text-center">
+            <div class="bg-WHITE shadow-lg rounded-lg p-8 text-center">
                 <div class="mb-4">
                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a4 4 0 11-8 0 4 4 0 018 0z" />

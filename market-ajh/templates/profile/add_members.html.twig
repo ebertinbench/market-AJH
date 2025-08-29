@@ -4,8 +4,8 @@
         Cette page vous permettra d'ajouter des membres à votre guilde si vous en êtes le chef.
     </p>
     <form method="get" class="mb-3 text-center">
-        <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-white border border-gray-300 rounded px-3 py-2">
-        <button type="submit" class="bg-VIOLET text-white font-bold py-2 px-4 rounded">Rechercher</button>
+        <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-WHITE border border-gray-300 rounded px-3 py-2">
+        <button type="submit" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">Rechercher</button>
     </form>
 
     {% set search = app.request.get('search') %}
@@ -28,7 +28,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <form method="post" action="{{ path('profile_add_member') }}">
                                     <input type="hidden" name="member_id" value="{{ member.id }}">
-                                    <button type="submit" class="bg-VIOLET text-white font-bold py-2 px-4 rounded text-xs">Ajouter à la guilde</button>
+                                    <button type="submit" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded text-xs">Ajouter à la guilde</button>
                                 </form>
                             </td>
                         </tr>

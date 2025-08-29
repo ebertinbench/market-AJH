@@ -5,6 +5,14 @@
 {% block body %}
   <div class="container p-6 bg-GREEN rounded-lg shadow-lg mt-5">
     <h1 class="text-3xl font-extrabold mb-6 text-800 text-WHITE text-center">Choisissez une guilde</h1>
+    
+    <!-- Bloc comparateur de prix -->
+    <div class="bg-WHITE rounded-lg p-6 mb-6 shadow-md text-center">
+      <h2 class="text-xl font-semibold text-gray-800 mb-3">Tu veux savoir quel est l'item le moins cher ?</h2>
+      <a href="{{ path('shop_comparateur') }}" class="bg-VIOLET text-WHITE font-bold py-3 px-6 rounded-lg transition duration-200 transform hover:scale-105 inline-flex items-center">
+        <i class="fas fa-chart-bar mr-2"></i>Comparateur de prix
+      </a>
+    </div>
     <ul class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
       {% for guild in guilds %}
         <li class="flex flex-col items-center justify-center bg-VIOLET rounded-lg p-4 shadow hover:shadow-md transition mb-0 transform hover:scale-110 duration-200 border-2 border-transparent hover:border-WHITE">
