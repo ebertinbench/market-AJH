@@ -48,7 +48,7 @@ final class UserController extends AbstractController
                 $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
                 $user->setPassword($hashedPassword);
             }
-
+            $user->setWallpaper($wallpaperService->getRandomWallpaperName());
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Utilisateur créé avec succès.');

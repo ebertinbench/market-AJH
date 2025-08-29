@@ -4,11 +4,11 @@
 
 {% block body %}
   <form method="get" action="{{ path('app_items_search') }}" class="mb-6">
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-4">
       <input
         type="text"
         name="q"
-        class="form-input rounded-l-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-64"
+      class="form-input rounded-l-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-64 bg-WHITE"
         placeholder="Rechercher un item..."
         value="{{ app.request.get('q') }}"
       >
