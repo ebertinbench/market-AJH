@@ -3,6 +3,16 @@
     <p class="text-center mt-5">
         Cette page vous permettra d'ajouter des membres à votre guilde si vous en êtes le chef.
     </p>
+    
+    <!-- Section d'ajout de nouveaux membres -->
+    <h2 class="text-2xl font-bold text-center mt-8 mb-4 text-WHITE">Ajouter de nouveaux membres</h2>
+    
+    <div class="bg-BLUE text-WHITE p-3 rounded mb-4 text-center">
+        <p class="text-sm">
+            <strong>Note :</strong> Seuls les joueurs sans guilde et qui ne sont pas chefs de guilde peuvent être ajoutés.
+        </p>
+    </div>
+    
     <form method="get" class="mb-3 text-center">
         <input type="text" name="search" placeholder="Rechercher un membre..." value="{{ app.request.get('search')|default('') }}" class="bg-WHITE border border-gray-300 rounded px-3 py-2">
         <button type="submit" class="bg-VIOLET text-WHITE font-bold py-2 px-4 rounded">Rechercher</button>
@@ -12,7 +22,7 @@
     {% set filtered_users = users|filter(u => (search is empty) or (u.username is defined and (search|lower in u.username|lower))) %}
 
     {% if filtered_users|length > 0 %}
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto mb-8">
             <table class="min-w-full bg-GREEN border border-gray-200">
                 <thead class="bg-BLACK text-WHITE">
                     <tr>
@@ -22,7 +32,7 @@
                 </thead>
                 <tbody class="">
                 {% for member in filtered_users %}
-                    {% if user.getChiefOf() and (member.getGuild() is null or member.getGuild().id != user.getChiefOf().id) and member.id != user.id %}
+                    {% if user.getChiefOf() and (member.getGuild() is null or member.getGuild().id != user.getChiefOf().id) and member.id != user.id and member.getChiefOf() is null %}
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">{{ member.username }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -38,6 +48,72 @@
             </table>
         </div>
     {% else %}
-        <p class="text-gray-500">Aucun membre trouvé.</p>
+        <p class="text-gray-500 text-center">Aucun membre trouvé.</p>
+    {% endif %}
+
+    <!-- Section de gestion des membres existants -->
+    <h2 class="text-2xl font-bold text-center mt-8 mb-4 text-WHITE">Gestion des membres de la guilde</h2>
+    
+    {% set guild_members = users|filter(u => u.getGuild() and user.getChiefOf() and u.getGuild().id == user.getChiefOf().id) %}
+    
+    {% if guild_members|length > 0 %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-GREEN border border-gray-200">
+                <thead class="bg-BLACK text-WHITE">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Nom d'utilisateur</th>
+                        <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Statut</th>
+                        <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Rôle vendeur</th>
+                        <th class="px-6 py-3 text-left text-xs uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for member in guild_members %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">{{ member.username }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">
+                            {% if member.id == user.id %}
+                                <span class="bg-YELLOW text-BLACK px-2 py-1 rounded text-xs font-bold">Chef de guilde</span>
+                            {% else %}
+                                <span class="bg-BLUE text-WHITE px-2 py-1 rounded text-xs">Membre</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-WHITE">
+                            {% if member.hasVendeurRole() %}
+                                <span class="bg-GREEN text-WHITE px-2 py-1 rounded text-xs">✓ Vendeur</span>
+                            {% else %}
+                                <span class="bg-RED text-WHITE px-2 py-1 rounded text-xs">✗ Non vendeur</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <div class="flex space-x-2">
+                                {% if member.id != user.id %}
+                                    <!-- Bouton pour basculer le rôle vendeur -->
+                                    <form method="post" action="{{ path('app_user_toggle_vendeur', {id: member.id}) }}" class="inline">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('toggle_vendeur' ~ member.id) }}">
+                                        {% if member.hasVendeurRole() %}
+                                            <button type="submit" class="bg-ORANGE text-WHITE font-bold py-1 px-3 rounded text-xs">Retirer vendeur</button>
+                                        {% else %}
+                                            <button type="submit" class="bg-GREEN text-WHITE font-bold py-1 px-3 rounded text-xs">Faire vendeur</button>
+                                        {% endif %}
+                                    </form>
+                                    
+                                    <!-- Bouton pour retirer de la guilde -->
+                                    <form method="post" action="{{ path('profile_remove_member') }}" class="inline">
+                                        <input type="hidden" name="member_id" value="{{ member.id }}">
+                                        <button type="submit" class="bg-RED text-WHITE font-bold py-1 px-3 rounded text-xs" onclick="return confirm('Êtes-vous sûr de vouloir retirer ce membre de la guilde ?')">Retirer</button>
+                                    </form>
+                                {% else %}
+                                    <span class="text-gray-400 text-xs">Chef de guilde</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-500 text-center">Aucun membre dans la guilde.</p>
     {% endif %}
 {% endblock %}

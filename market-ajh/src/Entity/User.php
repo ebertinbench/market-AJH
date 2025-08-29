@@ -223,6 +223,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if($this->getchiefOf() !== null && $this->chiefOf->getChef() === $this) {
             $this->chiefOf->setChef(null);
         }
+        // Retirer le rôle vendeur quand on quitte une guilde
+        $this->removeVendeurRole();
         return $this;
     }
     public function isChief(): bool
@@ -525,5 +527,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->messagesReceived->filter(function(Message $message) {
             return !$message->isRead();
         })->count();
+    }
+
+    /**
+     * Add the ROLE_VENDEUR to user roles
+     */
+    public function addVendeurRole(): static
+    {
+        $roles = $this->roles;
+        if (!in_array('ROLE_VENDEUR', $roles)) {
+            $roles[] = 'ROLE_VENDEUR';
+            $this->roles = $roles;
+        }
+        return $this;
+    }
+
+    /**
+     * Remove the ROLE_VENDEUR from user roles
+     */
+    public function removeVendeurRole(): static
+    {
+        $roles = $this->roles;
+        $index = array_search('ROLE_VENDEUR', $roles);
+        if ($index !== false) {
+            unset($roles[$index]);
+            $this->roles = array_values($roles);
+        }
+        return $this;
+    }
+
+    /**
+     * Check if user has ROLE_VENDEUR
+     */
+    public function hasVendeurRole(): bool
+    {
+        return in_array('ROLE_VENDEUR', $this->roles);
     }
 }

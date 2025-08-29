@@ -126,4 +126,45 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/toggle-vendeur/{id}', name: 'app_user_toggle_vendeur', methods: ['POST'])]
+    public function toggleVendeurRole(
+        User $user,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): Response {
+        // Vérifier le token CSRF
+        if (!$this->isCsrfTokenValid('toggle_vendeur' . $user->getId(), $request->getPayload()->getString('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('profile_add_members');
+        }
+
+        // Vérifier que l'utilisateur connecté est le chef de la guilde de l'utilisateur ciblé
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+        if (!$currentUser || !$currentUser->getChiefOf() || $user->getGuild() !== $currentUser->getChiefOf()) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour modifier ce membre.');
+            return $this->redirectToRoute('profile_add_members');
+        }
+
+        // Le chef ne peut pas se retirer le rôle vendeur à lui-même
+        if ($user === $currentUser) {
+            $this->addFlash('error', 'Le chef de guilde ne peut pas se retirer le rôle vendeur.');
+            return $this->redirectToRoute('profile_add_members');
+        }
+
+        // Basculer le rôle vendeur
+        if ($user->hasVendeurRole()) {
+            $user->removeVendeurRole();
+            $message = 'Rôle vendeur retiré à ' . $user->getUsername();
+        } else {
+            $user->addVendeurRole();
+            $message = 'Rôle vendeur assigné à ' . $user->getUsername();
+        }
+
+        $entityManager->flush();
+        $this->addFlash('success', $message);
+
+        return $this->redirectToRoute('profile_add_members');
+    }
 }

@@ -125,11 +125,55 @@ final class ProfileController extends AbstractController
         $guild = $user->getChiefOf();
 
         if ($member && $guild) {
+            // Vérifier que le membre n'est pas un chef de guilde
+            if ($member->getChiefOf() !== null) {
+                $this->addFlash('danger', 'Impossible d\'ajouter un chef de guilde à votre guilde. Le membre doit d\'abord quitter son rôle de chef.');
+                return $this->redirectToRoute('profile_add_members');
+            }
+            
+            // Vérifier que le membre n'est pas déjà dans une guilde
+            if ($member->getGuild() !== null) {
+                $this->addFlash('danger', 'Ce membre est déjà dans une guilde.');
+                return $this->redirectToRoute('profile_add_members');
+            }
+            
             $member->setGuild($guild);
             $em->flush();
             $this->addFlash('success', 'Membre ajouté à la guilde.');
         } else {
             $this->addFlash('danger', 'Impossible d\'ajouter le membre.');
+        }
+
+        return $this->redirectToRoute('profile_add_members');
+    }
+
+    #[Route('/remove-member', name: 'profile_remove_member', methods: ['POST'])]
+    public function removeMember(Request $request, 
+        UserRepository $userRepository, 
+        EntityManagerInterface $em
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user || !$user->getChiefOf()) {
+            return $this->redirectToRoute('app_profile');
+        }
+
+        $memberId = $request->request->get('member_id');
+        $member = $userRepository->find($memberId);
+        $guild = $user->getChiefOf();
+
+        if ($member && $guild && $member->getGuild() === $guild) {
+            // Le chef ne peut pas se retirer lui-même
+            if ($member === $user) {
+                $this->addFlash('danger', 'Le chef de guilde ne peut pas se retirer de sa propre guilde.');
+                return $this->redirectToRoute('profile_add_members');
+            }
+            
+            $member->quitGuild(); // Cette méthode retire aussi le rôle vendeur
+            $em->flush();
+            $this->addFlash('success', 'Membre retiré de la guilde.');
+        } else {
+            $this->addFlash('danger', 'Impossible de retirer le membre.');
         }
 
         return $this->redirectToRoute('profile_add_members');
