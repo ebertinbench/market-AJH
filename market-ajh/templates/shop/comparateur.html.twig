@@ -14,10 +14,10 @@
     <div class="bg-WHITE rounded-lg p-6 shadow-md">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">Sélectionnez un item à comparer</h2>
       
-      <form action="{{ path('shop_comparateur_item', {itemId: 0}) }}" method="GET" class="space-y-4">
+      <form id="comparateur-form" method="GET" class="space-y-4">
         <div class="flex flex-col space-y-2">
           <label for="item-select" class="text-sm font-medium text-gray-700">Choisir un item :</label>
-          <select id="item-select" name="itemId" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" onchange="this.form.action = '{{ path('shop_comparateur_item', {itemId: ''}) }}' + this.value">
+          <select id="item-select" name="itemId" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             <option value="">-- Sélectionnez un item --</option>
             {% for item in items %}
               <option value="{{ item.id }}">{{ item.nom }}</option>
@@ -42,12 +42,28 @@
   <script>
     document.getElementById('item-select').addEventListener('change', function() {
       const compareBtn = document.getElementById('compare-btn');
+      
       if (this.value) {
         compareBtn.disabled = false;
         compareBtn.classList.remove('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
       } else {
         compareBtn.disabled = true;
         compareBtn.classList.add('disabled:bg-gray-400', 'disabled:cursor-not-allowed');
+      }
+    });
+
+    // Gérer la soumission du formulaire
+    document.getElementById('comparateur-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const itemSelect = document.getElementById('item-select');
+      const selectedItemId = itemSelect.value;
+      
+      if (selectedItemId) {
+        // Rediriger vers la page de comparaison de l'item sélectionné
+        window.location.href = '{{ path('shop_comparateur') }}/' + selectedItemId;
+      } else {
+        alert('Veuillez sélectionner un item avant de continuer.');
       }
     });
   </script>
